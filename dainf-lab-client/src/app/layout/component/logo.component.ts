@@ -1,0 +1,23 @@
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { LayoutService } from '../service/layout.service';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  standalone: true,
+  imports: [CommonModule],
+  selector: 'app-logo',
+  template: `
+  @if (isDarkTheme()) {
+    <img src="images/logo-dark.png" alt="Logo" [style.width]="width()">
+  } @else {
+    <img src="images/logo-light.png" alt="Logo" [style.width]="width()">
+  }
+  `
+})
+export class LogoComponent {
+
+  width = input('6rem');
+  private _layoutService = inject(LayoutService);
+  isDarkTheme = computed(() => this._layoutService.isDarkTheme());
+
+}

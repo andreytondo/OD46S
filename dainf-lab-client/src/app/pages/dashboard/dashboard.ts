@@ -10,7 +10,7 @@ import { RevenueStreamWidget } from './components/revenuestreamwidget';
     imports: [StatsWidget, RecentSalesWidget, BestSellingWidget, RevenueStreamWidget, NotificationsWidget],
     template: `
         <div class="grid grid-cols-12 gap-8">
-            <app-stats-widget class="contents" />
+            <!-- <app-stats-widget class="contents" />
             <div class="col-span-12 xl:col-span-6">
                 <app-recent-sales-widget />
                 <app-best-selling-widget />
@@ -18,7 +18,7 @@ import { RevenueStreamWidget } from './components/revenuestreamwidget';
             <div class="col-span-12 xl:col-span-6">
                 <app-revenue-stream-widget />
                 <app-notifications-widget />
-            </div>
+            </div> -->
         </div>
     `
 })

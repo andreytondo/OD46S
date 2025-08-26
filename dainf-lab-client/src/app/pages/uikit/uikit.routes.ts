@@ -31,5 +31,5 @@ export default [
     { path: 'overlay', data: { breadcrumb: 'Overlay' }, component: OverlayDemo },
     { path: 'tree', data: { breadcrumb: 'Tree' }, component: TreeDemo },
     { path: 'menu', data: { breadcrumb: 'Menu' }, component: MenuDemo },
-    { path: '**', redirectTo: '/notfound' }
+    { path: '**', redirectTo: '/not-found' }
 ] as Routes;
