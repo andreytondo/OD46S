@@ -8,9 +8,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { LogoComponent } from "@/layout/component/logo.component";
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Observable, switchMap, tap } from 'rxjs';
-import { TokenService } from '../token.service';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-login',

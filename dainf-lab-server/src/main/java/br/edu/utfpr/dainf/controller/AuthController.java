@@ -29,14 +29,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
-            Authentication auth = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.email(),
-                            request.password()
-                    )
-            );
+            // removido login com autenticação para desenvolvimento
+//            Authentication auth = authManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.email(),
+//                            request.password()
+//                    )
+//            );
 
-            String token = jwtService.generateToken(auth.getName());
+            String token = jwtService.generateToken(request.email());
 
             return ResponseEntity.ok(Map.of("token", token));
         } catch (AuthenticationException e) {

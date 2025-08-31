@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthRequest, SignUpRequest } from './auth';
+import { AuthRequest, SignUpRequest } from '../auth';
 import { Observable } from 'rxjs';
 import { BaseService } from '@/shared/base.service';
 
