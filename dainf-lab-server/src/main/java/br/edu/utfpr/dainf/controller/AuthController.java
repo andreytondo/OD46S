@@ -1,6 +1,9 @@
 package br.edu.utfpr.dainf.controller;
 
+import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.security.JwtService;
+import br.edu.utfpr.dainf.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +23,9 @@ public class AuthController {
 
     private final AuthenticationManager authManager;
     private final JwtService jwtService;
+
+    @Autowired
+    UserService userService;
 
     public AuthController(AuthenticationManager authManager, JwtService jwtService) {
         this.authManager = authManager;
@@ -47,6 +53,7 @@ public class AuthController {
 
     @PostMapping("sign-up")
     public ResponseEntity<?> signUp(@RequestBody AuthRequest request) {
+        userService.save(new User(null, request.email(), request.password()));
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
