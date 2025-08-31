@@ -1,0 +1,32 @@
+<p-toolbar class="mb-6">
+  <ng-template #start>
+    <p-button
+      label="Novo"
+      icon="pi pi-plus"
+      severity="secondary"
+      class="mr-2"
+      (onClick)="openNew()"
+    />
+  </ng-template>
+
+  <ng-template #end>
+    <p-button
+      label="Exportar"
+      icon="pi pi-upload"
+      severity="secondary"
+      (onClick)="exportCSV()"
+    />
+  </ng-template>
+</p-toolbar>
+
+<app-crud-table
+  [config]="config()"
+  [columns]="columns()"
+  [globalFilterFields]="globalFilterFields()"
+  [templateMap]="templateMap()"
+  [actionsTemplate]="actionsTemplate()"
+  [items]="items()"
+></app-crud-table>
+
+<p-confirmdialog [style]="{ width: '450px' }" />
+<app-crud-dialog></app-crud-dialog>
