@@ -1,12 +1,18 @@
 
 import { Routes } from '@angular/router';
-import { Documentation } from './documentation/documentation';
-import { Crud } from './crud/crud';
-import { Empty } from './empty/empty';
+import { CategoryComponent } from './category/category.component';
+import { UserComponent } from './user/user.component';
+import { AppLayout } from '@/layout/component/app.layout';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export default [
-    { path: 'documentation', component: Documentation },
-    { path: 'crud', component: Crud },
-    { path: 'empty', component: Empty },
-    { path: '**', redirectTo: '/not-found' }
+  {
+    path: '',
+    component: AppLayout,
+    children: [
+      { path: 'category', component: CategoryComponent },
+      { path: 'user', component: UserComponent },
+      { path: '**', redirectTo: '/not-found' }
+]
+  },
 ] as Routes;

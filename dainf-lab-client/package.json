@@ -1,5 +1,5 @@
 {
-    "name": "sakai-ng",
+    "name": "dainf-client",
     "version": "20.0.0",
     "scripts": {
         "ng": "ng",
