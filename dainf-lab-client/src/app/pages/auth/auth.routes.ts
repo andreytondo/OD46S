@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { Login } from './login/login.component';
+import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-in/sign-up.component';
 
 export default [
-  { path: 'login', component: Login },
+  { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: '**', redirectTo: '/not-found' }
 ] as Routes;
