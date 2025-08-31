@@ -1,0 +1,25 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api
+spring:
+  config:
+    name: ${APP_NAME:""}
+  application:
+    name: ${APP_NAME:""}
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+#  Tkt0cQSzwU
+#  VGt0MGNRU3p3VQ==
+  secret: "VGt0MGNRU3p3VQ=="
+  expiration: 3600000 # 1 hora em ms

@@ -1,6 +1,8 @@
 package br.edu.utfpr.dainf.dto;
 
+import br.edu.utfpr.dainf.shared.Identifiable;
 import br.edu.utfpr.dainf.validator.ValidUser;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -13,13 +15,12 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserDTO implements Identifiable<Long> {
 
     private Long id;
 
-    @NotNull(message = "O atributo username não pode ser nulo.")
-    @Size(min = 4, max = 50, message = "O atributo username deve conter no mínimo 4 caracteres.")
-    private String username;
+    @Email(message = "O atributo email deve ser um email válido.")
+    private String email;
 
     @NotNull(message = "O atributo password não pode ser nulo.")
     @Size(min = 6, max = 100, message = "O atributo password deve conter no mínimo 6 caracteres.")

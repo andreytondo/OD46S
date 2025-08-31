@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class UserValidator implements ConstraintValidator<ValidUser, UserDTO> {
 
@@ -20,11 +21,11 @@ public class UserValidator implements ConstraintValidator<ValidUser, UserDTO> {
     }
 
     boolean validateUniqueUsername(UserDTO entity, ConstraintValidatorContext context) {
-        User user = repository.findByUsername(entity.getUsername());
-        boolean valid = user == null || Objects.equals(user.getId(), entity.getId());
+        Optional<User> user = repository.findByEmail(entity.getEmail());
+        boolean valid = user.isEmpty() || Objects.equals(user.get().getId(), entity.getId());
 
         if (!valid) {
-            handleMessage(context, "O nome de usuário informado já está em uso", "username");
+            handleMessage(context, "O e-mail informado já está em uso", "email");
         }
 
         return valid;

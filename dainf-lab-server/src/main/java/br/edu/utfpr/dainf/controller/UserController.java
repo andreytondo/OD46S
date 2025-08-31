@@ -16,7 +16,7 @@ public class UserController extends CrudController<Long, User, UserDTO, UserRepo
         super(User.class, UserDTO.class);
     }
 
-    @RequestMapping("/teste")
+    @RequestMapping("/public")
     public String teste() {
         return "Teste OK";
     }
@@ -24,7 +24,7 @@ public class UserController extends CrudController<Long, User, UserDTO, UserRepo
     @Override
     public UserDTO toDto(User entity) {
         entity.setPassword(null);
-        entity.setUsername(null);
+        entity.setEmail(null);
         return super.toDto(entity);
     }
 }

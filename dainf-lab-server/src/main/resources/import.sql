@@ -1,0 +1,4 @@
+-- -- Teste123456!
+-- -- $2a$10$ujLap8xFmkMCuRgHWVyU1OSEe4vgSbUu4u/Ssi4y2OANA0oRo50Da
+-- insert into app_user(email, password) values ('admin@utfpr.edu.br', '$2a$10$ujLap8xFmkMCuRgHWVyU1OSEe4vgSbUu4u/Ssi4y2OANA0oRo50Da'), ('aluno@utfpr.edu.br', '$2a$10$ujLap8xFmkMCuRgHWVyU1OSEe4vgSbUu4u/Ssi4y2OANA0oRo50Da');
+--

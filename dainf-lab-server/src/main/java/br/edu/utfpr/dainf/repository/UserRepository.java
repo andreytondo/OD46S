@@ -4,7 +4,9 @@ package br.edu.utfpr.dainf.repository;
 import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.shared.CrudRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends CrudRepository<Long, User> {
 
-    User findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }
