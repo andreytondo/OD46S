@@ -70,7 +70,12 @@ public class AuthTest {
         userService.save(new User(
                 null,
                 "admin@utfpr.edu.br",
-                "Teste123456!"
+                "Teste123456!",
+                "Teste",
+                "2562529",
+                "5546988358080",
+                "teste",
+                true
         ));
     }
 }

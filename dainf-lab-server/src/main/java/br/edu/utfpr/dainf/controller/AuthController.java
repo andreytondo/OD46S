@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.controller;
 
+import br.edu.utfpr.dainf.dto.UserSignupDTO;
 import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.security.JwtService;
 import br.edu.utfpr.dainf.service.UserService;
@@ -10,10 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -52,9 +50,10 @@ public class AuthController {
     }
 
     @PostMapping("sign-up")
-    public ResponseEntity<?> signUp(@RequestBody AuthRequest request) {
-        userService.save(new User(null, request.email(), request.password()));
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> signUp(@RequestBody UserSignupDTO user) {
+        userService.save(user.toUserModel());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     public record AuthRequest(String email, String password) {}
