@@ -3,6 +3,7 @@
   (visibleChange)="visible()"
   [header]="config()?.title"
   [modal]="true"
+  (onHide)="cancel()"
 >
   <ng-template #content>
     <ng-container *ngTemplateOutlet="formTemplate()"></ng-container>

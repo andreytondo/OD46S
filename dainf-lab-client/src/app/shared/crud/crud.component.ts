@@ -1,7 +1,15 @@
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, signal, TemplateRef } from '@angular/core';
+import {
+  Component,
+  input,
+  OnInit,
+  signal,
+  TemplateRef,
+  computed,
+  effect,
+} from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Column, CrudConfig } from './crud';
 import { CrudService } from './crud.service';
@@ -9,6 +17,7 @@ import { ButtonModule } from 'primeng/button';
 import { CrudTableComponent } from './table/crud-table.component';
 import { CrudDialogComponent } from './dialog/crud-dialog.component';
 import { tap } from 'rxjs';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -29,6 +38,7 @@ export class CrudComponent<T = any> implements OnInit {
   service = input<CrudService<T>>();
   config = input<CrudConfig<T>>();
   globalFilterFields = input<string[]>([]);
+  form = input<FormGroup>();
 
   templateMap = input<Map<string, TemplateRef<any>>>(new Map());
   actionsTemplate = input<TemplateRef<any>>();
@@ -36,6 +46,12 @@ export class CrudComponent<T = any> implements OnInit {
 
   items = signal<T[]>([]);
   dialogVisible = signal<boolean>(false);
+
+  resetOnClose = effect(() => {
+    if (this.dialogVisible() === false) {
+      this.form()?.reset();
+    }
+  });
 
   ngOnInit(): void {
     this.loadItems();
