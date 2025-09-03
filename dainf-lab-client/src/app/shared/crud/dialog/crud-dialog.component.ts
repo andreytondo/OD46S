@@ -17,7 +17,7 @@ export class CrudDialogComponent<T = any> {
 
   visibleChange = output<boolean>();
 
-  saveClick = output<void>();
+  saveClick = output<T>();
   cancelClick = output<void>();
 
   cancel() {

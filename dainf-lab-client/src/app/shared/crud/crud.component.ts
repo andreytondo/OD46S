@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  input,
-  OnInit,
-  signal,
-  TemplateRef
-} from '@angular/core';
+import { Component, input, OnInit, signal, TemplateRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -67,8 +61,17 @@ export class CrudComponent<T = any> implements OnInit {
 
   exportCSV() {}
 
+  save(item: T) {
+    this.dialogVisible.set(false);
+    this.form()?.reset();
+  }
 
-  save() {
+  edit(item: T) {
+    this.form()?.patchValue(item as { [key: string]: any });
+    this.dialogVisible.set(true);
+  }
+
+  deleteOne(item: T) {
     this.dialogVisible.set(false);
     this.form()?.reset();
   }

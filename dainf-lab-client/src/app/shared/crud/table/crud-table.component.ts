@@ -24,8 +24,8 @@ export class CrudTableComponent<T = any> {
   actionsTemplate = input<TemplateRef<any>>();
   items = input<T[]>([]);
 
-  onEdit = output<T>();
-  onDeleteOne = output<T>();
+  editClick = output<T>();
+  deleteOneClick = output<T>();
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -37,10 +37,10 @@ export class CrudTableComponent<T = any> {
   }
 
   edit(row: T) {
-    this.onEdit.emit(row);
+    this.editClick.emit(row);
   }
 
   deleteOne(row: T) {
-    this.onDeleteOne.emit(row);
+    this.deleteOneClick.emit(row);
   }
 }

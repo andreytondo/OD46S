@@ -26,6 +26,8 @@
   [templateMap]="templateMap()"
   [actionsTemplate]="actionsTemplate()"
   [items]="items()"
+  (editClick)="edit($event)"
+  (deleteOneClick)="deleteOne($event)"
 ></app-crud-table>
 
 <p-confirmdialog [style]="{ width: '450px' }" />
@@ -34,5 +36,5 @@
   [config]="config()"
   [formTemplate]="formTemplate()"
   (cancelClick)="cancel()"
-  (saveClick)="save()"
+  (saveClick)="save($event)"
 ></app-crud-dialog>
