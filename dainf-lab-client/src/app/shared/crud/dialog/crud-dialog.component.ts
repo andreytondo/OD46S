@@ -1,16 +1,23 @@
-import { Component, input, OnInit } from '@angular/core';
-import { Dialog } from 'primeng/dialog';
+import { CommonModule } from '@angular/common';
+import { Component, input, OnInit, output, TemplateRef } from '@angular/core';
+import { DialogModule } from 'primeng/dialog';
+import { CrudConfig } from '../crud';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   standalone: true,
-  imports: [Dialog],
+  imports: [CommonModule, DialogModule, ButtonModule],
   selector: 'app-crud-dialog',
   templateUrl: 'crud-dialog.component.html',
 })
-export class CrudDialogComponent implements OnInit {
+export class CrudDialogComponent<T = any> {
   visible = input<boolean>(false);
+  config = input<CrudConfig<T>>();
+  formTemplate = input<TemplateRef<any>>();
 
-  constructor() {}
+  visibleChange = output<boolean>();
 
-  ngOnInit() {}
+  cancel() {
+    this.visibleChange.emit(false);
+  }
 }

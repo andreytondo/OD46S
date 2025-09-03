@@ -1,1 +1,78 @@
-<app-crud #crud [columns]="cols" [service]="userService" [config]="config"></app-crud>
+<app-crud
+  #crud
+  [columns]="cols"
+  [service]="userService"
+  [config]="config"
+  [formTemplate]="crudForm"
+></app-crud>
+
+<ng-template #crudForm>
+  <form [formGroup]="form" class="grid grid-cols-12 gap-4">
+    <app-input-container
+      label="Código"
+      class="col-span-12 md:col-span-6 lg:col-span-2"
+    >
+      <input type="text" pInputText id="id" formControlName="id" fluid />
+    </app-input-container>
+
+    <app-input-container
+      label="Nome"
+      class="col-span-12 md:col-span-6 lg:col-span-4"
+    >
+      <input type="text" pInputText id="name" formControlName="name" fluid />
+    </app-input-container>
+
+    <app-input-container
+      label="E-mail"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <input type="text" pInputText id="email" formControlName="email" fluid />
+    </app-input-container>
+
+    <app-input-container
+      label="Telefone"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <input
+        type="text"
+        pInputText
+        id="telefone"
+        formControlName="telefone"
+        fluid
+      />
+    </app-input-container>
+
+    <app-input-container
+      label="Acesso"
+      class="col-span-12 md:col-span-6 lg:col-span-4"
+    >
+      <p-select [options]="[]" formControlName="role"></p-select>
+    </app-input-container>
+
+    <app-input-container
+      label="RA/SIAPE"
+      class="col-span-12 md:col-span-6 lg:col-span-4"
+    >
+      <input
+        type="text"
+        pInputText
+        id="documento"
+        formControlName="documento"
+        fluid
+      />
+    </app-input-container>
+
+    <app-input-container
+      label="Senha"
+      class="col-span-12 md:col-span-6 lg:col-span-4"
+    >
+      <input
+        type="password"
+        pInputText
+        id="password"
+        formControlName="password"
+        fluid
+      />
+    </app-input-container>
+  </form>
+</ng-template>

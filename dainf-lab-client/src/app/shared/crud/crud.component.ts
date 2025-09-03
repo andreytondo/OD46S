@@ -35,6 +35,7 @@ export class CrudComponent<T = any> implements OnInit {
   formTemplate = input<TemplateRef<any>>();
 
   items = signal<T[]>([]);
+  dialogVisible = signal<boolean>(false);
 
   ngOnInit(): void {
     this.loadItems();
@@ -52,7 +53,9 @@ export class CrudComponent<T = any> implements OnInit {
       .subscribe();
   }
 
-  openNew() {}
+  openNew() {
+    this.dialogVisible.set(true);
+  }
 
   exportCSV() {}
 }

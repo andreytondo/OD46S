@@ -29,4 +29,8 @@
 ></app-crud-table>
 
 <p-confirmdialog [style]="{ width: '450px' }" />
-<app-crud-dialog></app-crud-dialog>
+<app-crud-dialog
+  [(visible)]="dialogVisible"
+  [config]="config()"
+  [formTemplate]="formTemplate()"
+></app-crud-dialog>

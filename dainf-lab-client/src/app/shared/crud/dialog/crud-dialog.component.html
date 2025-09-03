@@ -1,10 +1,21 @@
-<p-dialog [visible]="visible()" (visibleChange)="visible()" [style]="{ width: '450px' }" header="Product Details" [modal]="true">
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="visible()"
+  [header]="config()?.title"
+  [modal]="true"
+>
   <ng-template #content>
-
+    <ng-container *ngTemplateOutlet="formTemplate()"></ng-container>
   </ng-template>
 
   <ng-template #footer>
-    <!-- <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" /> -->
-    <!-- <p-button label="Save" icon="pi pi-check" (click)="saveProduct()" /> -->
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      variant="outlined"
+      icon="pi pi-times"
+      (onClick)="cancel()"
+    />
+    <p-button label="Save" severity="success" icon="pi pi-check" />
   </ng-template>
 </p-dialog>
