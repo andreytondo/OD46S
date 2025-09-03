@@ -17,7 +17,11 @@ export class CrudDialogComponent<T = any> {
 
   visibleChange = output<boolean>();
 
+  saveClick = output<void>();
+  cancelClick = output<void>();
+
   cancel() {
+    this.cancelClick.emit();
     this.visibleChange.emit(false);
   }
 }

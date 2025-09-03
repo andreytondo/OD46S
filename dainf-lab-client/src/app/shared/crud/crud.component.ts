@@ -1,23 +1,21 @@
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToolbarModule } from 'primeng/toolbar';
 import { CommonModule } from '@angular/common';
 import {
   Component,
   input,
   OnInit,
   signal,
-  TemplateRef,
-  computed,
-  effect,
+  TemplateRef
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToolbarModule } from 'primeng/toolbar';
+import { tap } from 'rxjs';
 import { Column, CrudConfig } from './crud';
 import { CrudService } from './crud.service';
-import { ButtonModule } from 'primeng/button';
-import { CrudTableComponent } from './table/crud-table.component';
 import { CrudDialogComponent } from './dialog/crud-dialog.component';
-import { tap } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { CrudTableComponent } from './table/crud-table.component';
 
 @Component({
   standalone: true,
@@ -47,12 +45,6 @@ export class CrudComponent<T = any> implements OnInit {
   items = signal<T[]>([]);
   dialogVisible = signal<boolean>(false);
 
-  resetOnClose = effect(() => {
-    if (this.dialogVisible() === false) {
-      this.form()?.reset();
-    }
-  });
-
   ngOnInit(): void {
     this.loadItems();
   }
@@ -74,4 +66,15 @@ export class CrudComponent<T = any> implements OnInit {
   }
 
   exportCSV() {}
+
+
+  save() {
+    this.dialogVisible.set(false);
+    this.form()?.reset();
+  }
+
+  cancel() {
+    this.dialogVisible.set(false);
+    this.form()?.reset();
+  }
 }

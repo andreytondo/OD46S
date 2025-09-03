@@ -33,4 +33,6 @@
   [(visible)]="dialogVisible"
   [config]="config()"
   [formTemplate]="formTemplate()"
+  (cancelClick)="cancel()"
+  (saveClick)="save()"
 ></app-crud-dialog>
