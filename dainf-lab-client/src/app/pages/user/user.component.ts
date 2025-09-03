@@ -37,6 +37,7 @@ export class UserComponent implements OnInit {
     name: [null, Validators.required],
     telefone: [null],
     documento: [null],
+    roles: [null, Validators.required],
     password: [null, Validators.required],
   });
 

@@ -1,0 +1,2 @@
+insert into app_user (email, password) values ('teste01@mail.com', '$2a$10$7QJfG8Z8Z8Z8Z8Z8Z8Z8uOeFx8Z8Z8Z8Z8Z8Z8Z8Z8Z8');
+insert into app_user (email, password) values ('teste02@mail.com', '$2a$10$7QJfG8Z8Z8Z8Z8Z8Z8Z8uOeFx8Z8Z8Z8Z8Z8Z8Z8Z8Z8');

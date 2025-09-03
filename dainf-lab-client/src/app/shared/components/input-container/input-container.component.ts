@@ -34,36 +34,25 @@ export class InputContainerComponent {
   ngControl = contentChild(NgControl, { read: NgControl });
 
   control = computed(() => this.ngControl()?.control);
-
   required = computed(() => {
     const control = this.control();
     if (!control) return false;
-    const validators: ValidatorFn[] =
-      (control.validator && (control.validator as any)?.validators) || [];
-    if (control.validator && (control.validator as any).validators) {
-      return (control.validator as any).validators.some(
-        (v: ValidatorFn) => v === Validators.required,
-      );
-    }
-    return !!control.hasValidator?.(Validators.required);
+    return control.errors?.['required'] === true;
   });
 
-  errorMessages = () => {
+  errorMessages = computed(() => {
     const control = this.control();
     if (!control || !control.errors) return [];
-    const errors = control.errors;
-    const messages: string[] = [];
-    if (errors['required']) messages.push('Campo obrigatório.');
-    if (errors['email']) messages.push('E-mail inválido.');
-    if (errors['minlength'])
-      messages.push(
-        `Mínimo de ${errors['minlength'].requiredLength} caracteres.`,
-      );
-    if (errors['maxlength'])
-      messages.push(
-        `Máximo de ${errors['maxlength'].requiredLength} caracteres.`,
-      );
-    if (errors['pattern']) messages.push('Formato inválido.');
-    return messages;
-  };
+    return Object.entries(control.errors)
+      .filter(([key]) => key in errorMap)
+      .map(([key, error]) => errorMap[key](error));
+  });
 }
+
+const errorMap: Record<string, (error: any) => string> = {
+  required: () => 'Campo obrigatório.',
+  email: () => 'E-mail inválido.',
+  minlength: (e) => `Mínimo de ${e.requiredLength} caracteres.`,
+  maxlength: (e) => `Máximo de ${e.requiredLength} caracteres.`,
+  pattern: () => 'Formato inválido.',
+};
