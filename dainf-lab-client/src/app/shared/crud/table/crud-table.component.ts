@@ -1,22 +1,17 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  input,
-  output,
-  TemplateRef
-} from '@angular/core';
+import { Component, input, output, TemplateRef } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { Table, TableModule } from 'primeng/table';
-import { Column, CrudConfig } from '../crud';
+import { Column, CrudConfig, Identifiable } from '../crud';
 
 @Component({
   selector: 'app-crud-table',
   templateUrl: 'crud-table.component.html',
   imports: [CommonModule, TableModule, IconField, InputIcon, Button],
 })
-export class CrudTableComponent<T = any> {
+export class CrudTableComponent<T extends Identifiable> {
   columns = input<Column<T>[]>([]);
   config = input<CrudConfig<T>>();
   globalFilterFields = input<string[]>([]);

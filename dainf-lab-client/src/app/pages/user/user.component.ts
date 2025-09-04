@@ -26,15 +26,16 @@ import { Select } from 'primeng/select';
   ],
   selector: 'app-user',
   templateUrl: 'user.component.html',
+  providers: [UserService],
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   userService = inject(UserService);
   formBuilder = inject(FormBuilder);
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     email: [null, Validators.compose([Validators.required, Validators.email])],
-    name: [null, Validators.required],
+    nome: [null, Validators.required],
     telefone: [null],
     documento: [null],
     roles: [null, Validators.required],
@@ -43,12 +44,12 @@ export class UserComponent implements OnInit {
 
   cols: Column<User>[] = [
     { field: 'email', header: 'E-mail' },
-    { field: 'password', header: 'Senha' },
+    { field: 'nome', header: 'Nome' },
+    { field: 'telefone', header: 'Telefone' },
+    { field: 'documento', header: 'RA/SIAPE' },
   ];
 
   config: CrudConfig<User> = {
     title: 'Usuários',
   };
-
-  ngOnInit() {}
 }

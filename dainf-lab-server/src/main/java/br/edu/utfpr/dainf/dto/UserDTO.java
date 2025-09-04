@@ -27,6 +27,16 @@ public class UserDTO implements Identifiable<Long> {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula e um número.")
     private String password;
 
+    private String nome;
+
+    private String documento;
+
+    private String telefone;
+
+    private String fotoUrl;
+
+    private boolean emailVerificado;
+
     public UserDTO(Long id) {
         this.id = id;
     }

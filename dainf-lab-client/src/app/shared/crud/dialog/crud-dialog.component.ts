@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, OnInit, output, TemplateRef } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { CrudConfig } from '../crud';
+import { CrudConfig, Identifiable } from '../crud';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -10,18 +10,21 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-crud-dialog',
   templateUrl: 'crud-dialog.component.html',
 })
-export class CrudDialogComponent<T = any> {
+export class CrudDialogComponent<T extends Identifiable> {
   visible = input<boolean>(false);
   config = input<CrudConfig<T>>();
   formTemplate = input<TemplateRef<any>>();
 
   visibleChange = output<boolean>();
 
-  saveClick = output<T>();
+  saveClick = output<void>();
   cancelClick = output<void>();
+
+  save() {
+    this.saveClick.emit();
+  }
 
   cancel() {
     this.cancelClick.emit();
-    this.visibleChange.emit(false);
   }
 }
