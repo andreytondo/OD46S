@@ -1,11 +1,14 @@
 package br.edu.utfpr.dainf.controller;
 
+import br.edu.utfpr.dainf.dto.AuthResponse;
 import br.edu.utfpr.dainf.dto.UserSignupDTO;
-import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.security.JwtService;
-import br.edu.utfpr.dainf.service.UserService;
+import br.edu.utfpr.dainf.service.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,43 +21,52 @@ import java.util.Map;
 @RestController
 @RequestMapping("auth")
 public class AuthController {
-
-    private final AuthenticationManager authManager;
+    private final AuthService authService;
     private final JwtService jwtService;
 
-    @Autowired
-    UserService userService;
-
-    public AuthController(AuthenticationManager authManager, JwtService jwtService) {
-        this.authManager = authManager;
+    public AuthController(AuthService authService, JwtService jwtService) {
+        this.authService = authService;
         this.jwtService = jwtService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request, HttpServletResponse response) {
         try {
-            // removido login com autenticação para desenvolvimento
-//            Authentication auth = authManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            request.email(),
-//                            request.password()
-//                    )
-//            );
+            AuthResponse authResponse = authService.login(request.email(), request.password());
+            String refreshToken = jwtService.generateRefreshToken(request.email());
 
-            String token = jwtService.generateToken(request.email());
+            long maxAge = request.rememberMe() ? jwtService.getRefreshExpirationMs() / 1000 : -1;
+            ResponseCookie cookie = authService.createRefreshCookie(refreshToken, maxAge);
 
-            return ResponseEntity.ok(Map.of("token", token));
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            return ResponseEntity.ok(authResponse);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-    @PostMapping("sign-up")
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@CookieValue(name = "refresh_token") String refreshToken, HttpServletResponse response) {
+        try {
+            AuthResponse authResponse = authService.refresh(refreshToken);
+            String email = jwtService.extractRefreshTokenSubject(refreshToken);
+            String newRefreshToken = jwtService.generateRefreshToken(email);
+
+            ResponseCookie cookie = authService.createRefreshCookie(newRefreshToken);
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+            return ResponseEntity.ok(authResponse);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> signUp(@RequestBody UserSignupDTO user) {
-        userService.save(user.toUserModel());
+        authService.signUp(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    public record AuthRequest(String email, String password) {}
+    public record AuthRequest(String email, String password, boolean rememberMe) {}
 }
