@@ -8,23 +8,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "category")
+@Table(name = "subcategory")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category implements Identifiable<Long> {
+public class Subcategory implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "A descrição da cateogria não pode ser nula.")
+    @NotNull(message = "A descrição da subcategoria não pode ser nula")
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subcategory> subcategories;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
