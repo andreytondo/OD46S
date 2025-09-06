@@ -1,3 +1,14 @@
-<p>
-  category works!
-</p>
+<app-crud #crud [columns]="cols" [service]="categoryService" [config]="config" [form]="form"
+  [formTemplate]="crudForm"></app-crud>
+
+<ng-template #crudForm>
+  <form [formGroup]="form" class="grid grid-cols-12 gap-4">
+    <app-input-container label="Código" class="col-span-12 md:col-span-6 lg:col-span-2">
+      <input type="text" pInputText id="id" formControlName="id" fluid />
+    </app-input-container>
+
+    <app-input-container label="Descrição" class="col-span-12 md:col-span-6 lg:col-span-4">
+      <input type="text" pInputText id="descricao" formControlName="descricao" fluid />
+    </app-input-container>
+  </form>
+</ng-template>
