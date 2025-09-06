@@ -20,7 +20,13 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
     }
 
     public User save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getId() != null && user.getPassword() == null) {
+            user.setPassword(repository.findById(user.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("User not found"))
+                    .getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return repository.save(user);
     }
 

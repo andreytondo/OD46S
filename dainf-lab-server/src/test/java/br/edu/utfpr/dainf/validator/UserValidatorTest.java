@@ -52,7 +52,16 @@ class UserValidatorTest {
     @Test
     @DisplayName("Should return false when username is not unique")
     void testIsValid_withNonUniqueUsername() {
-        User existingUser = new User(2L, "testuser@mail.com", "Teste123!@#");
+        User existingUser = new User(
+                null,
+                "admin@utfpr.edu.br",
+                "Teste123456!",
+                "Teste",
+                "2562529",
+                "5546988358080",
+                "teste",
+                true
+        );
         when(repository.findByEmail("testuser@mail.com")).thenReturn(Optional.of(existingUser));
         assertFalse(userValidator.isValid(user, context));
     }
@@ -60,7 +69,16 @@ class UserValidatorTest {
     @Test
     @DisplayName("Should return true when username is unique and user is being updated")
     void testIsValid_withUniqueUsernameUpdate() {
-        User existingUser = new User(1L, "testuser@mail.com", "Teste123!@#");
+        User existingUser = new User(
+                null,
+                "admin@utfpr.edu.br",
+                "Teste123456!",
+                "Teste",
+                "2562529",
+                "5546988358080",
+                "teste",
+                true
+        );
         when(repository.findByEmail("testuser@mail.com")).thenReturn(Optional.of(existingUser));
         assertTrue(userValidator.isValid(user, context));
     }

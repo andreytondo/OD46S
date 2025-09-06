@@ -1,15 +1,13 @@
 package br.edu.utfpr.dainf.model;
 
+import br.edu.utfpr.dainf.dto.UserSignupDTO;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,12 +16,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "app_user")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@Builder
 public class User implements UserDetails, Identifiable<Long> {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +31,25 @@ public class User implements UserDetails, Identifiable<Long> {
     @Size(min = 6)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
     private String password;
+
+    @Column(length = 255, nullable = false)
+    private String nome;
+
+    @Column(length = 25)
+    private String documento;
+
+    @Column(length = 15, nullable = false)
+    private String telefone;
+
+    @Column(length = 2048)
+    private String fotoUrl;
+
+    @Column(name = "email_verificado")
+    private boolean emailVerificado;
+
+    public boolean getEmailVerificado() {
+        return emailVerificado;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

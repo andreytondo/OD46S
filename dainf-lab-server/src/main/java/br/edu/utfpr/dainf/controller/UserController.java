@@ -18,8 +18,8 @@ public class UserController extends CrudController<Long, User, UserDTO, UserRepo
 
     @Override
     public UserDTO toDto(User entity) {
-        entity.setPassword(null);
-        entity.setEmail(null);
-        return super.toDto(entity);
+        UserDTO dto = super.toDto(entity);
+        dto.setPassword(null);
+        return dto;
     }
 }

@@ -1,8 +1,9 @@
 import { BaseService } from '../base.service';
 import { Page, SearchRequest } from '../models/search';
 import { Observable, of } from 'rxjs';
+import { Identifiable } from './crud';
 
-export abstract class CrudService<T> extends BaseService {
+export abstract class CrudService<T extends Identifiable> extends BaseService {
   private _url: string;
 
   constructor(url: string) {

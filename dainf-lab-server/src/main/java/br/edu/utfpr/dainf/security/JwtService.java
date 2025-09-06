@@ -3,11 +3,11 @@ package br.edu.utfpr.dainf.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.function.Function;
 
 @Service
 public class JwtService {
@@ -15,51 +15,68 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey;
 
+    @Getter
     @Value("${jwt.expiration}")
     private long jwtExpirationMs;
 
+    @Value("${jwt.refresh.secret}")
+    private String refreshSecretKey;
+
+    @Getter
+    @Value("${jwt.refresh.expiration}")
+    private long refreshExpirationMs;
+
+    public String generateRefreshToken(String email) {
+        return buildJWT(email, refreshSecretKey, refreshExpirationMs);
+    }
+
     public String generateToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, getSigningKey())
-                .compact();
+        return buildJWT(email, secretKey, jwtExpirationMs);
     }
 
     public boolean isTokenValid(String token) {
+        return isJwtValid(token, secretKey);
+    }
+
+    public boolean isRefreshTokenValid(String token) {
+        return isJwtValid(token, refreshSecretKey);
+    }
+
+    public String extractSubject(String token) {
+        return extractAllClaims(token, secretKey).getSubject();
+    }
+
+    public String extractRefreshTokenSubject(String token) {
+        return extractAllClaims(token, refreshSecretKey).getSubject();
+    }
+
+    private String buildJWT(String email, String key, long expiration) {
+        return Jwts.builder()
+            .setSubject(email)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + expiration))
+            .signWith(SignatureAlgorithm.HS256, key)
+            .compact();
+    }
+
+    private boolean isJwtValid(String token, String key) {
         try {
-            return !isTokenExpired(token);
+            Claims claims = Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
+
+            if (claims.getSubject() == null) return false;
+            return claims.getExpiration().after(new Date());
         } catch (Exception e) {
             return false;
         }
     }
 
-    public String extractEmail(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token, String key) {
         return Jwts.parser()
-                .setSigningKey(getSigningKey())
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    private String getSigningKey() {
-        return secretKey;
+            .setSigningKey(key)
+            .parseClaimsJws(token)
+            .getBody();
     }
 }

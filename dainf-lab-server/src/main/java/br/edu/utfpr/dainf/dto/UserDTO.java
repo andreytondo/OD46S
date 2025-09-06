@@ -22,10 +22,19 @@ public class UserDTO implements Identifiable<Long> {
     @Email(message = "O atributo email deve ser um email válido.")
     private String email;
 
-    @NotNull(message = "O atributo password não pode ser nulo.")
     @Size(min = 6, max = 100, message = "O atributo password deve conter no mínimo 6 caracteres.")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "A senha deve conter pelo menos uma letra minúscula, uma letra maiúscula e um número.")
     private String password;
+
+    private String nome;
+
+    private String documento;
+
+    private String telefone;
+
+    private String fotoUrl;
+
+    private boolean emailVerificado;
 
     public UserDTO(Long id) {
         this.id = id;

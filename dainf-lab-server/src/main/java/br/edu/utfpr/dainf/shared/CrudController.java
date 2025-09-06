@@ -5,6 +5,7 @@ import br.edu.utfpr.dainf.search.request.SearchRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +56,8 @@ public abstract class CrudController<ID extends Serializable, E extends Identifi
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Page<D>> search(@RequestBody @Valid SearchRequest request) {
-        Page<D> page = toPageDTO(service.search(request), SearchHandler.getPageable(request));
+    public ResponseEntity<PagedModel<D>> search(@RequestBody @Valid SearchRequest request) {
+        PagedModel<D> page = toPageDTO(service.search(request), SearchHandler.getPageable(request));
         return ResponseEntity.ok(page);
     }
 }
