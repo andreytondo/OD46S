@@ -29,10 +29,10 @@ export class SignUpComponent {
 
   form: FormGroup = this._fb.group(
     {
-      name: [null, Validators.required],
-      idNumber: [null, Validators.required],
+      nome: [null, Validators.required],
+      documento: [null, Validators.required],
       email: [null, Validators.compose([Validators.required, Validators.email])],
-      phone: [],
+      telefone: [],
       password: [null, Validators.required],
       confirmPassword: [null, Validators.required],
     },
@@ -65,10 +65,19 @@ export class SignUpComponent {
 
     const { confirmPassword, ...userData } = this.form.value;
 
-    this._authService.signUp(userData).subscribe({
+    // Garante que só os campos esperados vão para o backend
+    const payload = {
+      nome: userData.nome,
+      documento: userData.documento,
+      telefone: userData.telefone,
+      email: userData.email,
+      password: userData.password,
+    };
+
+    this._authService.signUp(payload).subscribe({
       next: (res) => {
         console.log('Registro bem-sucedido!', res);
-        this._router.navigate(['/login']);
+        this._router.navigate(['/auth/login']);
       },
       error: (err) => {
         console.error('Falha no registro', err);
