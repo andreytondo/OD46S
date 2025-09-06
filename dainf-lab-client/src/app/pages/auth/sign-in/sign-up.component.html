@@ -1,3 +1,124 @@
-<p>
-  sign-up works!
-</p>
+<app-floating-configurator />
+<div
+  class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-screen overflow-hidden"
+>
+  <div class="flex flex-col items-center justify-center">
+    <div class="md:w-3xl">
+      <div
+        class="w-full mx-auto bg-surface-0 dark:bg-surface-900 py-12 md:py-20 px-8 sm:px-20 border-t-3 border-t-primary"
+        style="border-radius: 53px"
+      >
+        <div class="text-center mb-8">
+          <div class="mb-8 w-16 shrink-0 mx-auto">
+            <app-logo />
+          </div>
+          <div
+            class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4"
+          >
+            Sala de Apoio – DAINF/UTFPR
+          </div>
+          <span class="text-muted-color font-medium">Crie sua conta</span>
+        </div>
+
+        <form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="col-span-1">
+            <app-input-container label="Nome">
+              <input
+                pInputText
+                id="name"
+                type="text"
+                placeholder="Seu nome completo"
+                class="w-full"
+                formControlName="name"
+              />
+            </app-input-container>
+          </div>
+          <div class="col-span-1">
+            <app-input-container label="RA ou SIAPE">
+              <input
+                pInputText
+                id="idNumber"
+                type="text"
+                placeholder="Número de registro"
+                class="w-full"
+                formControlName="idNumber"
+              />
+            </app-input-container>
+          </div>
+
+          <div class="col-span-1">
+            <app-input-container label="E-mail">
+              <input
+                pInputText
+                id="email"
+                type="email"
+                placeholder="Endereço de e-mail"
+                class="w-full"
+                formControlName="email"
+              />
+            </app-input-container>
+          </div>
+          <div class="col-span-1">
+            <app-input-container label="Telefone">
+              <input
+                pInputText
+                id="phone"
+                type="tel"
+                inputmode="tel"
+                placeholder="(xx) xxxxx-xxxx"
+                class="w-full"
+                formControlName="phone"
+              />
+            </app-input-container>
+          </div>
+
+          <div class="col-span-full md:col-span-2">
+            <app-input-container label="Senha">
+              <div class="flex-1 w-full">
+                <p-password
+                  id="password"
+                  placeholder="Senha"
+                  [toggleMask]="true"
+                  [feedback]="false"
+                  formControlName="password"
+                  [fluid]="true"
+                  styleClass="w-full"
+                ></p-password>
+              </div>
+            </app-input-container>
+          </div>
+          <div class="col-span-full md:col-span-2">
+            <app-input-container label="Confirmar senha">
+              <div class="flex-1 w-full">
+                <p-password
+                  id="confirmPassword"
+                  placeholder="Confirmar senha"
+                  [toggleMask]="true"
+                  [feedback]="false"
+                  formControlName="confirmPassword"
+                  styleClass="w-full"
+                  [fluid]="true"
+                ></p-password>
+              </div>
+            </app-input-container>
+          </div>
+        </form>
+
+        <p-button
+          label="Cadastrar"
+          styleClass="w-full mt-8"
+          (onClick)="signUpClick()"
+        ></p-button>
+
+        <div class="text-center mt-8">
+          <span
+            >Já possui cadastro?
+            <a routerLink="/auth/login" class="text-primary"
+              >Realizar login</a
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
