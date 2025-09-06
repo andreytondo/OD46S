@@ -27,6 +27,7 @@ export class AuthService extends BaseService {
   }
 
   logout() {
+    this._http.post(`${this.apiUrl}/auth/logout`, {}).subscribe();
     this._tokenService.clearToken();
   }
 
