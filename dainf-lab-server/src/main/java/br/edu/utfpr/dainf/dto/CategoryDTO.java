@@ -19,9 +19,8 @@ public class CategoryDTO {
 
     private Long id;
 
-    @NotNull(message = "O nome da cateogria não pode ser nulo")
-    private String name;
+    @NotNull(message = "O nome da categoria não pode ser nulo")
+    private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subcategory> subcategories;
 }

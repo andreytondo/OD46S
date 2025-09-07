@@ -9,10 +9,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
   Validators,
+  FormArray,
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
-import { Select } from 'primeng/select';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { Select } from 'primeng/select';
     ReactiveFormsModule,
     InputTextModule,
     InputContainerComponent,
-    Select,
+    CommonModule,
   ],
   selector: 'app-category',
   templateUrl: 'category.component.html',
@@ -35,7 +36,8 @@ export class CategoryComponent {
   formBuilder = inject(FormBuilder);
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
-    description: [null],
+    description: [null, Validators.required],
+    subcategories: this.formBuilder.array([]),
   });
 
   cols: Column<Category>[] = [
@@ -45,4 +47,21 @@ export class CategoryComponent {
   config: CrudConfig<Category> = {
     title: 'Categorias',
   };
+
+  get subcategories() {
+    return this.form.get('subcategories') as FormArray;
+  }
+
+  addSubcategory() {
+    const subForm = this.formBuilder.group({
+      id: [{ value: null, disabled: true }],
+      description: [null, Validators.required],
+    });
+    this.subcategories.push(subForm);
+  }
+
+
+  removeSubcategory(index: number) {
+    this.subcategories.removeAt(index);
+  }
 }

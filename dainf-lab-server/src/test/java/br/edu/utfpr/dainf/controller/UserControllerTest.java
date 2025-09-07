@@ -16,12 +16,30 @@ class UserControllerTest extends CrudControllerTest<UserDTO> {
     @Override
     protected UserDTO createValidObject() {
         // $2a$10$Y5yHBoZR.Ym/qYI/NoHjn.n7Ne3puvDYMcpTYC2yBH2MoEz39Fau6
-        return new UserDTO(null, "teste@mail.com", "Teste123456!");
+        return new UserDTO(
+                null,
+                "teste@mail.com",
+                "Teste123456!",
+                null,
+                null,
+                null,
+                null,
+                false
+        );
     }
 
     @Override
     protected UserDTO createInvalidObject() {
-        return new UserDTO(null, "teste", "123");
+        return new UserDTO(
+                null,
+                "teste",
+                "123",
+                null,
+                null,
+                null,
+                null,
+                false
+        );
     }
 
     @Override
