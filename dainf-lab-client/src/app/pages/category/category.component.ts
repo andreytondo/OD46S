@@ -14,7 +14,7 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { CommonModule } from '@angular/common';
-
+import { Subcategory } from './subcategory';
 
 @Component({
   standalone: true,
@@ -30,7 +30,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: 'category.component.html',
   providers: [CategoryService],
 })
-
 export class CategoryComponent {
   categoryService = inject(CategoryService);
   formBuilder = inject(FormBuilder);
@@ -40,9 +39,7 @@ export class CategoryComponent {
     subcategories: this.formBuilder.array([]),
   });
 
-  cols: Column<Category>[] = [
-    { field: 'description', header: 'Descrição' },
-  ];
+  cols: Column<Category>[] = [{ field: 'description', header: 'Descrição' }];
 
   config: CrudConfig<Category> = {
     title: 'Categorias',
@@ -52,16 +49,30 @@ export class CategoryComponent {
     return this.form.get('subcategories') as FormArray;
   }
 
-  addSubcategory() {
+  addSubcategory(subcategory?: Subcategory) {
     const subForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }],
-      description: [null, Validators.required],
+      id: [{ value: null as number | null, disabled: true }],
+      description: [null as string | null, Validators.required],
     });
+    if (subcategory) {
+      subForm.patchValue(subcategory);
+    }
     this.subcategories.push(subForm);
   }
 
-
   removeSubcategory(index: number) {
     this.subcategories.removeAt(index);
+  }
+
+  addSubcategories(item: Category) {
+    this.subcategories.clear();
+    if (item.subcategories) {
+      item.subcategories.forEach((sub) => this.addSubcategory(sub));
+    }
+  }
+
+  clear() {
+    this.form.reset();
+    this.subcategories.clear();
   }
 }

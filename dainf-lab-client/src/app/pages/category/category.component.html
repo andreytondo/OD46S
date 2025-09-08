@@ -1,35 +1,69 @@
-<app-crud #crud [columns]="cols" [service]="categoryService" [config]="config" [form]="form"
-  [formTemplate]="crudForm"></app-crud>
+<app-crud
+  #crud
+  [columns]="cols"
+  [service]="categoryService"
+  [config]="config"
+  [form]="form"
+  [formTemplate]="crudForm"
+  (cancelClick)="clear()"
+  (saveClick)="clear()"
+  (entityLoad)="addSubcategories($event)"
+></app-crud>
 
 <ng-template #crudForm>
   <form [formGroup]="form" class="grid grid-cols-12 gap-4">
-    <app-input-container label="Código" class="col-span-12 md:col-span-6 lg:col-span-2">
+    <app-input-container
+      label="Código"
+      class="col-span-12 md:col-span-6 lg:col-span-2"
+    >
       <input type="text" pInputText id="id" formControlName="id" fluid />
     </app-input-container>
 
-    <app-input-container label="Descrição" class="col-span-12 md:col-span-6 lg:col-span-9">
-      <input type="text" pInputText id="description" formControlName="description" fluid />
+    <app-input-container
+      label="Descrição"
+      class="col-span-12 md:col-span-6 lg:col-span-9"
+    >
+      <input
+        type="text"
+        pInputText
+        id="description"
+        formControlName="description"
+        fluid
+      />
     </app-input-container>
 
-
     <div class="col-span-12 mt-2">
-      <button type="button" (click)="addSubcategory()" class="p-button p-component">
+      <button
+        type="button"
+        (click)="addSubcategory()"
+        class="p-button p-component"
+      >
         Adicionar Subcategoria
       </button>
     </div>
 
     <div formArrayName="subcategories" class="col-span-12 mt-4 grid gap-2">
-      <div *ngFor="let sub of subcategories.controls; let i = index" [formGroupName]="i"
-        class="grid grid-cols-12 gap-2 items-center">
+      <div
+        *ngFor="let sub of subcategories.controls; let i = index"
+        [formGroupName]="i"
+        class="grid grid-cols-12 gap-2 items-center"
+      >
         <app-input-container label="Código" class="col-span-12 md:col-span-2">
           <input type="text" pInputText formControlName="id" fluid />
         </app-input-container>
 
-        <app-input-container label="Descrição" class="col-span-12 md:col-span-8">
+        <app-input-container
+          label="Descrição"
+          class="col-span-12 md:col-span-8"
+        >
           <input type="text" pInputText formControlName="description" fluid />
         </app-input-container>
 
-        <button type="button" (click)="removeSubcategory(i)" class="col-span-12 md:col-span-2">
+        <button
+          type="button"
+          (click)="removeSubcategory(i)"
+          class="col-span-12 md:col-span-2"
+        >
           Remover
         </button>
       </div>

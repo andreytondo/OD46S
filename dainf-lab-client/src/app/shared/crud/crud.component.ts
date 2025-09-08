@@ -5,6 +5,7 @@ import {
   inject,
   input,
   OnInit,
+  output,
   signal,
   TemplateRef,
 } from '@angular/core';
@@ -46,6 +47,10 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   actionsTemplate = input<TemplateRef<any>>();
   formTemplate = input<TemplateRef<any>>();
 
+  cancelClick = output<void>();
+  saveClick = output<void>();
+  entityLoad = output<T>();
+
   items = signal<T[]>([]);
   dialogVisible = signal<boolean>(false);
 
@@ -75,6 +80,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
         tap(() => {
           this.cancel();
           this.loadItems();
+          this.saveClick.emit();
         }),
         catchError((error) => {
           this._showWarn(`Falha ao salvar o registro: ${error.error.message}`);
@@ -86,8 +92,17 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   }
 
   edit(item: T) {
-    this.form()?.patchValue(item as { [key: string]: any });
-    this.dialogVisible.set(true);
+    this.service()
+      .get(item.id)
+      .pipe(
+        tap((item: T) => {
+          this.form()?.patchValue(item as { [key: string]: any });
+          this.entityLoad.emit(item);
+          this.dialogVisible.set(true);
+        }),
+        take(1),
+      )
+      .subscribe();
   }
 
   deleteOne(item: T) {
@@ -108,6 +123,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   cancel() {
     this.dialogVisible.set(false);
     this.form()?.reset();
+    this.cancelClick.emit();
   }
 
   private _showWarn(detail: string) {
