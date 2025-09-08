@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_pais")
+@Table(name = "pais")
 public class Pais implements Identifiable<Long> {
 
     @Id

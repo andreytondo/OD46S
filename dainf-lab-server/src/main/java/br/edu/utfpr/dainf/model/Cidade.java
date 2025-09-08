@@ -12,7 +12,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_cidade")
+@Table(name = "cidade")
 public class Cidade implements Identifiable<Long> {
 
     @Id

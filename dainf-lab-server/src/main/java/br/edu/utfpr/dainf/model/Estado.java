@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_estado")
+@Table(name = "estado")
 public class Estado implements Identifiable<Long> {
 
     @Id

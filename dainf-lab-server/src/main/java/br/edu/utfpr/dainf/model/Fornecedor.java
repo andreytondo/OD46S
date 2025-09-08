@@ -18,7 +18,7 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "app_fornecedor")
+@Table(name = "fornecedor")
 public class Fornecedor implements Identifiable<Long> {
 
     @Id
