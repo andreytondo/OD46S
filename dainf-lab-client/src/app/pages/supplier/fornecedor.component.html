@@ -1,0 +1,60 @@
+<app-crud
+  #crud
+  [columns]="cols"
+  [service]="fornecedorService"
+  [config]="config"
+  [form]="form"
+  [formTemplate]="crudForm"
+></app-crud>
+
+<ng-template #crudForm>
+  <form [formGroup]="form" class="grid grid-cols-12 gap-4">
+    <app-input-container label="Código" class="col-span-12 md:col-span-6 lg:col-span-2">
+      <input type="text" pInputText id="id" formControlName="id" fluid />
+    </app-input-container>
+
+    <app-input-container label="Razão Social" class="col-span-12 md:col-span-6 lg:col-span-5">
+      <input type="text" pInputText id="razaoSocial" formControlName="razaoSocial" fluid />
+    </app-input-container>
+
+    <app-input-container label="Nome Fantasia" class="col-span-12 md:col-span-12 lg:col-span-5">
+      <input type="text" pInputText id="nomeFantasia" formControlName="nomeFantasia" fluid />
+    </app-input-container>
+
+    <app-input-container label="CNPJ" class="col-span-12 md:col-span-6 lg:col-span-3">
+      <input type="text" pInputText id="cnpj" formControlName="cnpj" fluid />
+    </app-input-container>
+
+    <app-input-container label="CEP" class="col-span-12 md:col-span-6 lg:col-span-3">
+      <input type="text" pInputText id="cep" formControlName="cep" fluid />
+    </app-input-container>
+
+    <app-input-container label="Inscrição Estadual" class="col-span-12 md:col-span-6 lg:col-span-3">
+      <input type="text" pInputText id="ie" formControlName="ie" fluid />
+    </app-input-container>
+
+    <app-input-container label="E-mail" class="col-span-12 md:col-span-6 lg:col-span-3">
+      <input type="email" pInputText id="email" formControlName="email" fluid />
+    </app-input-container>
+
+    <app-input-container label="Telefone" class="col-span-12 md:col-span-6 lg:col-span-3">
+      <input type="text" pInputText id="telefone" formControlName="telefone" fluid />
+    </app-input-container>
+
+    <app-input-container label="Endereço" class="col-span-12">
+      <input type="text" pInputText id="endereco" formControlName="endereco" fluid />
+    </app-input-container>
+
+    <app-input-container label="Estado" class="col-span-12 md:col-span-6">
+      <input type="text" pInputText id="estado" formControlName="estado" fluid />
+    </app-input-container>
+
+    <app-input-container label="Cidade" class="col-span-12 md:col-span-6">
+      <input type="text" pInputText id="cidade" formControlName="cidade" fluid />
+    </app-input-container>
+
+    <app-input-container label="Observações" class="col-span-12">
+      <textarea id="observacao" pInputTextarea formControlName="observacao" rows="4" class="w-full"></textarea>
+    </app-input-container>
+  </form>
+</ng-template>
