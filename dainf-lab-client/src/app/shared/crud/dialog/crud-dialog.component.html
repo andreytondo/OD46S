@@ -1,6 +1,6 @@
 <p-dialog
   [visible]="visible()"
-  (visibleChange)="visible()"
+  (visibleChange)="visibleChange.emit($event)"
   [header]="config()?.title"
   [modal]="true"
   (onHide)="cancel()"
