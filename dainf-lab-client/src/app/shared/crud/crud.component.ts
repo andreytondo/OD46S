@@ -51,7 +51,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   saveClick = output<void>();
   entityLoad = output<T>();
 
-  items = signal<T[]>([]);
+  items = signal<Page<T> | undefined>(undefined);
   dialogVisible = signal<boolean>(false);
 
   messageService = inject(MessageService);
@@ -63,7 +63,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
 
   loadItems() {
     this._loadItems()
-      .pipe(tap((result) => this.items.set(result.content)))
+      .pipe(tap((result) => this.items.set(result)))
       .subscribe();
   }
 
@@ -124,6 +124,12 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.dialogVisible.set(false);
     this.form()?.reset();
     this.cancelClick.emit();
+  }
+
+  onPage(event: { page: number; size: number }) {
+    this._loadItems({ page: event.page, rows: event.size })
+      .pipe(tap((result) => this.items.set(result)))
+      .subscribe();
   }
 
   private _showWarn(detail: string) {

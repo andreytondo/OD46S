@@ -1,7 +1,6 @@
-
 export interface SearchRequest {
-  filters: SearchFilter[];
-  sort: SearchSort;
+  filters?: SearchFilter[];
+  sort?: SearchSort;
   page: number;
   rows: number;
 }
@@ -37,18 +36,12 @@ export type SearchSortType = 'ASC' | 'DESC';
 export interface Page<T> {
   content: T[];
 
-  totalPages: number;
-  totalElements: number;
-
-  size: number; // rows per page
-  number: number; // current page index (zero-based)
-  numberOfElements: number; // elements in the current page
-
-  first: boolean;
-  last: boolean;
-  empty: boolean;
-
-  sort: Sort;
+  page: {
+    size: number;
+    number: number;
+    totalElements: number;
+    totalPages: number;
+  };
 }
 
 export interface Sort {

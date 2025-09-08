@@ -28,6 +28,7 @@
   [items]="items()"
   (editClick)="edit($event)"
   (deleteOneClick)="deleteOne($event)"
+  (pageChange)="onPage($event)"
 ></app-crud-table>
 
 <p-confirmdialog [style]="{ width: '450px' }" />

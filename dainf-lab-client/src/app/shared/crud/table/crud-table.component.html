@@ -1,16 +1,11 @@
 <p-table
   #dt
-  [value]="items()"
-  [rows]="10"
+  [value]="items()!.content"
   [columns]="columns()"
-  [paginator]="true"
   [globalFilterFields]="globalFilterFields()"
   [tableStyle]="{ 'min-width': '75rem' }"
   [rowHover]="true"
   dataKey="id"
-  currentPageReportTemplate="Exibindo {last} de {totalRecords} itens"
-  [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[10, 20, 30]"
 >
   <ng-template #caption>
     <div class="flex items-center justify-between">
@@ -36,40 +31,96 @@
     </tr>
   </ng-template>
   <ng-template #body let-row>
-    <tr>
-      @for (column of columns(); track $index) {
-        <td>
-          @if (templateMap().get(column.cellTemplateName || "")) {
-            <ng-container
-              *ngTemplateOutlet="
-                templateMap().get(column.cellTemplateName || '');
-                context: { $implicit: row }
-              "
-            ></ng-container>
-          } @else {
-            {{ getValue(row, column.field) }}
-          }
-        </td>
-      }
-      <td>
-        @if (actionsTemplate()) {
-          <ng-container
-            *ngTemplateOutlet="actionsTemplate(); context: { $implicit: row }"
-          ></ng-container>
-        } @else {
-          <p-button
-            icon="pi pi-pencil"
-            class="mr-2"
-            severity="secondary"
-            (click)="edit(row)"
-          ></p-button>
-          <p-button
-            icon="pi pi-trash"
-            severity="danger"
-            (click)="deleteOne(row)"
-          ></p-button>
-        }
-      </td>
-    </tr>
+    <ng-container
+      *ngTemplateOutlet="item; context: { $implicit: row }"
+    ></ng-container>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <ng-container>
+      <ng-container *ngTemplateOutlet="empty"></ng-container>
+    </ng-container>
   </ng-template>
 </p-table>
+
+<p-paginator
+  [rows]="10"
+  [totalRecords]="items()!.page.totalElements"
+  [rowsPerPageOptions]="[10, 20, 30]"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Exibindo {last} de {totalRecords} itens"
+  (onPageChange)="onPage($event)"
+  [rowsPerPageOptions]="[10, 20, 30]"
+>
+</p-paginator>
+
+<ng-template #item let-row>
+  <tr>
+    @for (column of columns(); track $index) {
+      <td>
+        @if (templateMap().get(column.cellTemplateName || "")) {
+          <ng-container
+            *ngTemplateOutlet="
+              templateMap().get(column.cellTemplateName || '');
+              context: { $implicit: row }
+            "
+          ></ng-container>
+        } @else {
+          {{ getValue(row, column.field) }}
+        }
+      </td>
+    }
+    <td>
+      @if (actionsTemplate()) {
+        <ng-container
+          *ngTemplateOutlet="actionsTemplate(); context: { $implicit: row }"
+        ></ng-container>
+      } @else {
+        <p-button
+          icon="pi pi-pencil"
+          class="mr-2"
+          severity="secondary"
+          (click)="edit(row)"
+        ></p-button>
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          (click)="deleteOne(row)"
+        ></p-button>
+      }
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template #empty>
+  <tr>
+    <td [attr.colspan]="(columns()!.length || 0) + 1" class="text-center">
+      Nenhum registro encontrado.
+    </td>
+  </tr>
+
+  <ng-template #loading>
+    @for (skeletonIdx of [0, 1, 2, 3, 4]; track skeletonIdx) {
+      <tr>
+        @for (column of columns(); track $index) {
+          <td>
+            <p-skeleton
+              width="100%"
+              height="1.5rem"
+              style="margin: 0.25rem 0"
+              borderRadius="4px"
+            ></p-skeleton>
+          </td>
+        }
+        <td>
+          <p-skeleton
+            width="4rem"
+            height="1.5rem"
+            style="margin: 0.25rem 0"
+            borderRadius="4px"
+          ></p-skeleton>
+        </td>
+      </tr>
+    }
+  </ng-template>
+</ng-template>

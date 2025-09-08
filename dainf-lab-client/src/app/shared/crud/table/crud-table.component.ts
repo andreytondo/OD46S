@@ -4,12 +4,15 @@ import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { Table, TableModule } from 'primeng/table';
+import { Skeleton } from 'primeng/skeleton';
 import { Column, CrudConfig, Identifiable } from '../crud';
+import { Paginator, PaginatorState } from 'primeng/paginator';
+import { Page } from '@/shared/models/search';
 
 @Component({
   selector: 'app-crud-table',
   templateUrl: 'crud-table.component.html',
-  imports: [CommonModule, TableModule, IconField, InputIcon, Button],
+  imports: [CommonModule, TableModule, IconField, InputIcon, Button, Paginator, Skeleton],
 })
 export class CrudTableComponent<T extends Identifiable> {
   columns = input<Column<T>[]>([]);
@@ -17,13 +20,23 @@ export class CrudTableComponent<T extends Identifiable> {
   globalFilterFields = input<string[]>([]);
   templateMap = input<Map<string, TemplateRef<any>>>(new Map());
   actionsTemplate = input<TemplateRef<any>>();
-  items = input<T[]>([]);
+  items = input<Page<T> | undefined>(undefined);
+
+  get safeContent(): T[] {
+    return this.items()?.content ?? [];
+  }
 
   editClick = output<T>();
   deleteOneClick = output<T>();
+  pageChange = output<{ page: number; size: number }>();
 
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  onPage(event: PaginatorState) {
+    console.log(event)
+    this.pageChange.emit({ page: event.first! / event.rows!, size: event.rows! });
   }
 
   getValue(row: any, field: string | keyof T) {
