@@ -1,6 +1,7 @@
 package br.edu.utfpr.dainf.dto;
 
 import br.edu.utfpr.dainf.model.Subcategory;
+import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO {
+public class CategoryDTO implements Identifiable<Long> {
 
     private Long id;
 
