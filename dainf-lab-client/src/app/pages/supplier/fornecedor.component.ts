@@ -17,6 +17,8 @@ import { Fornecedor } from './fornecedor';
 import { FornecedorService } from './fornecedor.service';
 import { catchError, debounceTime, of, switchMap, tap } from 'rxjs';
 import { CEPResult, CEPService } from '@/shared/services/cep.service';
+import { SelectModule } from 'primeng/select';
+import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-select.component";
 
 @Component({
   standalone: true,
@@ -27,7 +29,9 @@ import { CEPResult, CEPService } from '@/shared/services/cep.service';
     InputContainerComponent,
     InputTextModule,
     TextareaModule,
-  ],
+    SelectModule,
+    EstadoSelectComponent
+],
   selector: 'app-fornecedor',
   templateUrl: './fornecedor.component.html',
 })
