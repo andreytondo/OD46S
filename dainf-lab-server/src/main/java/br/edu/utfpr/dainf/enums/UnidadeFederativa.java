@@ -1,5 +1,7 @@
 package br.edu.utfpr.dainf.enums;
 
+import lombok.Getter;
+
 public enum UnidadeFederativa {
     AC("Acre"),
     AL("Alagoas"),
@@ -29,14 +31,11 @@ public enum UnidadeFederativa {
     SE("Sergipe"),
     TO("Tocantins");
 
+    @Getter
     private final String nome;
 
     UnidadeFederativa(String nome) {
         this.nome = nome;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     @Override

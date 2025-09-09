@@ -1,14 +1,8 @@
 package br.edu.utfpr.dainf.controller;
 
-import br.edu.utfpr.dainf.dto.EstadoDTO;
 import br.edu.utfpr.dainf.dto.PaisDTO;
-import br.edu.utfpr.dainf.dto.UserDTO;
-import br.edu.utfpr.dainf.model.Estado;
 import br.edu.utfpr.dainf.model.Pais;
-import br.edu.utfpr.dainf.model.User;
-import br.edu.utfpr.dainf.repository.EstadoRepository;
 import br.edu.utfpr.dainf.repository.PaisRepository;
-import br.edu.utfpr.dainf.service.EstadoService;
 import br.edu.utfpr.dainf.service.PaisService;
 import br.edu.utfpr.dainf.shared.CrudController;
 import org.springframework.web.bind.annotation.RequestMapping;

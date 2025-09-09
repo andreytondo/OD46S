@@ -1,7 +1,9 @@
 package br.edu.utfpr.dainf.model;
 
+import br.edu.utfpr.dainf.enums.UnidadeFederativa;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,7 @@ public class Cidade implements Identifiable<Long> {
     @Column(name = "nome", length = 60, nullable = false)
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "estado_id", referencedColumnName = "id")
-    private Estado estado;
+    @NotNull(message = "O estado é obrigatorio")
+    @Enumerated(EnumType.STRING)
+    private UnidadeFederativa estado;
 }

@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.dto;
 
+import br.edu.utfpr.dainf.enums.UnidadeFederativa;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import br.edu.utfpr.dainf.validator.ValidUser;
 import jakarta.validation.constraints.*;
@@ -20,8 +21,7 @@ public class CidadeDTO implements Identifiable<Long> {
     private String nome;
 
     @NotNull(message = "O campo 'Estado' deve ser selecionado.")
-    private Long estadoId;
-
+    private UnidadeFederativa estado;
 
     public CidadeDTO(Long id) {
         this.id = id;
