@@ -4,6 +4,7 @@ import br.edu.utfpr.dainf.dto.AuthResponse;
 import br.edu.utfpr.dainf.dto.UserSignupDTO;
 import br.edu.utfpr.dainf.security.JwtService;
 import br.edu.utfpr.dainf.service.AuthService;
+import br.edu.utfpr.dainf.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,10 +23,12 @@ import java.util.Map;
 @RequestMapping("auth")
 public class AuthController {
     private final AuthService authService;
+    private final UserService userService;
     private final JwtService jwtService;
 
-    public AuthController(AuthService authService, JwtService jwtService) {
+    public AuthController(AuthService authService, UserService userService, JwtService jwtService) {
         this.authService = authService;
+        this.userService = userService;
         this.jwtService = jwtService;
     }
 
@@ -81,5 +84,18 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/recovery")
+    public ResponseEntity<?> recovery(@RequestBody AuthRequest request) {
+        userService.forgotPassword(request.email());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPassword request) {
+        userService.resetPassword(request.token, request.newPassword);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    public record ResetPassword(String token, String newPassword) {}
     public record AuthRequest(String email, String password, boolean rememberMe) {}
 }
