@@ -1,6 +1,6 @@
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
-import { LayoutService } from '../service/layout.service';
 import { CommonModule } from '@angular/common';
+import { Component, computed, inject, input } from '@angular/core';
+import { LayoutService } from '../service/layout.service';
 
 @Component({
   standalone: true,

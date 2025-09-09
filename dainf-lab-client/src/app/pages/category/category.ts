@@ -1,5 +1,5 @@
-import { Identifiable } from "@/shared/crud/crud";
 import { Subcategory } from "@/pages/category/subcategory";
+import { Identifiable } from "@/shared/crud/crud";
 
 export interface Category extends Identifiable {
     id: number;

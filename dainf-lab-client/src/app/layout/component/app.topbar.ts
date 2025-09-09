@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { UserDropdownComponent } from './user-dropdown.component';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LayoutService } from '../service/layout.service';
 import { AppConfigurator } from './app.configurator';
 import { LogoComponent } from './logo.component';
+import { UserDropdownComponent } from './user-dropdown.component';
 
 @Component({
   selector: 'app-topbar',

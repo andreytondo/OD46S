@@ -1,4 +1,4 @@
-import { Injectable, effect, signal, computed } from '@angular/core';
+import { Injectable, computed, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface layoutConfig {

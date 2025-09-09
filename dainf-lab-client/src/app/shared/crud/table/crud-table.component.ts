@@ -1,13 +1,13 @@
+import { Page } from '@/shared/models/search';
 import { CommonModule } from '@angular/common';
 import { Component, input, output, TemplateRef } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { Table, TableModule } from 'primeng/table';
-import { Skeleton } from 'primeng/skeleton';
-import { Column, CrudConfig, Identifiable } from '../crud';
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { Page } from '@/shared/models/search';
+import { Skeleton } from 'primeng/skeleton';
+import { Table, TableModule } from 'primeng/table';
+import { Column, CrudConfig, Identifiable } from '../crud';
 
 @Component({
   selector: 'app-crud-table',

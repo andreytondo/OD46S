@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, contentChild, input } from '@angular/core';
-import { NgControl, Validators, ValidatorFn } from '@angular/forms';
+import { NgControl } from '@angular/forms';
 
 @Component({
   standalone: true,

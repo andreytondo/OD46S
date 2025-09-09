@@ -1,4 +1,5 @@
 import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
+import { LogoComponent } from '@/layout/component/logo.component';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -7,9 +8,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
-import { LogoComponent } from '@/layout/component/logo.component';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { Observable, switchMap, tap } from 'rxjs';
 import { TokenService } from '../services/token.service';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Cidade } from '@/pages/cidade/cidade';
 import { CidadeService } from '@/pages/cidade/cidade.service';
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, inject, OnInit, signal } from '@angular/core';
+import { Component, forwardRef, inject, signal } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -12,7 +12,7 @@ import {
   AutoCompleteCompleteEvent,
   AutoCompleteModule,
 } from 'primeng/autocomplete';
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-cidade-select',

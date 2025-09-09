@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, output, TemplateRef } from '@angular/core';
+import { Component, input, output, TemplateRef } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { CrudConfig, Identifiable } from '../crud';
-import { ButtonModule } from 'primeng/button';
 
 @Component({
   standalone: true,

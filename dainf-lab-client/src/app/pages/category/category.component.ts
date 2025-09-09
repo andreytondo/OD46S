@@ -1,19 +1,19 @@
-import { CategoryService } from './category.service';
-import { Component, OnInit, inject } from '@angular/core';
-import { CrudComponent } from '@/shared/crud/crud.component';
+import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
-import { Category } from './category';
+import { CrudComponent } from '@/shared/crud/crud.component';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
-  FormArray,
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
-import { CommonModule } from '@angular/common';
+import { Category } from './category';
+import { CategoryService } from './category.service';
 import { Subcategory } from './subcategory';
 
 @Component({

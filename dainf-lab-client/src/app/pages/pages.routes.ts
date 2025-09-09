@@ -2,8 +2,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { CategoryComponent } from './category/category.component';
-import { UserComponent } from './user/user.component';
 import { FornecedorComponent } from './supplier/fornecedor.component';
+import { UserComponent } from './user/user.component';
 
 export default [
   {

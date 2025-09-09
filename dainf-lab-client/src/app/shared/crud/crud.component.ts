@@ -1,4 +1,3 @@
-import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -13,13 +12,14 @@ import { FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { catchError, Observable, pipe, take, tap, throwError } from 'rxjs';
+import { catchError, Observable, take, tap, throwError } from 'rxjs';
+import { Page, SearchRequest } from '../models/search';
 import { Column, CrudConfig, Identifiable } from './crud';
 import { CrudService } from './crud.service';
 import { CrudDialogComponent } from './dialog/crud-dialog.component';
 import { CrudTableComponent } from './table/crud-table.component';
-import { Page, SearchRequest } from '../models/search';
 
 @Component({
   standalone: true,

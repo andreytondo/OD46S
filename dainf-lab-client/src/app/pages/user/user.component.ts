@@ -1,8 +1,7 @@
-import { UserService } from './user.service';
-import { Component, OnInit, inject } from '@angular/core';
-import { CrudComponent } from '@/shared/crud/crud.component';
+import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
-import { User } from './user';
+import { CrudComponent } from '@/shared/crud/crud.component';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,8 +10,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { Select } from 'primeng/select';
+import { User } from './user';
+import { UserService } from './user.service';
 
 @Component({
   standalone: true,

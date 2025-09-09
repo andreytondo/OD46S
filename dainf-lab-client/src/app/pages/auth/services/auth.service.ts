@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
-import { AuthRequest, SignUpRequest } from '../auth';
-import { Observable } from 'rxjs';
 import { BaseService } from '@/shared/base.service';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthRequest, SignUpRequest } from '../auth';
 import { TokenService } from './token.service';
 
 export interface AuthResponse {

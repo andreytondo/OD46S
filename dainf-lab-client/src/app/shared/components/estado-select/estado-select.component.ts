@@ -1,6 +1,6 @@
 import { UnidadeFederativa } from '@/shared/models/unidade-federativa';
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,

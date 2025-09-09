@@ -1,8 +1,8 @@
+import { AuthGuard } from '@/pages/auth/guards/auth.guard';
+import { DashboardComponent } from '@/pages/dashboard/dashboard.component';
+import { NotfoundComponent } from '@/pages/not-found/not-found.component';
 import { Routes } from '@angular/router';
 import { AppLayout } from './app/layout/component/app.layout';
-import { NotfoundComponent } from '@/pages/not-found/not-found.component';
-import { DashboardComponent } from '@/pages/dashboard/dashboard.component';
-import { AuthGuard } from '@/pages/auth/guards/auth.guard';
 
 export const appRoutes: Routes = [
   {

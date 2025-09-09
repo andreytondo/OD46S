@@ -7,20 +7,20 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { CrudComponent } from '@/shared/crud/crud.component';
-import { Column, CrudConfig } from '@/shared/crud/crud';
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
+import { Column, CrudConfig } from '@/shared/crud/crud';
+import { CrudComponent } from '@/shared/crud/crud.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
+import { CidadeSelectComponent } from "@/shared/components/cidade-select/cidade-select.component";
+import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-select.component";
+import { CEPResult, CEPService } from '@/shared/services/cep.service';
+import { CommonModule } from '@angular/common';
+import { SelectModule } from 'primeng/select';
+import { debounceTime, switchMap, tap } from 'rxjs';
 import { Fornecedor } from './fornecedor';
 import { FornecedorService } from './fornecedor.service';
-import { catchError, debounceTime, of, switchMap, tap } from 'rxjs';
-import { CEPResult, CEPService } from '@/shared/services/cep.service';
-import { SelectModule } from 'primeng/select';
-import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-select.component";
-import { CidadeSelectComponent } from "@/shared/components/cidade-select/cidade-select.component";
-import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,

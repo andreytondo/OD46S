@@ -1,20 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
+import { LogoComponent } from '@/layout/component/logo.component';
+import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
-  AbstractControl,
-  ValidationErrors,
+  Validators
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import { ButtonModule } from 'primeng/button';
-import { PasswordModule } from 'primeng/password';
-import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
-import { LogoComponent } from '@/layout/component/logo.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
+import { PasswordModule } from 'primeng/password';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
