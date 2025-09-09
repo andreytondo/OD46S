@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.model;
 
+import br.edu.utfpr.dainf.enums.UnidadeFederativa;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -63,8 +64,7 @@ public class Fornecedor implements Identifiable<Long> {
     @JoinColumn(name = "cidade_id", referencedColumnName = "id")
     private Cidade cidade;
 
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "O campo 'Estado' deve ser selecionado.")
-    @ManyToOne
-    @JoinColumn(name = "estado_id", referencedColumnName = "id")
-    private Estado estado;
+    private UnidadeFederativa estado;
 }
