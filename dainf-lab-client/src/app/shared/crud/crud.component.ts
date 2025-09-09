@@ -14,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { catchError, Observable, take, tap, throwError } from 'rxjs';
+import { catchError, finalize, Observable, take, tap, throwError } from 'rxjs';
 import { Page, SearchRequest } from '../models/search';
 import { Column, CrudConfig, Identifiable } from './crud';
 import { CrudService } from './crud.service';
@@ -53,6 +53,8 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
 
   items = signal<Page<T> | undefined>(undefined);
   dialogVisible = signal<boolean>(false);
+  loadingItems = signal<boolean>(false);
+  loadingEntity = signal<boolean>(false);
 
   messageService = inject(MessageService);
   confirmationService = inject(ConfirmationService);
@@ -61,10 +63,20 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.loadItems();
   }
 
-  loadItems() {
+  loadItems(event?: { page: number; size: number }) {
+    this.loadingItems.set(true);
     this._loadItems()
-      .pipe(tap((result) => this.items.set(result)))
+      .pipe(
+        tap((result) => {
+          this.items.set(result);
+        }),
+        finalize(() => this.loadingItems.set(false)),
+      )
       .subscribe();
+  }
+
+  onPage(event: { page: number; size: number }) {
+    this.loadItems();
   }
 
   openNew() {
@@ -130,12 +142,6 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.dialogVisible.set(false);
     this.form()?.reset();
     this.cancelClick.emit();
-  }
-
-  onPage(event: { page: number; size: number }) {
-    this._loadItems({ page: event.page, rows: event.size })
-      .pipe(tap((result) => this.items.set(result)))
-      .subscribe();
   }
 
   private _showWarn(detail: string) {

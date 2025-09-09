@@ -5,14 +5,13 @@ import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { Paginator, PaginatorState } from 'primeng/paginator';
-import { Skeleton } from 'primeng/skeleton';
 import { Table, TableModule } from 'primeng/table';
 import { Column, CrudConfig, Identifiable } from '../crud';
 
 @Component({
   selector: 'app-crud-table',
   templateUrl: 'crud-table.component.html',
-  imports: [CommonModule, TableModule, IconField, InputIcon, Button, Paginator, Skeleton],
+  imports: [CommonModule, TableModule, IconField, InputIcon, Button, Paginator],
 })
 export class CrudTableComponent<T extends Identifiable> {
   columns = input<Column<T>[]>([]);
@@ -21,10 +20,6 @@ export class CrudTableComponent<T extends Identifiable> {
   templateMap = input<Map<string, TemplateRef<any>>>(new Map());
   actionsTemplate = input<TemplateRef<any>>();
   items = input<Page<T> | undefined>(undefined);
-
-  get safeContent(): T[] {
-    return this.items()?.content ?? [];
-  }
 
   editClick = output<T>();
   deleteOneClick = output<T>();

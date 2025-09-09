@@ -37,9 +37,7 @@
   </ng-template>
 
   <ng-template #emptymessage>
-    <ng-container>
-      <ng-container *ngTemplateOutlet="empty"></ng-container>
-    </ng-container>
+    <ng-container *ngTemplateOutlet="empty"></ng-container>
   </ng-template>
 </p-table>
 
@@ -98,29 +96,4 @@
       Nenhum registro encontrado.
     </td>
   </tr>
-
-  <ng-template #loading>
-    @for (skeletonIdx of [0, 1, 2, 3, 4]; track skeletonIdx) {
-      <tr>
-        @for (column of columns(); track $index) {
-          <td>
-            <p-skeleton
-              width="100%"
-              height="1.5rem"
-              style="margin: 0.25rem 0"
-              borderRadius="4px"
-            ></p-skeleton>
-          </td>
-        }
-        <td>
-          <p-skeleton
-            width="4rem"
-            height="1.5rem"
-            style="margin: 0.25rem 0"
-            borderRadius="4px"
-          ></p-skeleton>
-        </td>
-      </tr>
-    }
-  </ng-template>
 </ng-template>
