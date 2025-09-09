@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EntityScan("br.edu.utfpr.dainf.model")
 public class DainfApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DainfApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DainfApplication.class, args);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

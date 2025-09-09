@@ -6,14 +6,10 @@ import br.edu.utfpr.dainf.security.JwtService;
 import br.edu.utfpr.dainf.service.AuthService;
 import br.edu.utfpr.dainf.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,6 +92,9 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    public record ResetPassword(String token, String newPassword) {}
-    public record AuthRequest(String email, String password, boolean rememberMe) {}
+    public record ResetPassword(String token, String newPassword) {
+    }
+
+    public record AuthRequest(String email, String password, boolean rememberMe) {
+    }
 }

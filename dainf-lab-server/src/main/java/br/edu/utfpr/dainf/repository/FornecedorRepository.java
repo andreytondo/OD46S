@@ -7,5 +7,5 @@ import br.edu.utfpr.dainf.spec.FornecedorSpecExecutor;
 import java.util.List;
 
 public interface FornecedorRepository extends CrudRepository<Long, Fornecedor>, FornecedorSpecExecutor {
-    List<Fornecedor> findByNomeFantasiaLikeIgnoreCase (String query);
+    List<Fornecedor> findByNomeFantasiaLikeIgnoreCase(String query);
 }

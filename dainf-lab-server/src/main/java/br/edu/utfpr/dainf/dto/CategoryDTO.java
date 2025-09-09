@@ -1,8 +1,6 @@
 package br.edu.utfpr.dainf.dto;
 
 import br.edu.utfpr.dainf.model.Subcategory;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

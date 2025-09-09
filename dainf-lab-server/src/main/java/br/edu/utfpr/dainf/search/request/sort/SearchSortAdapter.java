@@ -14,6 +14,7 @@ public class SearchSortAdapter {
     /**
      * Provides a default sort method. Curretly unsorted.
      * Could provide a default sort by id if needed.
+     *
      * @return Sort object - unsorted
      */
     public static Sort defaultSort() {

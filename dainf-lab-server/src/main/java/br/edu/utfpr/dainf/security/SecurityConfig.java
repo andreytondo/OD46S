@@ -83,7 +83,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT"));
-        configuration.setAllowedHeaders(List.of("Authorization","x-xsrf-token",
+        configuration.setAllowedHeaders(List.of("Authorization", "x-xsrf-token",
                 "Access-Control-Allow-Headers", "Origin",
                 "Accept", "X-Requested-With", "Content-Type",
                 "Access-Control-Request-Method",

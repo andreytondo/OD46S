@@ -30,7 +30,8 @@ public class AuthService {
 
     public AuthResponse refresh(String refreshToken) {
         if (!jwtService.isRefreshTokenValid(refreshToken)) {
-            throw new AuthenticationException("Invalid refresh token") {};
+            throw new AuthenticationException("Invalid refresh token") {
+            };
         }
         String email = jwtService.extractRefreshTokenSubject(refreshToken);
         String newToken = jwtService.generateToken(email);

@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.model;
 
-import br.edu.utfpr.dainf.dto.UserSignupDTO;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -16,8 +15,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "app_user")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User implements UserDetails, Identifiable<Long> {
     @Id

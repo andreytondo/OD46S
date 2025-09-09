@@ -1,9 +1,7 @@
 package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.FornecedorDTO;
-import br.edu.utfpr.dainf.dto.UserDTO;
 import br.edu.utfpr.dainf.model.Fornecedor;
-import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.repository.FornecedorRepository;
 import br.edu.utfpr.dainf.service.FornecedorService;
 import br.edu.utfpr.dainf.shared.CrudController;

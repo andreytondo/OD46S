@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("subcategories")
 public class SubcategoryController extends CrudController<Long, Subcategory, SubcategoryDTO, SubcategoryRepository, SubcategoryService> {
-    public SubcategoryController() {super(Subcategory.class, SubcategoryDTO.class);
+    public SubcategoryController() {
+        super(Subcategory.class, SubcategoryDTO.class);
     }
 
     @Override

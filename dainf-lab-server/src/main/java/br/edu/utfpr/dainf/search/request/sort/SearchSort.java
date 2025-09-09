@@ -11,10 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SearchSort {
 
+    private String field;
+    private Type type;
     public enum Type {
         ASC, DESC
     }
-
-    private String field;
-    private Type type;
 }

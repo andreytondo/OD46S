@@ -10,8 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ApplicationTest
 @AutoConfigureMockMvc
@@ -27,11 +28,11 @@ public class AuthTest {
     public void loginComCredenciaisCorretas() throws Exception {
         createUser();
         String json = """
-            {
-                "email": "admin@utfpr.edu.br",
-                "password": "Teste123456!"
-            }
-            """;
+                {
+                    "email": "admin@utfpr.edu.br",
+                    "password": "Teste123456!"
+                }
+                """;
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -42,11 +43,11 @@ public class AuthTest {
     @Test
     public void loginComCredenciaisErradas() throws Exception {
         String json = """
-            {
-                "email": "admin@utfpr.edu.br",
-                "password": "senhaErrada"
-            }
-            """;
+                {
+                    "email": "admin@utfpr.edu.br",
+                    "password": "senhaErrada"
+                }
+                """;
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))

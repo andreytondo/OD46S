@@ -52,19 +52,19 @@ public class JwtService {
 
     private String buildJWT(String email, String key, long expiration) {
         return Jwts.builder()
-            .setSubject(email)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + expiration))
-            .signWith(SignatureAlgorithm.HS256, key)
-            .compact();
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(SignatureAlgorithm.HS256, key)
+                .compact();
     }
 
     private boolean isJwtValid(String token, String key) {
         try {
             Claims claims = Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(token)
-                .getBody();
+                    .setSigningKey(key)
+                    .parseClaimsJws(token)
+                    .getBody();
 
             if (claims.getSubject() == null) return false;
             return claims.getExpiration().after(new Date());
@@ -75,8 +75,8 @@ public class JwtService {
 
     private Claims extractAllClaims(String token, String key) {
         return Jwts.parser()
-            .setSigningKey(key)
-            .parseClaimsJws(token)
-            .getBody();
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CidadeRepository extends CrudRepository<Long, Cidade>, CidadeSpecExecutor {
     List<Cidade> findByNomeLikeIgnoreCase(String query);
+
     List<Cidade> findAllByEstado(UnidadeFederativa estado);
+
     List<Cidade> findByNomeLikeIgnoreCaseAndEstado(String query, UnidadeFederativa estado);
 }

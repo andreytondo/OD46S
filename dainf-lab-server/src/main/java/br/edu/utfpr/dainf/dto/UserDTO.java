@@ -3,7 +3,6 @@ package br.edu.utfpr.dainf.dto;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import br.edu.utfpr.dainf.validator.ValidUser;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @ValidUser
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO implements Identifiable<Long> {

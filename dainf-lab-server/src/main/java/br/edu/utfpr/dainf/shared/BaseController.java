@@ -12,11 +12,12 @@ import java.util.stream.Collectors;
 
 /**
  * Abstract class that defines the basic operations for a controller.
+ *
  * @param <ID>
  * @param <E>
  * @param <D>
  */
-public abstract class BaseController<ID extends Serializable, E  extends Identifiable<ID>, D> {
+public abstract class BaseController<ID extends Serializable, E extends Identifiable<ID>, D> {
 
     private final DTOUtils<ID, E, D> dtoUtils;
 
@@ -45,5 +46,6 @@ public abstract class BaseController<ID extends Serializable, E  extends Identif
         return new PagedModel<>(new PageImpl<>(dtoList, pageable, page.getTotalElements()));
     }
 
-    public void customizeMapping() {}
+    public void customizeMapping() {
+    }
 }

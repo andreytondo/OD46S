@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.io.Serializable;
 import java.util.Optional;
 
-public abstract class CrudService<ID extends Serializable, E  extends Identifiable<ID>, R extends CrudRepository<ID, E>> {
+public abstract class CrudService<ID extends Serializable, E extends Identifiable<ID>, R extends CrudRepository<ID, E>> {
 
     @Autowired
     protected R repository;

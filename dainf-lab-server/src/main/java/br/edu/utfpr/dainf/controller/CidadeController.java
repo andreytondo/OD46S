@@ -1,9 +1,7 @@
 package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.CidadeDTO;
-import br.edu.utfpr.dainf.dto.UserDTO;
 import br.edu.utfpr.dainf.model.Cidade;
-import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.repository.CidadeRepository;
 import br.edu.utfpr.dainf.service.CidadeService;
 import br.edu.utfpr.dainf.shared.CrudController;

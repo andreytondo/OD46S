@@ -72,7 +72,7 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         UserRecovery recovery = userRecoveryRepository.findByResetToken(token).orElseThrow(()
                 -> new UsernameNotFoundException("Invalid token"));
 
-        if(recovery.getTokenExpirationDate().isBefore(LocalDateTime.now())) {
+        if (recovery.getTokenExpirationDate().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Token expired");
         } else {
             user = recovery.getUser();

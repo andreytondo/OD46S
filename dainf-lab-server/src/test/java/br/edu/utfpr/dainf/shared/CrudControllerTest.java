@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.*;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ApplicationTest
 @AutoConfigureMockMvc
@@ -29,9 +29,13 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
     protected Long lastCreatedId;
 
     protected abstract String getURL();
+
     protected abstract D createValidObject();
+
     protected abstract D createInvalidObject();
+
     protected abstract void onBeforeUpdate(D dto);
+
     protected abstract RequestPostProcessor auth();
 
     @Test

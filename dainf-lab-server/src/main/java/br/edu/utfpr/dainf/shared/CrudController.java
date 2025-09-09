@@ -4,7 +4,6 @@ import br.edu.utfpr.dainf.search.SearchHandler;
 import br.edu.utfpr.dainf.search.request.SearchRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,12 @@ import java.io.Serializable;
 
 /**
  * Abstract class that defines the basic CRUD operations for a controller.
+ *
  * @param <ID> ID type
- * @param <E> Entity type
- * @param <D> DTO type
+ * @param <E>  Entity type
+ * @param <D>  DTO type
  */
-public abstract class CrudController<ID extends Serializable, E extends Identifiable<ID>, D, R  extends CrudRepository<ID, E>, S extends CrudService<ID, E, R>> extends BaseController<ID, E, D> {
+public abstract class CrudController<ID extends Serializable, E extends Identifiable<ID>, D, R extends CrudRepository<ID, E>, S extends CrudService<ID, E, R>> extends BaseController<ID, E, D> {
 
     @Autowired
     protected S service;

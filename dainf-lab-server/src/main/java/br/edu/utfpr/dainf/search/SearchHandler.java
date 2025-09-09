@@ -26,6 +26,10 @@ public class SearchHandler<ID extends Serializable, E extends Identifiable<ID>> 
         this.executor = executor;
     }
 
+    public static Pageable getPageable(SearchRequest searchRequest) {
+        return PageRequest.of(searchRequest.getPage(), searchRequest.getRows(), SearchSortAdapter.adapt(searchRequest.getSort()));
+    }
+
     public Page<E> handle(SearchRequest searchRequest) {
         List<Specification<E>> specifications = createSpecifications(searchRequest.getFilters());
         Pageable pageable = getPageable(searchRequest);
@@ -33,10 +37,6 @@ public class SearchHandler<ID extends Serializable, E extends Identifiable<ID>> 
                 Specification.where(specifications.stream().reduce(Specification::and).orElse(null)),
                 pageable
         );
-    }
-
-    public static Pageable getPageable(SearchRequest searchRequest) {
-        return PageRequest.of(searchRequest.getPage(), searchRequest.getRows(), SearchSortAdapter.adapt(searchRequest.getSort()));
     }
 
     List<Specification<E>> createSpecifications(List<SearchFilter> filters) {
