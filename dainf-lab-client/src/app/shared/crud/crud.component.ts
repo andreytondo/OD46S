@@ -74,6 +74,12 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   exportCSV() {}
 
   save() {
+    if (this.form()?.invalid) {
+      this.form()!.markAllAsTouched();
+      this.form()!.markAllAsDirty();
+      return;
+    }
+
     const item: T = this.form()?.getRawValue();
     this._save(item)
       ?.pipe(

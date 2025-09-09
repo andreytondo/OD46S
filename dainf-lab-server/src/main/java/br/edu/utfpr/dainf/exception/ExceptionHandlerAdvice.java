@@ -52,4 +52,12 @@ public class ExceptionHandlerAdvice {
         errors.put("message", exception.getMessage());
         return new WarnMessage(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), request.getServletPath(), errors);
     }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public WarnMessage handlerException(Exception exception, HttpServletRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", exception.getMessage());
+        return new WarnMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage(), request.getServletPath(), errors);
+    }
 }

@@ -19,7 +19,7 @@ export class AuthService extends BaseService {
   }
 
   refresh(): Observable<AuthResponse> {
-    return this._http.post<AuthResponse>(`${this.apiUrl}/auth/refresh`, {}, { withCredentials: true });
+    return this._http.post<AuthResponse>(`${this.apiUrl}/auth/refresh`, {});
   }
 
   signUp(request: SignUpRequest) {

@@ -4,28 +4,33 @@ import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export function authInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ) {
-  const authToken = inject(TokenService).getToken();
-
-  const authReq = authToken
-    ? req.clone({
-        setHeaders: { Authorization: `Bearer ${authToken}` },
-        withCredentials: true,
-      })
-    : req.clone({ withCredentials: true });
-
   const authService = inject(AuthService);
   const tokenService = inject(TokenService);
+  const authToken = tokenService.getToken();
+
+  const authReq =
+    authToken && isAPICall(req.url)
+      ? req.clone({
+          setHeaders: { Authorization: `Bearer ${authToken}` },
+          withCredentials: true,
+        })
+      : req.clone({ withCredentials: false });
 
   return next(authReq).pipe(
     catchError((error) =>
       handleRefresh(req, next, error, authService, tokenService),
     ),
   );
+}
+
+function isAPICall(path: string) {
+  return path.includes(environment.apiUrl);
 }
 
 function handleRefresh(
