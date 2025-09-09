@@ -1,6 +1,6 @@
 import { Page } from '@/shared/models/search';
 import { CommonModule } from '@angular/common';
-import { Component, input, output, TemplateRef } from '@angular/core';
+import { Component, input, output, TemplateRef, viewChild } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -14,6 +14,9 @@ import { Column, CrudConfig, Identifiable } from '../crud';
   imports: [CommonModule, TableModule, IconField, InputIcon, Button, Paginator],
 })
 export class CrudTableComponent<T extends Identifiable> {
+
+  table = viewChild(Table);
+
   columns = input<Column<T>[]>([]);
   config = input<CrudConfig<T>>();
   globalFilterFields = input<string[]>([]);
@@ -45,5 +48,9 @@ export class CrudTableComponent<T extends Identifiable> {
 
   deleteOne(row: T) {
     this.deleteOneClick.emit(row);
+  }
+
+  export() {
+    this.table()!.exportCSV();
   }
 }

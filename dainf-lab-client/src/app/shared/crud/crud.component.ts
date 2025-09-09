@@ -7,6 +7,7 @@ import {
   output,
   signal,
   TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -37,6 +38,9 @@ import { CrudTableComponent } from './table/crud-table.component';
   providers: [MessageService, ConfirmationService],
 })
 export class CrudComponent<T extends Identifiable> implements OnInit {
+
+  table = viewChild(CrudTableComponent);
+
   service = input.required<CrudService<T>>();
   columns = input<Column<T>[]>([]);
   config = input<CrudConfig<T>>();
@@ -83,7 +87,9 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.dialogVisible.set(true);
   }
 
-  exportCSV() {}
+  export() {
+    this.table()?.export();
+  }
 
   save() {
     if (this.form()?.invalid) {
