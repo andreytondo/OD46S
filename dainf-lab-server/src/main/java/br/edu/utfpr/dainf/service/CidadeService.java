@@ -4,6 +4,7 @@ import br.edu.utfpr.dainf.enums.UnidadeFederativa;
 import br.edu.utfpr.dainf.model.Cidade;
 import br.edu.utfpr.dainf.repository.CidadeRepository;
 import br.edu.utfpr.dainf.shared.CrudService;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,5 +17,10 @@ public class CidadeService extends CrudService<Long, Cidade, CidadeRepository> {
         } else {
             return this.repository.findByNomeLikeIgnoreCaseAndEstado("%" + query + "%", estado);
         }
+    }
+
+    @Override
+    public JpaSpecificationExecutor<Cidade> getSpecExecutor() {
+        return repository;
     }
 }

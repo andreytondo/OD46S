@@ -15,6 +15,7 @@ export type SearchFilterType =
   | 'EQUALS'
   | 'NOT_EQUALS'
   | 'LIKE'
+  | 'ILIKE'
   | 'NOT_LIKE'
   | 'GREATER'
   | 'LESS'

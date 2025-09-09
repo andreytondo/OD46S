@@ -67,4 +67,6 @@ public class Fornecedor implements Identifiable<Long> {
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O campo 'Estado' deve ser selecionado.")
     private UnidadeFederativa estado;
+
+    private String cep;
 }

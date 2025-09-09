@@ -19,10 +19,13 @@ import { catchError, debounceTime, of, switchMap, tap } from 'rxjs';
 import { CEPResult, CEPService } from '@/shared/services/cep.service';
 import { SelectModule } from 'primeng/select';
 import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-select.component";
+import { CidadeSelectComponent } from "@/shared/components/cidade-select/cidade-select.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CrudComponent,
@@ -30,7 +33,8 @@ import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-
     InputTextModule,
     TextareaModule,
     SelectModule,
-    EstadoSelectComponent
+    EstadoSelectComponent,
+    CidadeSelectComponent
 ],
   selector: 'app-fornecedor',
   templateUrl: './fornecedor.component.html',

@@ -26,6 +26,7 @@ public class SearchFilterAdapter implements Specification {
             case EQUALS -> cb.equal(field, value);
             case NOT_EQUALS -> cb.notEqual(field, value);
             case LIKE -> cb.like(field, "%" + value + "%");
+            case ILIKE -> cb.like(cb.upper(field), "%" + ((String) value).toUpperCase() + "%");
             case NOT_LIKE -> cb.notLike(field, "%" + value + "%");
             case GREATER -> cb.greaterThan(field, value.toString());
             case LESS -> cb.lessThan(field, value.toString());
