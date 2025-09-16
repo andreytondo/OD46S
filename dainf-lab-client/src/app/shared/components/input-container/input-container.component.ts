@@ -9,7 +9,7 @@ import { NgControl } from '@angular/forms';
   template: `
     <div class="flex flex-col gap-1">
       <label class="block font-bold">
-        {{ label() }}
+        {{ label() || '&#8203;' }}
         @if (required()) {
           <span class="text-red-500">*</span>
         }
