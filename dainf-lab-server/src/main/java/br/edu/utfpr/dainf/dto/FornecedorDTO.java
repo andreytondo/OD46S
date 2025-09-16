@@ -34,7 +34,6 @@ public class FornecedorDTO implements Identifiable<Long> {
     @CNPJ(message = "O CNPJ informado é inválido")
     private String cnpj;
 
-    @NotEmpty(message = "O campo 'Inscrição Estadual' é de preenchimento obrigatório.")
     @Size(max = 14, message = "O campo 'Inscrição Estadual' deve ter no máximo 14 caracteres.")
     private String ie;
 

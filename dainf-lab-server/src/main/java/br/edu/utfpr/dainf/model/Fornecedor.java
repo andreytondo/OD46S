@@ -37,8 +37,7 @@ public class Fornecedor implements Identifiable<Long> {
     @Column(name = "cnpj", length = 14, nullable = false)
     private String cnpj;
 
-    @NotEmpty(message = "O campo 'Inscrição Estadual' é de preenchimento obrigatório.")
-    @Column(name = "ie", length = 14, nullable = false)
+    @Column(name = "ie", length = 14)
     private String ie;
 
     @NotEmpty(message = "O campo 'Endereco' é de preenchimento obrigatório.")

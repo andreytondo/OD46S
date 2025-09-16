@@ -27,6 +27,7 @@ import { Observable, take, tap } from 'rxjs';
   ],
   template: `
     <p-autocomplete
+      class="w-full"
       [(ngModel)]="value"
       [virtualScroll]="true"
       [suggestions]="suggestions()"
@@ -36,6 +37,7 @@ import { Observable, take, tap } from 'rxjs';
       [optionLabel]="optionLabel()"
       [placeholder]="placeholder()"
       (onSelect)="handleChange($event)"
+      appendTo="body"
     />
   `,
 })

@@ -26,7 +26,7 @@ public class ItemDTO implements Identifiable<Long> {
 
     private String description;
 
-    private BigDecimal value;
+    private BigDecimal price;
 
     private CategoryDTO category;
 

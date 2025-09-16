@@ -15,5 +15,33 @@
     >
       <input type="text" pInputText id="id" formControlName="id" fluid />
     </app-input-container>
+
+    <!-- name: [null],
+    description: [null],
+    price: [null],
+    category: [null],
+    assets: [null], -->
+
+    <app-input-container label="Nome" class="col-span-12 md:col-span-6">
+      <input type="text" pInputText id="name" formControlName="name" fluid />
+    </app-input-container>
+
+    <app-input-container label="Nome" class="col-span-12 md:col-span-6">
+      <input
+        type="text"
+        pInputText
+        id="description"
+        formControlName="description"
+        fluid
+      />
+    </app-input-container>
+
+    <app-input-container label="Categoria" class="col-span-12 md:col-span-6">
+      <app-search-select
+        optionLabel="description"
+        [service]="categoryService"
+        formControlName="category"
+      ></app-search-select>
+    </app-input-container>
   </form>
 </ng-template>

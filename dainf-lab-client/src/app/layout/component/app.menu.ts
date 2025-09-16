@@ -46,7 +46,7 @@ export class AppMenu {
       {
         label: 'Cadastros',
         items: [
-          { label: 'Itens', icon: 'pi pi-box' },
+          { label: 'Itens', icon: 'pi pi-box', routerLink: '/pages/item' },
           { label: 'Categorias', icon: 'pi pi-list', routerLink: '/pages/category' },
           { label: 'Fornecedores', icon: 'pi pi-truck', routerLink: '/pages/fornecedores' },
           { label: 'Usuários', icon: 'pi pi-users', routerLink: '/pages/user' }

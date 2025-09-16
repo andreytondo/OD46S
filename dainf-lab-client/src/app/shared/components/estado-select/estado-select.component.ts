@@ -21,6 +21,7 @@ import { SelectModule } from 'primeng/select';
   ],
   template: `
     <p-select
+      class="w-full"
       [options]="estados"
       [(ngModel)]="value"
       (onChange)="onChange($event.value)"
