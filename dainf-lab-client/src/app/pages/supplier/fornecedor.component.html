@@ -98,7 +98,12 @@
     </app-input-container>
 
     <app-input-container label="Cidade" class="col-span-12 md:col-span-6">
-      <app-cidade-select formControlName="cidade" />
+      <app-search-select
+        formControlName="cidade"
+        optionLabel="nome"
+        [service]="cidadeService"
+        placeholder="Selecione uma cidade"
+      />
     </app-input-container>
 
     <app-input-container label="Observações" class="col-span-12">

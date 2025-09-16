@@ -13,12 +13,13 @@ import { CrudComponent } from '@/shared/crud/crud.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
-import { CidadeSelectComponent } from "@/shared/components/cidade-select/cidade-select.component";
 import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-select.component";
+import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
 import { CEPResult, CEPService } from '@/shared/services/cep.service';
 import { CommonModule } from '@angular/common';
 import { SelectModule } from 'primeng/select';
 import { debounceTime, switchMap, tap } from 'rxjs';
+import { CidadeService } from '../cidade/cidade.service';
 import { Fornecedor } from './fornecedor';
 import { FornecedorService } from './fornecedor.service';
 
@@ -34,7 +35,7 @@ import { FornecedorService } from './fornecedor.service';
     TextareaModule,
     SelectModule,
     EstadoSelectComponent,
-    CidadeSelectComponent
+    SearchSelectComponent
 ],
   selector: 'app-fornecedor',
   templateUrl: './fornecedor.component.html',
@@ -43,6 +44,7 @@ export class FornecedorComponent implements OnInit {
   fornecedorService = inject(FornecedorService);
   cepService = inject(CEPService);
   formBuilder = inject(FormBuilder);
+  cidadeService = inject(CidadeService);
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
