@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.dto;
 
-import br.edu.utfpr.dainf.model.Subcategory;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,5 +20,7 @@ public class CategoryDTO implements Identifiable<Long> {
     @NotNull(message = "O nome da categoria não pode ser nulo")
     private String description;
 
-    private List<Subcategory> subcategories;
+    private String icon;
+
+    private List<CategoryDTO> subcategories;
 }

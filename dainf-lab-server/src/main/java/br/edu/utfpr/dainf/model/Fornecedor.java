@@ -46,7 +46,7 @@ public class Fornecedor implements Identifiable<Long> {
     private String endereco;
 
     @Column(name = "observacao", length = 2000)
-    private String observacao;
+    private String observacao;  
 
     @NotEmpty(message = "O campo 'Email' é de preenchimento obrigatório.")
     @Column(name = "email")

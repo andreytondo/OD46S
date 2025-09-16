@@ -3,29 +3,29 @@ package br.edu.utfpr.dainf.model;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "subcategory")
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Subcategory implements Identifiable<Long> {
+@Table(name = "asset")
+public class Asset implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "A descrição da subcategoria não pode ser nula")
-    private String description;
-
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    private Item item;
+
+    private String location;
+
+    private String identifier;
 }

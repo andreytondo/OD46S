@@ -15,11 +15,4 @@ public class CategoryController extends CrudController<Long, Category, CategoryD
     public CategoryController() {
         super(Category.class, CategoryDTO.class);
     }
-
-    @Override
-    public CategoryDTO toDto(Category entity) {
-        entity.setDescription(entity.getDescription());
-        entity.setSubcategories(entity.getSubcategories());
-        return super.toDto(entity);
-    }
 }
