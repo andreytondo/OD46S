@@ -38,14 +38,14 @@ class UserValidatorTest {
     void setUp() {
         user = mock(UserDTO.class);
         lenient().when(user.getId()).thenReturn(1L);
-        lenient().when(user.getEmail()).thenReturn("testuser@mail.com");
+        lenient().when(user.getEmail()).thenReturn("admin@utfpr.edu.br");
         lenient().doNothing().when(userValidator).handleMessage(any(), any(), any());
     }
 
     @Test
     @DisplayName("Should return true when user is valid")
     void testIsValid_withValidUser() {
-        when(repository.findByEmail("testuser@mail.com")).thenReturn(null);
+        when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.empty());
         assertTrue(userValidator.isValid(user, context));
     }
 
@@ -62,7 +62,7 @@ class UserValidatorTest {
                 "teste",
                 true
         );
-        when(repository.findByEmail("testuser@mail.com")).thenReturn(Optional.of(existingUser));
+        when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.of(existingUser));
         assertFalse(userValidator.isValid(user, context));
     }
 
@@ -70,7 +70,7 @@ class UserValidatorTest {
     @DisplayName("Should return true when username is unique and user is being updated")
     void testIsValid_withUniqueUsernameUpdate() {
         User existingUser = new User(
-                null,
+                1L,
                 "admin@utfpr.edu.br",
                 "Teste123456!",
                 "Teste",
@@ -79,7 +79,7 @@ class UserValidatorTest {
                 "teste",
                 true
         );
-        when(repository.findByEmail("testuser@mail.com")).thenReturn(Optional.of(existingUser));
+        when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.of(existingUser));
         assertTrue(userValidator.isValid(user, context));
     }
 
