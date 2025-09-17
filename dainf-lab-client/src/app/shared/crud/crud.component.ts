@@ -46,6 +46,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   config = input<CrudConfig<T>>();
   globalFilterFields = input<string[]>([]);
   form = input<FormGroup>();
+  searchRequest = input<SearchRequest>()
 
   templateMap = input<Map<string, TemplateRef<any>>>(new Map());
   actionsTemplate = input<TemplateRef<any>>();
@@ -67,9 +68,9 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.loadItems();
   }
 
-  loadItems(event?: { page: number; size: number }) {
+  loadItems() {
     this.loadingItems.set(true);
-    this._loadItems()
+    this._loadItems(this.searchRequest())
       .pipe(
         tap((result) => {
           this.items.set(result);

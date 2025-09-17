@@ -33,7 +33,6 @@ export class CrudTableComponent<T extends Identifiable> {
   }
 
   onPage(event: PaginatorState) {
-    console.log(event)
     this.pageChange.emit({ page: event.first! / event.rows!, size: event.rows! });
   }
 

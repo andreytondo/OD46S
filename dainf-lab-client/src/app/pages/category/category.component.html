@@ -5,9 +5,7 @@
   [config]="config"
   [form]="form"
   [formTemplate]="crudForm"
-  (cancelClick)="clear()"
-  (saveClick)="clear()"
-  (entityLoad)="addSubcategories($event)"
+  [searchRequest]="searchRequest"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -39,41 +37,41 @@
       <app-icon-select formControlName="icone"></app-icon-select>
     </app-input-container>
 
-    <div class="col-span-12 mt-2">
-      <button
-        type="button"
-        (click)="addSubcategory()"
-        class="p-button p-component"
+    <p-fieldset legend="Subcategorias" class="col-span-12">
+      <app-subitem-form
+        formControlName="subcategories"
+        [form]="subcategoryForm"
+        [columns]="cols"
       >
-        Adicionar Subcategoria
-      </button>
-    </div>
+        <ng-template #formTemplate>
+          <ng-container
+            *ngTemplateOutlet="subcategoryFormTemplate"
+          ></ng-container>
+        </ng-template>
+      </app-subitem-form>
+    </p-fieldset>
+  </form>
+</ng-template>
 
-    <div formArrayName="subcategories" class="col-span-12 mt-4 grid gap-2">
-      <div
-        *ngFor="let sub of subcategories.controls; let i = index"
-        [formGroupName]="i"
-        class="grid grid-cols-12 gap-2 items-center"
-      >
-        <app-input-container label="Código" class="col-span-12 md:col-span-2">
-          <input type="text" pInputText formControlName="id" fluid />
-        </app-input-container>
+<ng-template #subcategoryFormTemplate>
+  <form [formGroup]="subcategoryForm" class="grid grid-cols-12 gap-4">
+    <app-input-container
+      label="Descrição"
+      class="col-span-12 md:col-span-6 lg:col-span-6"
+    >
+      <input
+        type="text"
+        pInputText
+        id="description2"
+        formControlName="description"
+      />
+    </app-input-container>
 
-        <app-input-container
-          label="Descrição"
-          class="col-span-12 md:col-span-8"
-        >
-          <input type="text" pInputText formControlName="description" fluid />
-        </app-input-container>
-
-        <button
-          type="button"
-          (click)="removeSubcategory(i)"
-          class="col-span-12 md:col-span-2"
-        >
-          Remover
-        </button>
-      </div>
-    </div>
+    <app-input-container
+      label="Ícone"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <app-icon-select formControlName="icone"></app-icon-select>
+    </app-input-container>
   </form>
 </ng-template>

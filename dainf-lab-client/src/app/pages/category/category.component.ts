@@ -1,18 +1,20 @@
-import { IconSelectComponent } from "@/shared/components/icon-select/icon-select.component";
+import { IconSelectComponent } from '@/shared/components/icon-select/icon-select.component';
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
+import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
+import { SearchRequest } from './../../shared/models/search';
 import { Category } from './category';
 import { CategoryService } from './category.service';
 
@@ -25,8 +27,10 @@ import { CategoryService } from './category.service';
     InputTextModule,
     InputContainerComponent,
     CommonModule,
-    IconSelectComponent
-],
+    IconSelectComponent,
+    SubItemFormComponent,
+    FieldsetModule
+  ],
   selector: 'app-category',
   templateUrl: 'category.component.html',
   providers: [CategoryService],
@@ -34,10 +38,22 @@ import { CategoryService } from './category.service';
 export class CategoryComponent {
   categoryService = inject(CategoryService);
   formBuilder = inject(FormBuilder);
+
+  searchRequest: SearchRequest = {
+    filters: [{field: 'parent', type: 'IS_NULL'}]
+  }
+
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     description: [null, Validators.required],
-    subcategories: this.formBuilder.array([]),
+    icone: [null],
+    subcategories: [],
+  });
+
+  subcategoryForm: FormGroup = this.formBuilder.group({
+    id: [{ value: null, disabled: true }],
+    description: [null, Validators.required],
+    icone: [null],
   });
 
   cols: Column<Category>[] = [{ field: 'description', header: 'Descrição' }];
@@ -45,35 +61,4 @@ export class CategoryComponent {
   config: CrudConfig<Category> = {
     title: 'Categorias',
   };
-
-  get subcategories() {
-    return this.form.get('subcategories') as FormArray;
-  }
-
-  addSubcategory(subcategory?: Category) {
-    const subForm = this.formBuilder.group({
-      id: [{ value: null as number | null, disabled: true }],
-      description: [null as string | null, Validators.required],
-    });
-    if (subcategory) {
-      subForm.patchValue(subcategory);
-    }
-    this.subcategories.push(subForm);
-  }
-
-  removeSubcategory(index: number) {
-    this.subcategories.removeAt(index);
-  }
-
-  addSubcategories(item: Category) {
-    this.subcategories.clear();
-    if (item.subcategories) {
-      item.subcategories.forEach((sub) => this.addSubcategory(sub));
-    }
-  }
-
-  clear() {
-    this.form.reset();
-    this.subcategories.clear();
-  }
 }

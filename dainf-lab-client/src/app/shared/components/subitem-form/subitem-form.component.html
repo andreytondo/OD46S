@@ -1,0 +1,65 @@
+@if (formTemplate()) {
+  <div>
+    <ng-container *ngTemplateOutlet="formTemplate()"></ng-container>
+
+    <ng-container>
+      <div class="flex justify-end col-span-12">
+        @if (editing()) {
+          <p-button
+            icon="pi pi-pencil"
+            label="Salvar"
+            severity="info"
+            (click)="save()"
+          />
+        } @else {
+          <p-button
+            icon="pi pi-plus"
+            label="Adicionar"
+            severity="success"
+            (click)="save()"
+          />
+        }
+      </div>
+    </ng-container>
+  </div>
+}
+
+<p-table [value]="items()" [columns]="columns()" [rowHover]="true" dataKey="id">
+  <ng-template #header>
+    <tr>
+      @for (column of columns(); track $index) {
+        <th [style.width]="column.width">{{ column.header }}</th>
+      }
+      <th style="width: 12rem">Ações</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-row let-rowIndex="rowIndex">
+    <tr>
+      @for (column of columns(); track $index) {
+        <td>{{ getValue(row, column.field) }}</td>
+      }
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          class="mr-2"
+          severity="secondary"
+          (click)="edit(rowIndex)"
+        />
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          (click)="remove(rowIndex)"
+        />
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td [attr.colspan]="(columns()!.length || 0) + 1" class="text-center">
+        Nenhum registro encontrado.
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

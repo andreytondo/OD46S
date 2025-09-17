@@ -1,8 +1,8 @@
 export interface SearchRequest {
   filters?: SearchFilter[];
   sort?: SearchSort;
-  page: number;
-  rows: number;
+  page?: number;
+  rows?: number;
 }
 
 export interface SearchFilter {
