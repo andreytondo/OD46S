@@ -37,11 +37,7 @@
     </app-input-container>
 
     <app-input-container label="Categoria" class="col-span-12 md:col-span-6">
-      <app-search-select
-        optionLabel="description"
-        [service]="categoryService"
-        formControlName="category"
-      ></app-search-select>
+      <app-category-select formControlName="category"></app-category-select>
     </app-input-container>
   </form>
 </ng-template>

@@ -1,5 +1,5 @@
+import { CategorySelectComponent } from "@/shared/components/category-select/category-select.component";
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
-import { SearchSelectComponent } from "@/shared/components/search-select/search-select.component";
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,7 @@ import { ItemService } from './item.service';
     InputTextModule,
     InputContainerComponent,
     CrudComponent,
-    SearchSelectComponent
+    CategorySelectComponent
 ],
   providers: [ItemService, CategoryService],
   selector: 'app-item',

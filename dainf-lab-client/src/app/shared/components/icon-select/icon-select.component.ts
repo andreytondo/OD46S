@@ -21,6 +21,7 @@ import { SelectModule } from 'primeng/select';
   ],
   template: `
     <p-select
+      class="w-full"
       [options]="icons"
       [(ngModel)]="value"
       optionLabel="label"

@@ -21,7 +21,7 @@
 
     <app-input-container
       label="Descrição"
-      class="col-span-12 md:col-span-6 lg:col-span-9"
+      class="col-span-12 md:col-span-6 lg:col-span-6"
     >
       <input
         type="text"
@@ -30,6 +30,13 @@
         formControlName="description"
         fluid
       />
+    </app-input-container>
+
+    <app-input-container
+      label="Ícone"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <app-icon-select formControlName="icone"></app-icon-select>
     </app-input-container>
 
     <div class="col-span-12 mt-2">

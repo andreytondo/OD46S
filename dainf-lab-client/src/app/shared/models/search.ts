@@ -7,7 +7,7 @@ export interface SearchRequest {
 
 export interface SearchFilter {
   field: string;
-  value: any; // pode ser string, number, boolean, array...
+  value?: any; // pode ser string, number, boolean, array...
   type: SearchFilterType;
 }
 

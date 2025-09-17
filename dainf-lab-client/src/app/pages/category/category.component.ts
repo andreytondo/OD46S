@@ -1,3 +1,4 @@
+import { IconSelectComponent } from "@/shared/components/icon-select/icon-select.component";
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
@@ -14,7 +15,6 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { Category } from './category';
 import { CategoryService } from './category.service';
-import { Subcategory } from './subcategory';
 
 @Component({
   standalone: true,
@@ -25,7 +25,8 @@ import { Subcategory } from './subcategory';
     InputTextModule,
     InputContainerComponent,
     CommonModule,
-  ],
+    IconSelectComponent
+],
   selector: 'app-category',
   templateUrl: 'category.component.html',
   providers: [CategoryService],
@@ -49,7 +50,7 @@ export class CategoryComponent {
     return this.form.get('subcategories') as FormArray;
   }
 
-  addSubcategory(subcategory?: Subcategory) {
+  addSubcategory(subcategory?: Category) {
     const subForm = this.formBuilder.group({
       id: [{ value: null as number | null, disabled: true }],
       description: [null as string | null, Validators.required],
