@@ -22,9 +22,12 @@ class ItemControllerTest extends CrudControllerTest<ItemDTO> {
 
     @Override
     protected ItemDTO createValidObject() {
-        AssetDTO asset1 = createAsset("asset1");
-        AssetDTO asset2 = createAsset("asset2");
-        return new ItemDTO(null, "Teste", "description", BigDecimal.TEN, null, List.of(asset1, asset2));
+        return ItemDTO.builder()
+                .name("Teste")
+                .description("Descrição")
+                .price(BigDecimal.TEN)
+                .assets(List.of(AssetDTO.builder().serialNumber("12345").build(), AssetDTO.builder().serialNumber("12345").build()))
+                .build();
     }
 
     @Override
@@ -45,11 +48,5 @@ class ItemControllerTest extends CrudControllerTest<ItemDTO> {
     @Override
     protected RequestPostProcessor auth() {
         return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
-    }
-
-    private AssetDTO createAsset(String identifier) {
-        AssetDTO asset = new AssetDTO();
-        asset.setIdentifier(identifier);
-        return asset;
     }
 }

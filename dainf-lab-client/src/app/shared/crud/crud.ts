@@ -2,7 +2,7 @@ export interface Column<T extends Identifiable> {
   field: keyof T | string;
   header: string;
   width?: string;
-  cellTemplateName?: string;
+  transform?: (row: T) => string;
 }
 
 export interface CrudConfig<T extends Identifiable> {

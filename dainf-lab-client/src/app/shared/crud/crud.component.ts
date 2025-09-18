@@ -48,7 +48,6 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   form = input<FormGroup>();
   searchRequest = input<SearchRequest>()
 
-  templateMap = input<Map<string, TemplateRef<any>>>(new Map());
   actionsTemplate = input<TemplateRef<any>>();
   formTemplate = input<TemplateRef<any>>();
 

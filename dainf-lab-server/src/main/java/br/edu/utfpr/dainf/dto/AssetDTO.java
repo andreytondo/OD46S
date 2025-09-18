@@ -1,16 +1,15 @@
 package br.edu.utfpr.dainf.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import br.edu.utfpr.dainf.enums.AssetStatus;
+import lombok.*;
 
+@Builder
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssetDTO {
     private Long id;
-    private ItemDTO item;
     private String location;
-    private String identifier;
+    private String serialNumber;
+    private AssetStatus status;
 }

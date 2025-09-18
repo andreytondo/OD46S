@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.model;
 
+import br.edu.utfpr.dainf.enums.ItemType;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -44,4 +45,13 @@ public class Item implements Identifiable<Long> {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asset> assets;
+
+    private String siorg;
+
+    private Double quantityAvailable;
+
+    private Double minimunStock;
+
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
 }

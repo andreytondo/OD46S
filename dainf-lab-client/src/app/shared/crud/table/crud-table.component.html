@@ -56,16 +56,7 @@
   <tr>
     @for (column of columns(); track $index) {
       <td>
-        @if (templateMap().get(column.cellTemplateName || "")) {
-          <ng-container
-            *ngTemplateOutlet="
-              templateMap().get(column.cellTemplateName || '');
-              context: { $implicit: row }
-            "
-          ></ng-container>
-        } @else {
-          {{ getValue(row, column.field) }}
-        }
+        {{ row | deepValue: column.field }}
       </td>
     }
     <td>

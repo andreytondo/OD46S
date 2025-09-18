@@ -1,3 +1,4 @@
+import { LabelValue } from '@/shared/models/label-value';
 import { UnidadeFederativa } from '@/shared/models/unidade-federativa';
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
@@ -7,11 +8,12 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { StaticSelectComponent } from '../static-select/static-select.component';
 
 @Component({
   selector: 'app-estado-select',
   standalone: true,
-  imports: [CommonModule, SelectModule, FormsModule],
+  imports: [CommonModule, SelectModule, FormsModule, StaticSelectComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -19,26 +21,13 @@ import { SelectModule } from 'primeng/select';
       multi: true,
     },
   ],
-  template: `
-    <p-select
-      class="w-full"
-      [options]="estados"
-      [(ngModel)]="value"
-      (onChange)="onChange($event.value)"
-      placeholder="Selecione um estado"
-      optionLabel="label"
-      optionValue="value"
-      [showClear]="true"
-      appendTo="body"
-    >
-    </p-select>
-  `,
+  template: `<app-static-select [options]="estados" />`,
 })
 export class EstadoSelectComponent implements ControlValueAccessor {
   value?: UnidadeFederativa;
   disabled = false;
 
-  estados: { label: string; value: UnidadeFederativa }[] = [
+  estados: LabelValue<UnidadeFederativa>[] = [
     { label: 'Acre', value: 'AC' },
     { label: 'Alagoas', value: 'AL' },
     { label: 'Amapá', value: 'AP' },

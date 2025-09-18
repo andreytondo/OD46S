@@ -4,6 +4,7 @@
   [header]="config()?.title"
   [modal]="true"
   (onHide)="cancel()"
+  [style]="{ 'max-width': '75vw' }"
 >
   <ng-template #content>
     <ng-container *ngTemplateOutlet="formTemplate()"></ng-container>
@@ -17,6 +18,11 @@
       icon="pi pi-times"
       (onClick)="cancel()"
     />
-    <p-button label="Save" severity="success" icon="pi pi-check" (onClick)="save()" />
+    <p-button
+      label="Save"
+      severity="success"
+      icon="pi pi-check"
+      (onClick)="save()"
+    />
   </ng-template>
 </p-dialog>

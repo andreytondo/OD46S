@@ -37,7 +37,13 @@
   <ng-template #body let-row let-rowIndex="rowIndex">
     <tr>
       @for (column of columns(); track $index) {
-        <td>{{ getValue(row, column.field) }}</td>
+        <td>
+          {{
+            column.transform
+              ? column.transform(row)
+              : (row | deepValue: column.field)
+          }}
+        </td>
       }
       <td>
         <p-button

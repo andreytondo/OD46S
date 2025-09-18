@@ -1,12 +1,11 @@
-import { Column } from '@/shared/crud/crud';
+import { Column, Identifiable } from '@/shared/crud/crud';
+import { DeepValuePipe } from '@/shared/pipes/deep-value.pipe';
 import { CommonModule } from '@angular/common';
 import {
   Component,
   contentChild,
   forwardRef,
-  inject,
   input,
-  NgZone,
   signal
 } from '@angular/core';
 import {
@@ -29,6 +28,7 @@ import { TableModule } from 'primeng/table';
     ReactiveFormsModule,
     TableModule,
     Button,
+    DeepValuePipe
   ],
   providers: [
     {
@@ -38,9 +38,9 @@ import { TableModule } from 'primeng/table';
     },
   ],
 })
-export class SubItemFormComponent implements ControlValueAccessor {
+export class SubItemFormComponent<T extends Identifiable> implements ControlValueAccessor {
   formTemplate: any = contentChild('formTemplate');
-  columns = input<Column<any>[]>([]);
+  columns = input<Column<T>[]>([]);
   form = input.required<FormGroup>();
 
   items = signal<any[]>([]);
@@ -49,14 +49,6 @@ export class SubItemFormComponent implements ControlValueAccessor {
 
   onChange: (value: any[]) => void = () => {};
   onTouched: () => void = () => {};
-
-  zone = inject(NgZone);
-
-  constructor() {
-    // effect(() => {
-    //   this.onChange(this.items());
-    // });
-  }
 
   writeValue(value: any[]): void {
     this.items.set(value ?? []);
@@ -82,7 +74,11 @@ export class SubItemFormComponent implements ControlValueAccessor {
   }
 
   save(): void {
-    if (!this.form().valid) return;
+    if (this.form()?.invalid) {
+      this.form()!.markAllAsTouched();
+      this.form()!.markAllAsDirty();
+      return;
+    }
 
     const value = this.form().getRawValue();
     if (this.editingIndex != null) {
@@ -107,10 +103,5 @@ export class SubItemFormComponent implements ControlValueAccessor {
   remove(index: number): void {
     this.items.update((list) => list.filter((_, i) => i !== index));
     this.onChange(this.items());
-  }
-
-  getValue(row: any, field: string | keyof any) {
-    const path = String(field).split('.');
-    return path.reduce((acc: any, seg) => (acc ? acc[seg] : null), row);
   }
 }

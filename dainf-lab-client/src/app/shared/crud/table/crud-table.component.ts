@@ -1,4 +1,5 @@
 import { Page } from '@/shared/models/search';
+import { DeepValuePipe } from '@/shared/pipes/deep-value.pipe';
 import { CommonModule } from '@angular/common';
 import { Component, input, output, TemplateRef, viewChild } from '@angular/core';
 import { Button } from 'primeng/button';
@@ -11,7 +12,7 @@ import { Column, CrudConfig, Identifiable } from '../crud';
 @Component({
   selector: 'app-crud-table',
   templateUrl: 'crud-table.component.html',
-  imports: [CommonModule, TableModule, IconField, InputIcon, Button, Paginator],
+  imports: [CommonModule, TableModule, IconField, InputIcon, Button, Paginator, DeepValuePipe],
 })
 export class CrudTableComponent<T extends Identifiable> {
 
@@ -20,7 +21,6 @@ export class CrudTableComponent<T extends Identifiable> {
   columns = input<Column<T>[]>([]);
   config = input<CrudConfig<T>>();
   globalFilterFields = input<string[]>([]);
-  templateMap = input<Map<string, TemplateRef<any>>>(new Map());
   actionsTemplate = input<TemplateRef<any>>();
   items = input<Page<T> | undefined>(undefined);
 
@@ -34,11 +34,6 @@ export class CrudTableComponent<T extends Identifiable> {
 
   onPage(event: PaginatorState) {
     this.pageChange.emit({ page: event.first! / event.rows!, size: event.rows! });
-  }
-
-  getValue(row: any, field: string | keyof T) {
-    const path = String(field).split('.');
-    return path.reduce((acc: any, seg) => (acc ? acc[seg] : null), row);
   }
 
   edit(row: T) {

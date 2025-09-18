@@ -11,22 +11,22 @@
   <form [formGroup]="form" class="grid grid-cols-12 gap-4">
     <app-input-container
       label="Código"
-      class="col-span-12 md:col-span-6 lg:col-span-2"
+      class="col-span-12 md:col-span-6 lg:col-span-1"
     >
       <input type="text" pInputText id="id" formControlName="id" fluid />
     </app-input-container>
 
-    <!-- name: [null],
-    description: [null],
-    price: [null],
-    category: [null],
-    assets: [null], -->
-
-    <app-input-container label="Nome" class="col-span-12 md:col-span-6">
+    <app-input-container
+      label="Nome"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
       <input type="text" pInputText id="name" formControlName="name" fluid />
     </app-input-container>
 
-    <app-input-container label="Nome" class="col-span-12 md:col-span-6">
+    <app-input-container
+      label="Descrição"
+      class="col-span-12 md:col-span-6 lg:col-span-4"
+    >
       <input
         type="text"
         pInputText
@@ -36,8 +36,105 @@
       />
     </app-input-container>
 
-    <app-input-container label="Categoria" class="col-span-12 md:col-span-6">
+    <app-input-container
+      label="Tipo"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <app-static-select
+        [options]="itemTypeOptions"
+        formControlName="type"
+      ></app-static-select>
+    </app-input-container>
+
+    <app-input-container
+      label="Categoria"
+      class="col-span-12 md:col-span-4 lg:col-span-4"
+    >
       <app-category-select formControlName="category"></app-category-select>
+    </app-input-container>
+
+    <app-input-container
+      label="Quantidade disponível"
+      class="col-span-12 md:col-span-6 lg:col-span-2"
+    >
+      <p-input-number
+        locale="pt-BR"
+        formControlName="quantityAvailable"
+      ></p-input-number>
+    </app-input-container>
+
+    <app-input-container
+      label="Quantidade mínima"
+      class="col-span-12 md:col-span-6 lg:col-span-2"
+    >
+      <p-input-number
+        locale="pt-BR"
+        formControlName="minimunStock"
+      ></p-input-number>
+    </app-input-container>
+
+    <app-input-container
+      label="Preço"
+      class="col-span-12 md:col-span-6 lg:col-span-2"
+    >
+      <p-input-number
+        locale="pt-BR"
+        mode="currency"
+        currency="BRL"
+        formControlName="price"
+      ></p-input-number>
+    </app-input-container>
+
+    <app-input-container
+      label="Siorg"
+      class="col-span-12 md:col-span-6 lg:col-span-2"
+    >
+      <input type="text" pInputText id="siorg" formControlName="siorg" fluid />
+    </app-input-container>
+
+    <p-fieldset legend="Patrimônios" class="col-span-12">
+      <app-subitem-form
+        formControlName="assets"
+        [form]="assetForm"
+        [columns]="assetCols"
+      >
+        <ng-template #formTemplate>
+          <ng-container *ngTemplateOutlet="assetFormTemplate"></ng-container>
+        </ng-template>
+      </app-subitem-form>
+    </p-fieldset>
+  </form>
+</ng-template>
+
+<ng-template #assetFormTemplate>
+  <form [formGroup]="assetForm" class="grid grid-cols-12 gap-4">
+    <app-input-container
+      label="Patrimônio"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <input
+        type="text"
+        pInputText
+        id="serialNumber"
+        formControlName="serialNumber"
+      />
+    </app-input-container>
+
+    <app-input-container
+      label="Localização"
+      class="col-span-12 md:col-span-6 lg:col-span-4"
+    >
+      <input type="text" pInputText id="location" formControlName="location" />
+    </app-input-container>
+
+    <app-input-container
+      label="Situação"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <app-static-select
+        [options]="assetStatusOptions"
+        formControlName="status"
+      ></app-static-select>
     </app-input-container>
   </form>
 </ng-template>
