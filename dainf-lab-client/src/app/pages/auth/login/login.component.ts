@@ -53,6 +53,7 @@ export class LoginComponent {
     return this._authService.login({
       email: this.email,
       password: this.password,
+      rememberMe: this.rememberMe
     });
   }
 }
