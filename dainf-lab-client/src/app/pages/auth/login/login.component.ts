@@ -31,7 +31,7 @@ import { TokenService } from '../services/token.service';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  rememberMe: boolean = false;
+  rememberMe: boolean = true;
 
   private _authService = inject(AuthService);
   private _tokenService = inject(TokenService);
