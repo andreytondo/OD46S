@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FornecedorService extends CrudService<Long, Fornecedor, FornecedorRepository> {
-
     @Override
     public JpaSpecificationExecutor<Fornecedor> getSpecExecutor() {
         return repository;

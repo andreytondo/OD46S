@@ -3,10 +3,7 @@ package br.edu.utfpr.dainf.shared;
 import br.edu.utfpr.dainf.search.request.SearchRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
@@ -18,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ApplicationTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -38,9 +36,24 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
 
     protected abstract RequestPostProcessor auth();
 
+    /**
+     * Roda antes da execução do primeiro teste
+     */
+    protected void onBeforeAll() {
+
+    }
+
+    /**
+     * Roda antes da execução do último teste
+     */
+    protected void onAfterAll() {
+
+    }
+
     @Test
     @Order(1)
     protected void createValid() throws Exception {
+        onBeforeAll();
         D dto = createValidObject();
         MvcResult result = mockMvc.perform(post(getURL())
                         .with(auth())
@@ -109,6 +122,7 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
         mockMvc.perform(delete(getURL() + "/" + 1)
                         .with(auth()))
                 .andExpect(status().isNoContent());
+        onAfterAll();
     }
 
     protected SearchRequest createSearchRequest() {

@@ -11,14 +11,6 @@ import java.util.List;
 
 @Service
 public class CidadeService extends CrudService<Long, Cidade, CidadeRepository> {
-    public List<Cidade> completeByEstado(String query, UnidadeFederativa estado) {
-        if ("".equalsIgnoreCase(query)) {
-            return this.repository.findAllByEstado(estado);
-        } else {
-            return this.repository.findByNomeLikeIgnoreCaseAndEstado("%" + query + "%", estado);
-        }
-    }
-
     @Override
     public JpaSpecificationExecutor<Cidade> getSpecExecutor() {
         return repository;

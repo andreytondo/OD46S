@@ -8,5 +8,4 @@ import br.edu.utfpr.dainf.spec.SolicitationSpecExecutor;
 import java.util.List;
 
 public interface SolicitationRepository extends CrudRepository<Long, Solicitation>, SolicitationSpecExecutor {
-    List<Solicitation> findAllByUser(User user);
 }
