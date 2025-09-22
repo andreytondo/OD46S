@@ -15,7 +15,7 @@ public class SolicitationDTO implements Identifiable<Long> {
     private Long id;
     private String description;
     private String observation;
-    private Instant solicitation;
+    private Instant date;
     private User user;
     private List<SolicitationItemDTO> items;
 }
