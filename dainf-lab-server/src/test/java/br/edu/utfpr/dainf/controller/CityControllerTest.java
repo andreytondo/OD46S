@@ -24,7 +24,7 @@ class CityControllerTest extends CrudControllerTest<CidadeDTO> {
 
     @Override
     protected CidadeDTO createInvalidObject() {
-        return new CidadeDTO(null, "Pato Branco", UnidadeFederativa.PR);
+        return new CidadeDTO();
     }
 
     @Override
