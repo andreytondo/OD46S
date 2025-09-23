@@ -24,7 +24,6 @@ import { SelectModule } from 'primeng/select';
       class="w-full"
       [options]="icons"
       [(ngModel)]="value"
-      optionLabel="label"
       [filter]="true"
       [showClear]="true"
       placeholder="Selecione um ícone"

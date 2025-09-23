@@ -1,6 +1,7 @@
 import { Category } from '@/pages/category/category';
 import { CategoryService } from '@/pages/category/category.service';
 import { SearchRequest } from '@/shared/models/search';
+import { CategoryTreeNodePipe } from '@/shared/pipes/category-tree-node.pipe';
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, inject, OnInit } from '@angular/core';
 import {
@@ -15,7 +16,7 @@ import { map, Observable, take, tap } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TreeSelectModule, FormsModule],
+  imports: [CommonModule, TreeSelectModule, FormsModule, CategoryTreeNodePipe],
   selector: 'app-category-select',
   providers: [
     {
@@ -60,6 +61,7 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   disabled: boolean = false;
 
   categoryService = inject(CategoryService);
+  categoryTreeNodePipe = inject(CategoryTreeNodePipe);
 
   ngOnInit() {
     this._loadInitialData().subscribe();
@@ -86,7 +88,7 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: Category | null): void {
     this.value = value;
-    this.selectedNodeKey = value ? this._mapToTreeNodes([value]) : undefined;
+    this.selectedNodeKey = value ? this.categoryTreeNodePipe.transform([value]) : undefined;
   }
 
   registerOnChange(fn: (value: Category | null) => void): void {
@@ -112,21 +114,8 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   private _loadData(request: SearchRequest): Observable<TreeNode<Category>[]> {
     return this.categoryService.search(request).pipe(
       take(1),
-      map((page) => this._mapToTreeNodes(page.content)),
+      map((page) => this.categoryTreeNodePipe.transform(page.content)),
       tap((nodes) => (this.nodes = nodes)),
     );
-  }
-
-  private _mapToTreeNodes(categories: Category[]): TreeNode<Category>[] {
-    return categories?.map((category) => ({
-      key: category.id.toString(),
-      label: category.description,
-      icon: category.icon,
-      data: category,
-      children: category.subcategories
-        ? this._mapToTreeNodes(category.subcategories)
-        : [],
-      leaf: !category.subcategories || category.subcategories.length === 0,
-    }));
   }
 }

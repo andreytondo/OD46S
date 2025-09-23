@@ -6,6 +6,7 @@
   [form]="form"
   [formTemplate]="crudForm"
   [searchRequest]="searchRequest"
+  [templateMap]="templateMap"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -34,14 +35,14 @@
       label="Ícone"
       class="col-span-12 md:col-span-6 lg:col-span-3"
     >
-      <app-icon-select formControlName="icone"></app-icon-select>
+      <app-icon-select formControlName="icon"></app-icon-select>
     </app-input-container>
 
     <p-fieldset legend="Subcategorias" class="col-span-12">
       <app-subitem-form
         formControlName="subcategories"
         [form]="subcategoryForm"
-        [columns]="cols"
+        [columns]="subcategoryCols"
       >
         <ng-template #formTemplate>
           <ng-container
@@ -71,7 +72,18 @@
       label="Ícone"
       class="col-span-12 md:col-span-6 lg:col-span-3"
     >
-      <app-icon-select formControlName="icone"></app-icon-select>
+      <app-icon-select formControlName="icon"></app-icon-select>
     </app-input-container>
   </form>
+</ng-template>
+
+<ng-template #subcategoryTemplate let-row>
+  <p-tree [value]="row | categoryTreeNode" class="w-full">
+    <ng-template pTemplate="value">
+      <div class="flex text-center items-center gap-2">
+        <i [class]="row.icon"></i>
+        <span> {{ row.description }}</span>
+      </div>
+    </ng-template>
+  </p-tree>
 </ng-template>

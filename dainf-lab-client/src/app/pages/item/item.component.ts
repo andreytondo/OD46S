@@ -5,6 +5,7 @@ import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-f
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 import { LabelValue } from '@/shared/models/label-value';
+import { CategoryTreeNodePipe } from '@/shared/pipes/category-tree-node.pipe';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
@@ -37,7 +38,7 @@ import { ItemService } from './item.service';
     InputNumber,
     StaticSelectComponent,
   ],
-  providers: [ItemService, CategoryService, LabelValuePipe],
+  providers: [ItemService, CategoryService, LabelValuePipe, CategoryTreeNodePipe],
   selector: 'app-item',
   templateUrl: 'item.component.html',
 })

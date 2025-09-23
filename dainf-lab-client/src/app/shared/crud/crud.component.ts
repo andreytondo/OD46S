@@ -47,6 +47,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   globalFilterFields = input<string[]>([]);
   form = input<FormGroup>();
   searchRequest = input<SearchRequest>()
+  templateMap = input<Map<keyof T | string, TemplateRef<any>> | undefined>(new Map());
 
   actionsTemplate = input<TemplateRef<any>>();
   formTemplate = input<TemplateRef<any>>();
