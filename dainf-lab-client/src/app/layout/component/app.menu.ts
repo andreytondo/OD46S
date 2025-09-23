@@ -39,7 +39,7 @@ export class AppMenu {
       {
         label: 'Compras',
         items: [
-          { label: 'Nova Compra', icon: 'pi pi-shopping-cart' },
+          { label: 'Nova Compra', icon: 'pi pi-shopping-cart', routerLink: '/pages/compra' },
           { label: 'Solicitar Compra', icon: 'pi pi-receipt' }
         ]
       },
