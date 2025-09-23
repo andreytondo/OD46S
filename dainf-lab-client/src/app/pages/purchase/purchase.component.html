@@ -1,0 +1,128 @@
+<app-crud
+  #crud
+  [columns]="cols"
+  [service]="purchaseService"
+  [config]="config"
+  [form]="form"
+  [formTemplate]="crudForm"
+></app-crud>
+
+<ng-template #crudForm>
+  <div class="p-fluid">
+    <form [formGroup]="form" class="grid grid-cols-12 gap-x-6 gap-y-4">
+      <div class="col-span-12">
+        <h2 class="text-2xl font-semibold">Registro de Compra</h2>
+        <p class="text-gray-500">
+          Preencha as informações abaixo para registrar uma nova entrada de
+          itens.
+        </p>
+      </div>
+
+      <p-fieldset legend="Informações da Nota" class="col-span-12">
+        <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
+          <app-input-container
+            label="Código"
+            class="col-span-12 md:col-span-2"
+          >
+            <input
+              pInputText
+              id="id"
+              formControlName="id"
+              class="p-inputtext-sm"
+            />
+          </app-input-container>
+
+          <app-input-container
+            label="Data da Compra"
+            class="col-span-12 md:col-span-4"
+          >
+            <p-datepicker
+              formControlName="date"
+              dateFormat="dd/mm/yy"
+              styleClass="w-full"
+            ></p-datepicker>
+          </app-input-container>
+
+          <app-input-container
+            label="Fornecedor"
+            class="col-span-12 md:col-span-6"
+          >
+            <app-supplier-select
+              formControlName="fornecedor"
+            ></app-supplier-select>
+          </app-input-container>
+        </div>
+      </p-fieldset>
+
+      <p-fieldset legend="Responsáveis" class="col-span-12">
+        <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
+          <app-input-container
+            label="Usuário Responsável"
+            class="col-span-12"
+          >
+            <app-user-select formControlName="user"></app-user-select>
+          </app-input-container>
+        </div>
+      </p-fieldset>
+
+      <p-fieldset legend="Itens da Compra" class="col-span-12">
+        <app-subitem-form
+          formControlName="items"
+          [form]="purchaseItemForm"
+          [columns]="purchaseItemCols"
+        >
+          <ng-template #formTemplate>
+            <ng-container
+              *ngTemplateOutlet="purchaseItemFormTemplate"
+            ></ng-container>
+          </ng-template>
+        </app-subitem-form>
+      </p-fieldset>
+
+      <div class="col-span-12 flex justify-end mt-4">
+        <app-input-container label="Valor Total da Compra" class="w-full md:w-auto md:max-w-xs">
+           <p-inputNumber
+             formControlName="totalValue"
+             mode="currency"
+             currency="BRL"
+             locale="pt-BR"
+             [disabled]="true"
+           ></p-inputNumber>
+        </app-input-container>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #purchaseItemFormTemplate>
+  <form
+    [formGroup]="purchaseItemForm"
+    class="grid grid-cols-12 gap-x-6 gap-y-4 items-center"
+  >
+    <app-input-container label="Item" class="col-span-12 md:col-span-5">
+      <app-item-select formControlName="item"></app-item-select>
+    </app-input-container>
+
+    <app-input-container label="Quantidade" class="col-span-6 md:col-span-3">
+      <p-inputNumber
+        locale="pt-BR"
+        formControlName="quantity"
+        class="p-inputtext-sm"
+      ></p-inputNumber>
+    </app-input-container>
+
+    <app-input-container
+      label="Valor Unitário"
+      class="col-span-6 md:col-span-4"
+    >
+      <p-inputNumber
+        locale="pt-BR"
+        mode="currency"
+        currency="BRL"
+        formControlName="price"
+        class="p-inputtext-sm"
+      ></p-inputNumber>
+    </app-input-container>
+  </form>
+</ng-template>
+
