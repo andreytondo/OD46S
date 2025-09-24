@@ -25,6 +25,7 @@ import { DatePickerModule } from 'primeng/datepicker'; // Corrigido de DatePicke
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { Item } from '../item/item';
 
 @Component({
   standalone: true,
@@ -70,7 +71,7 @@ export class PurchaseComponent implements OnInit {
     id: [null],
     item: [null, Validators.required],
     quantity: [null, [Validators.required, Validators.min(1)]],
-    price: [null, [Validators.required, Validators.min(0.01)]],
+    price: [{value: null, disabled: true}, [Validators.required, Validators.min(0.01)]],
   });
 
   cols: Column<Purchase>[] = [
@@ -114,6 +115,12 @@ export class PurchaseComponent implements OnInit {
         0
       );
       this.form.get('totalValue')?.setValue(total);
+    });
+
+    this.purchaseItemForm.get('item')?.valueChanges.subscribe((item: Item) => {
+      if (item?.price) {
+        this.purchaseItemForm.get('price')?.setValue(item.price || 0);
+      }
     });
   }
 }
