@@ -20,7 +20,7 @@ import { UserService } from '../user/user.service';
 import { Purchase, PurchaseItem } from './purchase';
 import { PurchaseService } from './purchase.service';
 
-import { SearchSelectComponent } from "@/shared/components/search-select/search-select.component";
+import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
 import { DatePickerModule } from 'primeng/datepicker'; // Corrigido de DatePickerModule
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -40,9 +40,15 @@ import { Item } from '../item/item';
     FieldsetModule,
     SubItemFormComponent,
     DatePickerModule,
-    SearchSelectComponent
-],
-  providers: [PurchaseService, FornecedorService, UserService, DatePipe, ItemService],
+    SearchSelectComponent,
+  ],
+  providers: [
+    PurchaseService,
+    FornecedorService,
+    UserService,
+    DatePipe,
+    ItemService,
+  ],
   selector: 'app-purchase',
   templateUrl: 'purchase.component.html',
 })
@@ -71,7 +77,10 @@ export class PurchaseComponent implements OnInit {
     id: [null],
     item: [null, Validators.required],
     quantity: [null, [Validators.required, Validators.min(1)]],
-    price: [{value: null, disabled: true}, [Validators.required, Validators.min(0.01)]],
+    price: [
+      { value: null, disabled: true },
+      [Validators.required, Validators.min(0.01)],
+    ],
   });
 
   cols: Column<Purchase>[] = [
@@ -112,7 +121,7 @@ export class PurchaseComponent implements OnInit {
     this.form.get('items')?.valueChanges.subscribe((items: PurchaseItem[]) => {
       const total = items.reduce(
         (acc, item) => acc + item.quantity * item.price,
-        0
+        0,
       );
       this.form.get('totalValue')?.setValue(total);
     });
@@ -124,4 +133,3 @@ export class PurchaseComponent implements OnInit {
     });
   }
 }
-
