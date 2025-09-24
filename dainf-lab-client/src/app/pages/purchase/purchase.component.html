@@ -20,10 +20,7 @@
 
       <p-fieldset legend="Informações da Nota" class="col-span-12">
         <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
-          <app-input-container
-            label="Código"
-            class="col-span-12 md:col-span-2"
-          >
+          <app-input-container label="Código" class="col-span-12 md:col-span-2">
             <input
               pInputText
               id="id"
@@ -47,20 +44,23 @@
             label="Fornecedor"
             class="col-span-12 md:col-span-6"
           >
-            <app-supplier-select
+            <app-search-select
               formControlName="fornecedor"
-            ></app-supplier-select>
+              optionLabel="nomeFantasia"
+              [service]="supplierService"
+            ></app-search-select>
           </app-input-container>
         </div>
       </p-fieldset>
 
       <p-fieldset legend="Responsáveis" class="col-span-12">
         <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
-          <app-input-container
-            label="Usuário Responsável"
-            class="col-span-12"
-          >
-            <app-user-select formControlName="user"></app-user-select>
+          <app-input-container label="Usuário Responsável" class="col-span-12">
+            <app-search-select
+              formControlName="user"
+              optionLabel="nome"
+              [service]="userService"
+            ></app-search-select>
           </app-input-container>
         </div>
       </p-fieldset>
@@ -80,14 +80,17 @@
       </p-fieldset>
 
       <div class="col-span-12 flex justify-end mt-4">
-        <app-input-container label="Valor Total da Compra" class="w-full md:w-auto md:max-w-xs">
-           <p-inputNumber
-             formControlName="totalValue"
-             mode="currency"
-             currency="BRL"
-             locale="pt-BR"
-             [disabled]="true"
-           ></p-inputNumber>
+        <app-input-container
+          label="Valor Total da Compra"
+          class="w-full md:w-auto md:max-w-xs"
+        >
+          <p-inputNumber
+            formControlName="totalValue"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR"
+            [disabled]="true"
+          ></p-inputNumber>
         </app-input-container>
       </div>
     </form>
@@ -100,7 +103,11 @@
     class="grid grid-cols-12 gap-x-6 gap-y-4 items-center"
   >
     <app-input-container label="Item" class="col-span-12 md:col-span-5">
-      <app-item-select formControlName="item"></app-item-select>
+      <app-search-select
+        formControlName="item"
+        optionLabel="name"
+        [service]="itemService"
+      ></app-search-select>
     </app-input-container>
 
     <app-input-container label="Quantidade" class="col-span-6 md:col-span-3">
@@ -125,4 +132,3 @@
     </app-input-container>
   </form>
 </ng-template>
-

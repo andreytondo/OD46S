@@ -7,25 +7,24 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ItemService } from './../item/item.service';
 
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
-import { SupplierSelectComponent } from '@/shared/components/supplier-select/supplier-select.component';
-import { UserSelectComponent } from '@/shared/components/user-select/user-select.component';
 
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 
-import { Purchase, PurchaseItem } from './purchase';
-import { PurchaseService } from './purchase.service';
 import { FornecedorService } from '../supplier/fornecedor.service';
 import { UserService } from '../user/user.service';
+import { Purchase, PurchaseItem } from './purchase';
+import { PurchaseService } from './purchase.service';
 
+import { SearchSelectComponent } from "@/shared/components/search-select/search-select.component";
 import { DatePickerModule } from 'primeng/datepicker'; // Corrigido de DatePickerModule
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { ItemSelectComponent } from '@/shared/components/item-select/item-select.component';
 
 @Component({
   standalone: true,
@@ -40,11 +39,9 @@ import { ItemSelectComponent } from '@/shared/components/item-select/item-select
     FieldsetModule,
     SubItemFormComponent,
     DatePickerModule,
-    SupplierSelectComponent,
-    UserSelectComponent,
-    ItemSelectComponent
-  ],
-  providers: [PurchaseService, FornecedorService, UserService, DatePipe],
+    SearchSelectComponent
+],
+  providers: [PurchaseService, FornecedorService, UserService, DatePipe, ItemService],
   selector: 'app-purchase',
   templateUrl: 'purchase.component.html',
 })
@@ -52,6 +49,7 @@ export class PurchaseComponent implements OnInit {
   purchaseService = inject(PurchaseService);
   supplierService = inject(FornecedorService);
   userService = inject(UserService);
+  itemService = inject(ItemService);
   formBuilder = inject(FormBuilder);
   datePipe = inject(DatePipe);
 
