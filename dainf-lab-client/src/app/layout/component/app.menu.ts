@@ -31,7 +31,7 @@ export class AppMenu {
       {
         label: 'Operações',
         items: [
-          { label: 'Empréstimo', icon: 'pi pi-clock' },
+          { label: 'Empréstimo', icon: 'pi pi-clock', routerLink: '/pages/loan' },
           { label: 'Retirada', icon: 'pi pi-sign-out' },
           { label: 'Reserva', icon: 'pi pi-calendar' }
         ]

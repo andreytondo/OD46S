@@ -6,6 +6,7 @@ import { ItemComponent } from './item/item.component';
 import { FornecedorComponent } from './supplier/fornecedor.component';
 import { UserComponent } from './user/user.component';
 import { PurchaseComponent } from './purchase/purchase.component';
+import { LoanComponent } from './loan/loan.component';
 
 export default [
   {
@@ -16,6 +17,7 @@ export default [
       { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
       { path: 'item', component: ItemComponent, canActivate: [AuthGuard] },
       { path: 'compra', component: PurchaseComponent, canActivate: [AuthGuard] },
+      { path: 'loan', component: LoanComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '/not-found' }
     ]
   },
