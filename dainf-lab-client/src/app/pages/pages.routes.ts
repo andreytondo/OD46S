@@ -3,12 +3,11 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { CategoryComponent } from './category/category.component';
 import { ItemComponent } from './item/item.component';
+import { LoanComponent } from './loan/loan.component';
 import { PurchaseSolicitationComponent } from './purchase-solicitation/purchase-solicitation..component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { FornecedorComponent } from './supplier/fornecedor.component';
 import { UserComponent } from './user/user.component';
-import { PurchaseComponent } from './purchase/purchase.component';
-import { LoanComponent } from './loan/loan.component';
 
 export default [
   {
