@@ -3,16 +3,16 @@ import { Item } from '../item/item';
 import { Fornecedor } from '../supplier/fornecedor';
 import { User } from '../user/user';
 
-export interface PurchaseItem extends Identifiable {
+export interface PurchaseSolicitationItem extends Identifiable {
   item: Item;
   quantity: number;
-  price: number;
 }
 
-export interface Purchase extends Identifiable {
+export interface PurchaseSolicitation extends Identifiable {
+  description: string;
+  observation: string;
   user: User;
-  date: Date;
+  date: string;
   fornecedor: Fornecedor;
-  items: PurchaseItem[];
-  totalValue?: number;
+  items: PurchaseSolicitationItem[];
 }
