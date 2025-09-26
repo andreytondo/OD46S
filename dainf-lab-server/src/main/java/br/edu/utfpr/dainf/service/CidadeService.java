@@ -1,13 +1,10 @@
 package br.edu.utfpr.dainf.service;
 
-import br.edu.utfpr.dainf.enums.UnidadeFederativa;
 import br.edu.utfpr.dainf.model.Cidade;
 import br.edu.utfpr.dainf.repository.CidadeRepository;
 import br.edu.utfpr.dainf.shared.CrudService;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CidadeService extends CrudService<Long, Cidade, CidadeRepository> {

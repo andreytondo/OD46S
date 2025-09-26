@@ -8,8 +8,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-import java.util.Optional;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CityControllerTest extends CrudControllerTest<CidadeDTO> {
     @Override

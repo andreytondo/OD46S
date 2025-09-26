@@ -6,6 +6,8 @@ import br.edu.utfpr.dainf.repository.UserRecoveryRepository;
 import br.edu.utfpr.dainf.repository.UserRepository;
 import br.edu.utfpr.dainf.shared.CrudService;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +22,7 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
 
     private final PasswordEncoder passwordEncoder;
 
-    private UserRecoveryRepository userRecoveryRepository;
+    private final UserRecoveryRepository userRecoveryRepository;
 
     public UserService(PasswordEncoder passwordEncoder, UserRecoveryRepository userRecoveryRepository) {
         this.passwordEncoder = passwordEncoder;
@@ -81,5 +83,13 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
 
             repository.save(user);
         }
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        return (User) authentication.getPrincipal();
     }
 }

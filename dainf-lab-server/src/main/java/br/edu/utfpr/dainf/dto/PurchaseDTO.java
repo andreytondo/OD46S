@@ -7,7 +7,8 @@ import java.time.Instant;
 import java.util.List;
 
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseDTO implements Identifiable<Long> {

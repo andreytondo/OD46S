@@ -4,7 +4,8 @@ import br.edu.utfpr.dainf.enums.AssetStatus;
 import lombok.*;
 
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssetDTO {

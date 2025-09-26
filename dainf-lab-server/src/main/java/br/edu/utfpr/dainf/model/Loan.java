@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.model;
 
-import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

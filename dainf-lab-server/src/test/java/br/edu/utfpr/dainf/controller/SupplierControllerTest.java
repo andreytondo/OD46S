@@ -4,22 +4,17 @@ import br.edu.utfpr.dainf.dto.FornecedorDTO;
 import br.edu.utfpr.dainf.enums.UnidadeFederativa;
 import br.edu.utfpr.dainf.model.Cidade;
 import br.edu.utfpr.dainf.service.CidadeService;
-import br.edu.utfpr.dainf.service.FornecedorService;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
 import jakarta.inject.Inject;
-import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-import java.util.Optional;
-
 class SupplierControllerTest extends CrudControllerTest<FornecedorDTO> {
-
-    private Cidade cidade;
 
     @Inject
     CidadeService cidadeService;
+    private Cidade cidade;
 
     @Override
     protected void onBeforeAll() {

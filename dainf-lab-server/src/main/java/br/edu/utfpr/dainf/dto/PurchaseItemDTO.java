@@ -6,7 +6,8 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseItemDTO implements Identifiable<Long> {

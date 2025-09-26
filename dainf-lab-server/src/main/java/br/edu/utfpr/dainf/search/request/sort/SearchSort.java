@@ -13,6 +13,7 @@ public class SearchSort {
 
     private String field;
     private Type type;
+
     public enum Type {
         ASC, DESC
     }

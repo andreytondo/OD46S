@@ -1,16 +1,11 @@
 package br.edu.utfpr.dainf.controller;
 
-import br.edu.utfpr.dainf.dto.AssetDTO;
-import br.edu.utfpr.dainf.dto.ItemDTO;
 import br.edu.utfpr.dainf.dto.PurchaseDTO;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PurchaseControllerTest extends CrudControllerTest<PurchaseDTO> {

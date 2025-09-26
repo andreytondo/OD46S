@@ -1,7 +1,6 @@
 package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.CategoryDTO;
-import br.edu.utfpr.dainf.model.Category;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.TestInstance;

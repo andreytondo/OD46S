@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDTO implements Identifiable<Long> {
@@ -25,7 +26,6 @@ public class ItemDTO implements Identifiable<Long> {
     private CategoryDTO category;
     private List<AssetDTO> assets;
     private String siorg;
-    private Double quantityAvailable;
-    private Double minimunStock;
+    private BigDecimal minimumStock;
     private ItemType type;
 }

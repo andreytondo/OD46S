@@ -1,10 +1,8 @@
 package br.edu.utfpr.dainf.dto;
 
-import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.model.LoanItem;
 import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.shared.Identifiable;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
