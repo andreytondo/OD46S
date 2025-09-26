@@ -48,7 +48,6 @@ public class SecurityConfig {
                         .requestMatchers("/auth/reset-password").permitAll()
                         .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/auth/logout").permitAll()
-                        .requestMatchers("/version").permitAll()
                         .requestMatchers("/fornecedores").permitAll()
                         .requestMatchers("/paises").permitAll()
                         .requestMatchers("/cidades").permitAll()

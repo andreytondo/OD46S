@@ -37,7 +37,7 @@ public class Loan implements Identifiable<Long> {
     @Column(name = "devolution_date")
     private Instant devolutionDate;
 
-    @Column(name = "observation", length = 255)
+    @Column(name = "observation")
     private String observation;
 
     @Column(name = "ra_siape", nullable = false)

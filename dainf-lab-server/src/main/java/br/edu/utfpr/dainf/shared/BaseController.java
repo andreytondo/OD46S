@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.shared;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +22,6 @@ public abstract class BaseController<ID extends Serializable, E extends Identifi
 
     public BaseController(Class<E> entityClass, Class<D> dtoClass) {
         this.dtoUtils = new DTOUtils<>(entityClass, dtoClass);
-        customizeMapping();
-    }
-
-    public ModelMapper getModelMapper() {
-        return dtoUtils.getModelMapper();
     }
 
     public D toDto(E entity) {
@@ -44,8 +38,5 @@ public abstract class BaseController<ID extends Serializable, E extends Identifi
                 .map(this::toDto)
                 .collect(Collectors.toList());
         return new PagedModel<>(new PageImpl<>(dtoList, pageable, page.getTotalElements()));
-    }
-
-    public void customizeMapping() {
     }
 }

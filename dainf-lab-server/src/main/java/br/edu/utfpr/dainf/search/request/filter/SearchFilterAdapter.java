@@ -4,9 +4,11 @@ import br.edu.utfpr.dainf.exception.WarnException;
 import jakarta.persistence.criteria.*;
 import org.hibernate.query.sqm.PathElementException;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class SearchFilterAdapter implements Specification {
 
     private SearchFilter filter;
@@ -18,8 +20,8 @@ public class SearchFilterAdapter implements Specification {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
+    @Nullable
+    public Predicate toPredicate(Root root, @Nullable CriteriaQuery query, CriteriaBuilder cb) {
         Expression field = getNestedField(root, filter.getField());
         Object value = filter.getValue();
         return switch (filter.getType()) {

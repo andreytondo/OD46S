@@ -64,12 +64,12 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         recovery.setUser(user);
         userRecoveryRepository.save(recovery);
 
-        //Tem que fazer a função de enviar e-mail ainda
+        // TODO implement real email service
         //emailService.sendPasswordResetEmail(user.getEmail(), token);
     }
 
     public void resetPassword(String token, String newPassword) {
-        User user = new User();
+        User user;
 
         UserRecovery recovery = userRecoveryRepository.findByResetToken(token).orElseThrow(()
                 -> new UsernameNotFoundException("Invalid token"));

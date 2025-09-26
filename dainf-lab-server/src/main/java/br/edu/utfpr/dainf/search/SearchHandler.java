@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class SearchHandler<ID extends Serializable, E extends Identifiable<ID>> {
 
-    SearchFilterAdapter searchFilterAdapter = new SearchFilterAdapter();
-    JpaSpecificationExecutor<E> executor;
+    final SearchFilterAdapter searchFilterAdapter = new SearchFilterAdapter();
+    final JpaSpecificationExecutor<E> executor;
 
     public SearchHandler(JpaSpecificationExecutor<E> executor) {
         Objects.requireNonNull(executor, "A JpaSpecificationExecutor must be provided");
@@ -34,7 +34,7 @@ public class SearchHandler<ID extends Serializable, E extends Identifiable<ID>> 
         List<Specification<E>> specifications = createSpecifications(searchRequest.getFilters());
         Pageable pageable = getPageable(searchRequest);
         return executor.findAll(
-                Specification.where(specifications.stream().reduce(Specification::and).orElse(null)),
+                Specification.allOf(specifications),
                 pageable
         );
     }

@@ -33,7 +33,7 @@ public class User implements UserDetails, Identifiable<Long> {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
     private String password;
 
-    @Column(length = 255, nullable = false)
+    @Column(nullable = false)
     private String nome;
 
     @Column(length = 25)
