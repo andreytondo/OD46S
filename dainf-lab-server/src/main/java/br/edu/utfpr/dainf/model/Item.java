@@ -46,6 +46,9 @@ public class Item implements Identifiable<Long> {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asset> assets;
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemImage> images;
+
     private String siorg;
 
     private BigDecimal minimumStock;

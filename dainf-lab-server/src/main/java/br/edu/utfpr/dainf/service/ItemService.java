@@ -19,6 +19,9 @@ public class ItemService extends CrudService<Long, Item, ItemRepository> {
         if (entity.getAssets() != null) {
             entity.getAssets().forEach(asset -> asset.setItem(entity));
         }
+        if (entity.getImages() != null) {
+            entity.getImages().forEach(image -> image.setItem(entity));
+        }
         return super.save(entity);
     }
 }
