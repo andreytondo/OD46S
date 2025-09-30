@@ -2,14 +2,11 @@ package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.CategoryDTO;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.util.List;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CategoryControllerTest extends CrudControllerTest<CategoryDTO> {
 
     @Override
@@ -31,12 +28,8 @@ class CategoryControllerTest extends CrudControllerTest<CategoryDTO> {
 
     @Override
     protected void onBeforeUpdate(CategoryDTO dto) {
-        dto.setId(1L);
-    }
-
-    @Override
-    protected void searchEntries() {
-        Assertions.assertThrows(NullPointerException.class, super::searchEntries);
+        // Modify a property to test the update, not the ID.
+        dto.setDescription("Teste Alterado");
     }
 
     @Override

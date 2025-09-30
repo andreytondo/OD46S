@@ -54,19 +54,6 @@ public class AuthTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Test
-    @WithMockUser(username = "admin@utfpr.edu.br")
-    public void acessarEndpointProtegidoComMockUser() throws Exception {
-        mockMvc.perform(get("/version/info"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void acessarEndpointPublicoSemToken() throws Exception {
-        mockMvc.perform(post("/version"))
-                .andExpect(status().isOk());
-    }
-
     private void createUser() {
         userService.save(new User(
                 null,

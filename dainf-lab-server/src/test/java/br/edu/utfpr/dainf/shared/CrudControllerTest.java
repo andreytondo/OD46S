@@ -3,19 +3,22 @@ package br.edu.utfpr.dainf.shared;
 import br.edu.utfpr.dainf.search.request.SearchRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ApplicationTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -24,7 +27,8 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
     @Autowired
     protected MockMvc mockMvc;
 
-    protected Long lastCreatedId;
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     protected abstract String getURL();
 
@@ -36,93 +40,97 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
 
     protected abstract RequestPostProcessor auth();
 
-    /**
-     * Roda antes da execução do primeiro teste
-     */
-    protected void onBeforeAll() {
-
+    protected ResultActions performCreate(D dto) throws Exception {
+        return mockMvc.perform(post(getURL())
+                .with(auth())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJson(dto)));
     }
 
-    /**
-     * Roda antes da execução do último teste
-     */
-    protected void onAfterAll() {
+    protected ResultActions performUpdate(Long id, D dto) throws Exception {
+        return mockMvc.perform(put(getURL() + "/" + id)
+                .with(auth())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJson(dto)));
+    }
 
+    protected ResultActions performFindOne(Long id) throws Exception {
+        return mockMvc.perform(get(getURL() + "/" + id)
+                .with(auth()));
+    }
+
+    protected ResultActions performDelete(Long id) throws Exception {
+        return mockMvc.perform(delete(getURL() + "/" + id)
+                .with(auth()));
+    }
+
+    protected ResultActions performSearch(SearchRequest request) throws Exception {
+        return mockMvc.perform(post(getURL() + "/search")
+                .with(auth())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJson(request)));
+    }
+
+    // --- Helper Methods ---
+
+    protected Long createResource() throws Exception {
+        D dto = createValidObject();
+        MvcResult result = performCreate(dto)
+                .andExpect(status().isCreated())
+                .andReturn();
+        return extractId(result);
     }
 
     @Test
     @Order(1)
     protected void createValid() throws Exception {
-        onBeforeAll();
-        D dto = createValidObject();
-        MvcResult result = mockMvc.perform(post(getURL())
-                        .with(auth())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJson(dto)))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        lastCreatedId = extractId(result);
-        assertNotNull(lastCreatedId);
+        Long createdId = createResource();
+        assertNotNull(createdId);
     }
 
     @Test
     @Order(2)
     protected void createInvalid() throws Exception {
         D dto = createInvalidObject();
-        mockMvc.perform(post(getURL())
-                        .with(auth())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJson(dto)))
-                .andExpect(status().isBadRequest());
+        performCreate(dto).andExpect(status().isBadRequest());
     }
 
     @Test
     @Order(3)
     protected void updateValid() throws Exception {
+        Long createdId = createResource();
         D dto = createValidObject();
+        dto.setId(createdId);
         onBeforeUpdate(dto);
 
-        mockMvc.perform(put(getURL() + "/" + dto.getId())
-                        .with(auth())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJson(dto)))
-                .andExpect(status().isOk());
+        performUpdate(createdId, dto).andExpect(status().isOk());
     }
 
     @Test
     @Order(4)
     protected void findOneValid() throws Exception {
-        mockMvc.perform(get(getURL() + "/" + 1)
-                        .with(auth()))
-                .andExpect(status().isOk());
+        Long createdId = createResource();
+        performFindOne(createdId).andExpect(status().isOk());
     }
 
     @Test
     @Order(5)
     protected void findOneNonExistent() throws Exception {
-        mockMvc.perform(get(getURL() + "/999999")
-                        .with(auth()))
-                .andExpect(status().isNotFound());
+        performFindOne(999999L).andExpect(status().isNotFound());
     }
 
     @Test
     @Order(6)
     protected void searchEntries() throws Exception {
-        mockMvc.perform(post(getURL() + "/search")
-                        .with(auth())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJson(createSearchRequest())))
-                .andExpect(status().isOk());
+        createResource(); // Ensure there is at least one entry to find
+        performSearch(createSearchRequest()).andExpect(status().isOk());
     }
 
     @Test
     @Order(99)
     protected void deleteValid() throws Exception {
-        mockMvc.perform(delete(getURL() + "/" + 1)
-                        .with(auth()))
-                .andExpect(status().isNoContent());
-        onAfterAll();
+        Long createdId = createResource();
+        performDelete(createdId).andExpect(status().isNoContent());
     }
 
     protected SearchRequest createSearchRequest() {
@@ -130,12 +138,15 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
     }
 
     protected String asJson(Object obj) throws Exception {
-        return new ObjectMapper().writeValueAsString(obj);
+        return objectMapper.writeValueAsString(obj);
     }
 
     protected Long extractId(MvcResult result) throws Exception {
         String content = result.getResponse().getContentAsString();
-        JsonNode node = new ObjectMapper().readTree(content);
+        JsonNode node = objectMapper.readTree(content);
+        if (node.has("id")) {
+            return node.get("id").asLong();
+        }
         return node.asLong();
     }
 }

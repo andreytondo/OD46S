@@ -2,12 +2,12 @@ package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.SolicitationDTO;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+import java.time.Instant;
+import java.util.List;
+
 class SolicitationControllerTest extends CrudControllerTest<SolicitationDTO> {
 
     @Override
@@ -17,7 +17,11 @@ class SolicitationControllerTest extends CrudControllerTest<SolicitationDTO> {
 
     @Override
     protected SolicitationDTO createValidObject() {
-        return SolicitationDTO.builder().build();
+        return SolicitationDTO.builder()
+                .observation("Test Justification")
+                .date(Instant.now())
+                .items(List.of())
+                .build();
     }
 
     @Override
@@ -27,12 +31,7 @@ class SolicitationControllerTest extends CrudControllerTest<SolicitationDTO> {
 
     @Override
     protected void onBeforeUpdate(SolicitationDTO dto) {
-        dto.setId(1L);
-    }
-
-    @Override
-    protected void searchEntries() {
-        Assertions.assertThrows(NullPointerException.class, super::searchEntries);
+        dto.setObservation("Updated Test Justification");
     }
 
     @Override
