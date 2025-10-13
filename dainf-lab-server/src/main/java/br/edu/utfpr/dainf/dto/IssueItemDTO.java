@@ -3,6 +3,8 @@ package br.edu.utfpr.dainf.dto;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Builder
 @Getter
 @Setter
@@ -10,6 +12,6 @@ import lombok.*;
 @NoArgsConstructor
 public class IssueItemDTO implements Identifiable<Long> {
     private Long id;
-    private Double quantity;
+    private BigDecimal quantity;
     private ItemDTO item;
 }

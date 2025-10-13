@@ -65,13 +65,13 @@ export class ItemComponent {
     assets: [null],
     siorg: [null],
     type: [null, Validators.required],
-    quantityAvailable: [
-      null,
-      Validators.compose([Validators.required, Validators.max(1)]),
+    quantity: [
+      { value: null, disabled: true },
+      Validators.compose([Validators.required]),
     ],
-    minimunStock: [
+    minimumStock: [
       null,
-      Validators.compose([Validators.required, Validators.max(1)]),
+      Validators.compose([Validators.required]),
     ],
   });
 
