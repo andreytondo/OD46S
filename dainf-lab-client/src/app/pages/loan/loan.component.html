@@ -8,80 +8,67 @@
 ></app-crud>
 
 <ng-template #crudForm>
-  <form [formGroup]="form" class="grid grid-cols-12 gap-4">
-    <app-input-container
-      label="Código"
-      class="col-span-12 md:col-span-6 lg:col-span-2"
-    >
-      <input type="text" pInputText id="id" formControlName="id" fluid />
-    </app-input-container>
+  <div class="p-fluid p-4">
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold">Registro de Empréstimo</h2>
+      <p class="text-muted-color">
+        Preencha os campos para registrar um novo empréstimo.
+      </p>
+    </div>
 
-    <app-input-container label="Data do empréstimo" class="col-span-12 md:col-span-6">
-      <input type="date" pInputText id="loanDate" formControlName="loanDate" fluid />
-    </app-input-container>
+    <form [formGroup]="form" class="grid grid-cols-12 gap-4">
 
-    <app-input-container label="Prazo" class="col-span-12 md:col-span-6">
-      <input type="date" pInputText id="deadline" formControlName="deadline" fluid />
-    </app-input-container>
+      <app-input-container label="Data do empréstimo" class="col-span-12 md:col-span-4">
+        <input type="date" pInputText id="loanDate" formControlName="loanDate" />
+      </app-input-container>
 
-    <app-input-container label="Data de devolução" class="col-span-12 md:col-span-6">
-      <input type="date" pInputText id="devolution_date" formControlName="devolutionDate" fluid />
-    </app-input-container>
+      <app-input-container label="Prazo" class="col-span-12 md:col-span-4">
+        <input type="date" pInputText id="deadline" formControlName="deadline" />
+      </app-input-container>
 
-    <app-input-container
-      label="Observação"
-      class="col-span-12 md:col-span-6 lg:col-span-4"
-    >
-      <input
-        type="text"
-        pInputText
-        id="observation"
-        formControlName="observation"
-        fluid
-      />
-    </app-input-container>
+      <app-input-container label="Data de devolução" class="col-span-12 md:col-span-4">
+        <input type="date" pInputText id="devolution_date" formControlName="devolutionDate" />
+      </app-input-container>
 
-    <app-input-container
-      label="Mutuário"
-      class="col-span-12 md:col-span-6 lg:col-span-4">
-      <app-search-select
-        formControlName="borrower"
-        optionLabel="nome"
-        [service]="userService"
-        placeholder="Selecione um usuário"
-      />
-    </app-input-container>
+      <app-input-container label="Mutuário" class="col-span-12 md:col-span-6">
+        <app-search-select
+          formControlName="borrower"
+          optionLabel="nome"
+          [service]="userService"
+          placeholder="Selecione um usuário"
+        />
+      </app-input-container>
 
-    <app-input-container
-      label="RA/SIAPE"
-      class="col-span-12 md:col-span-6 lg:col-span-4"
-    >
-      <input
-        type="text"
-        pInputText
-        id="ra_siape"
-        formControlName="raSiape"
-        fluid
-      />
-    </app-input-container>
+      <app-input-container label="RA/SIAPE" class="col-span-12 md:col-span-6">
+        <input type="text" pInputText id="ra_siape" formControlName="raSiape" />
+      </app-input-container>
+      
+      <app-input-container label="Código" class="col-span-12 md:col-span-4">
+        <input type="text" pInputText id="id" formControlName="id" />
+      </app-input-container>
+      
+      <app-input-container label="Observação" class="col-span-12 md:col-span-8">
+        <input type="text" pInputText id="observation" formControlName="observation" />
+      </app-input-container>
 
-    <p-fieldset legend="Items" class="col-span-12">
-      <app-subitem-form
-        formControlName="items"
-        [form]="loanItensForm"
-        [columns]="itensCols"
-      >
-        <ng-template #formTemplate>
-          <ng-container *ngTemplateOutlet="loanItensFormTemplate"></ng-container>
-        </ng-template>
-      </app-subitem-form>
-    </p-fieldset>
-  </form>
+      <p-fieldset legend="Itens" class="col-span-12">
+        <app-subitem-form
+          formControlName="items"
+          [form]="loanItensForm"
+          [columns]="itensCols"
+        >
+          <ng-template #formTemplate>
+            <ng-container *ngTemplateOutlet="loanItensFormTemplate"></ng-container>
+          </ng-template>
+        </app-subitem-form>
+      </p-fieldset>
+    </form>
+  </div>
 </ng-template>
 
 <ng-template #loanItensFormTemplate>
-  <form [formGroup]="loanItensForm" class="grid grid-cols-12 gap-4 pb-5">
-    <app-input-container label="Item" class="col-span-12 md:col-span-6">
+  <form [formGroup]="loanItensForm" class="grid grid-cols-12 min-w-0 gap-4 pb-5">
+    <app-input-container label="Item" class="col-span-4 lg:col-span-6">
       <app-search-select
         formControlName="item"
         optionLabel="name"
@@ -90,10 +77,7 @@
       />
     </app-input-container>
 
-    <app-input-container
-      label="Quantidade"
-      class="col-span-12 md:col-span-6 lg:col-span-3"
-    >
+    <app-input-container label="Quantidade" class="col-span-4 md:col-span-6 lg:col-span-3">
       <p-input-number
         locale="pt-BR"
         mode="decimal"
@@ -101,10 +85,7 @@
       </p-input-number>
     </app-input-container>
 
-    <app-input-container
-      label="Status"
-      class="col-span-12 md:col-span-6 lg:col-span-3"
-    >
+    <app-input-container label="Status" class="col-span-12 md:col-span-6 lg:col-span-3">
       <app-static-select
         [options]="loanStatusOptions"
         formControlName="status"
