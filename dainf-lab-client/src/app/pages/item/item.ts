@@ -8,8 +8,8 @@ export interface Item extends Identifiable {
   category: Category;
   assets: Asset[];
   siorg: string;
-  quantityAvailable: number;
-  minimunStock: number;
+  quantity: number;
+  minimumStock: number;
   type: ItemType;
 }
 

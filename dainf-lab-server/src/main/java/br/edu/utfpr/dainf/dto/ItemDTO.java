@@ -26,6 +26,7 @@ public class ItemDTO implements Identifiable<Long> {
     private CategoryDTO category;
     private List<AssetDTO> assets;
     private String siorg;
+    private BigDecimal quantity;
     private BigDecimal minimumStock;
     private ItemType type;
 }

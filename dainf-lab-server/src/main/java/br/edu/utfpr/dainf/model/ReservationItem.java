@@ -22,7 +22,7 @@ public class ReservationItem {
     private Long id;
 
     @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    private BigDecimal quantity;
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
