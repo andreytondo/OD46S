@@ -8,7 +8,9 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  computed,
   inject,
+  model,
   TemplateRef,
   viewChild,
 } from '@angular/core';
@@ -23,7 +25,7 @@ import { TreeNode } from 'primeng/api';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
 import { TreeModule } from 'primeng/tree';
-import { SearchRequest } from './../../shared/models/search';
+import { SearchFilter, SearchRequest } from './../../shared/models/search';
 import { Category } from './category';
 import { CategoryService } from './category.service';
 
@@ -40,7 +42,7 @@ import { CategoryService } from './category.service';
     SubItemFormComponent,
     FieldsetModule,
     TreeModule,
-    CategoryTreeNodePipe
+    CategoryTreeNodePipe,
   ],
   selector: 'app-category',
   templateUrl: 'category.component.html',
@@ -54,9 +56,17 @@ export class CategoryComponent implements AfterViewInit {
   categoryService = inject(CategoryService);
   formBuilder = inject(FormBuilder);
 
-  searchRequest: SearchRequest = {
-    filters: [{ field: 'parent', type: 'IS_NULL' }],
-  };
+  filtroDescription = model<string | undefined>();
+  searchRequest = computed<SearchRequest>(() => {
+    const filters: SearchFilter[] = [{ field: 'parent', type: 'IS_NULL' }];
+    if (this.filtroDescription())
+      filters.push({
+        field: 'description',
+        value: this.filtroDescription(),
+        type: 'ILIKE',
+      });
+    return <SearchRequest>{ filters };
+  });
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
@@ -71,9 +81,7 @@ export class CategoryComponent implements AfterViewInit {
     icon: [null],
   });
 
-  cols: Column<Category>[] = [
-    { field: 'description', header: 'Descrição' },
-  ];
+  cols: Column<Category>[] = [{ field: 'description', header: 'Descrição' }];
 
   subcategoryCols: Column<Category>[] = [
     { field: 'description', header: 'Descrição' },
@@ -86,9 +94,7 @@ export class CategoryComponent implements AfterViewInit {
   };
 
   ngAfterViewInit(): void {
-    this.templateMap = new Map([
-      ['description', this.subcategoryTemplate()!],
-    ]);
+    this.templateMap = new Map([['description', this.subcategoryTemplate()!]]);
   }
 
   mapToTreeNodes(categories: Category[]): TreeNode<Category>[] {

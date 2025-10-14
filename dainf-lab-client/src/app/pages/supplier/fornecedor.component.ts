@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, model } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,8 +13,9 @@ import { CrudComponent } from '@/shared/crud/crud.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
-import { EstadoSelectComponent } from "@/shared/components/estado-select/estado-select.component";
+import { EstadoSelectComponent } from '@/shared/components/estado-select/estado-select.component';
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
+import { SearchRequest } from '@/shared/models/search';
 import { CEPResult, CEPService } from '@/shared/services/cep.service';
 import { CommonModule } from '@angular/common';
 import { SelectModule } from 'primeng/select';
@@ -35,8 +36,8 @@ import { FornecedorService } from './fornecedor.service';
     TextareaModule,
     SelectModule,
     EstadoSelectComponent,
-    SearchSelectComponent
-],
+    SearchSelectComponent,
+  ],
   selector: 'app-fornecedor',
   templateUrl: './fornecedor.component.html',
 })
@@ -71,6 +72,33 @@ export class FornecedorComponent implements OnInit {
   config: CrudConfig<Fornecedor> = {
     title: 'Fornecedores',
   };
+
+  filtroNomeFantasia = model<string | undefined>();
+  filtroRazaoSocial = model<string | undefined>();
+  filtroCnpj = model<string | undefined>();
+
+  searchRequest = computed<SearchRequest>(() => {
+    const filters = [];
+    if (this.filtroNomeFantasia())
+      filters.push({
+        field: 'nomeFantasia',
+        value: this.filtroNomeFantasia(),
+        type: 'ILIKE',
+      });
+    if (this.filtroRazaoSocial())
+      filters.push({
+        field: 'razaoSocial',
+        value: this.filtroRazaoSocial(),
+        type: 'ILIKE',
+      });
+    if (this.filtroCnpj())
+      filters.push({
+        field: 'cnpj',
+        value: this.filtroCnpj(),
+        type: 'ILIKE',
+      });
+    return <SearchRequest>{ filters };
+  });
 
   ngOnInit(): void {
     this._handleCEPChanges();

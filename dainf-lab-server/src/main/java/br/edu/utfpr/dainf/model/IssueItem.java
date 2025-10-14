@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Entity
@@ -20,7 +22,7 @@ public class IssueItem {
     private Long id;
 
     @Column(name = "quantity", nullable = false)
-    private Double quantity;
+    private BigDecimal quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)

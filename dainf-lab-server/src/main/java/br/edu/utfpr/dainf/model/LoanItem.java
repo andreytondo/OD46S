@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "loan_item")
 @Getter
@@ -35,7 +37,7 @@ public class LoanItem implements Identifiable<Long> {
     private boolean shouldReturn;
 
     @Column(name = "quantity", nullable = false)
-    private boolean quantity;
+    private BigDecimal quantity;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)

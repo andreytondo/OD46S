@@ -5,7 +5,8 @@
   [config]="config"
   [form]="form"
   [formTemplate]="crudForm"
-  [searchRequest]="searchRequest"
+  [searchRequest]="searchRequest()"
+  [filtersTemplate]="filters"
   [templateMap]="templateMap"
 ></app-crud>
 
@@ -86,4 +87,16 @@
       </div>
     </ng-template>
   </p-tree>
+</ng-template>
+
+<ng-template #filters>
+  <app-input-container label="Descrição" class="col-span-12">
+    <input
+      type="text"
+      pInputText
+      id="description2"
+      [(ngModel)]="filtroDescription"
+      [ngModelOptions]="{ standalone: true }"
+    />
+  </app-input-container>
 </ng-template>

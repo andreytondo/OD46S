@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PurchaseItemDTO implements Identifiable<Long> {
     private Long id;
-    private Double quantity;
+    private BigDecimal quantity;
     private BigDecimal price;
     private ItemDTO item;
 }

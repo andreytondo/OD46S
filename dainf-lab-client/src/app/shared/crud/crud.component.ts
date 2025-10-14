@@ -3,19 +3,30 @@ import {
   Component,
   inject,
   input,
+  model,
   OnInit,
   output,
   signal,
   TemplateRef,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DrawerModule } from 'primeng/drawer';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { catchError, finalize, Observable, take, tap, throwError } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  finalize,
+  Observable,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 import { Page, SearchRequest } from '../models/search';
 import { Column, CrudConfig, Identifiable } from './crud';
 import { CrudService } from './crud.service';
@@ -32,13 +43,13 @@ import { CrudTableComponent } from './table/crud-table.component';
     CrudTableComponent,
     CrudDialogComponent,
     ToastModule,
+    DrawerModule,
   ],
   selector: 'app-crud',
   templateUrl: 'crud.component.html',
   providers: [MessageService, ConfirmationService],
 })
 export class CrudComponent<T extends Identifiable> implements OnInit {
-
   table = viewChild(CrudTableComponent);
 
   service = input.required<CrudService<T>>();
@@ -46,8 +57,11 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   config = input<CrudConfig<T>>();
   globalFilterFields = input<string[]>([]);
   form = input<FormGroup>();
-  searchRequest = input<SearchRequest>()
-  templateMap = input<Map<keyof T | string, TemplateRef<any>> | undefined>(new Map());
+  searchRequest = input<SearchRequest>();
+  templateMap = input<Map<keyof T | string, TemplateRef<any>> | undefined>(
+    new Map(),
+  );
+  filtersTemplate = input<TemplateRef<any> | undefined>(undefined);
 
   actionsTemplate = input<TemplateRef<any>>();
   formTemplate = input<TemplateRef<any>>();
@@ -61,8 +75,18 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   loadingItems = signal<boolean>(false);
   loadingEntity = signal<boolean>(false);
 
+  drawerVisible = model<boolean>(false);
+
   messageService = inject(MessageService);
   confirmationService = inject(ConfirmationService);
+
+  searchRequestChange$ = toObservable(this.searchRequest)
+    .pipe(
+      debounceTime(600),
+      tap(() => this.loadItems()),
+      takeUntilDestroyed(),
+    )
+    .subscribe();
 
   ngOnInit(): void {
     this.loadItems();
