@@ -5,6 +5,8 @@
   [config]="config"
   [form]="form"
   [formTemplate]="crudForm"
+  [filtersTemplate]="filters"
+  [searchRequest]="searchRequest()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -116,4 +118,38 @@
       ></textarea>
     </app-input-container>
   </form>
+</ng-template>
+
+<ng-template #filters>
+  <div class="grid grid-cols-12 gap-4">
+    <app-input-container label="Nome Fantasia" class="col-span-12">
+      <input
+        type="text"
+        pInputText
+        id="nomeFantasia"
+        [(ngModel)]="filtroNomeFantasia"
+        [ngModelOptions]="{ standalone: true }"
+      />
+    </app-input-container>
+
+    <app-input-container label="Razão Social" class="col-span-12">
+      <input
+        type="text"
+        pInputText
+        id="razaoSocial"
+        [(ngModel)]="filtroRazaoSocial"
+        [ngModelOptions]="{ standalone: true }"
+      />
+    </app-input-container>
+
+    <app-input-container label="CNPJ" class="col-span-12">
+      <input
+        type="text"
+        pInputText
+        id="cnpj"
+        [(ngModel)]="filtroCnpj"
+        [ngModelOptions]="{ standalone: true }"
+      />
+    </app-input-container>
+  </div>
 </ng-template>

@@ -7,6 +7,15 @@
       class="mr-2"
       (onClick)="openNew()"
     />
+
+    @if (filtersTemplate()) {
+      <p-button
+        label="Filtrar"
+        icon="pi pi-filter"
+        severity="secondary"
+        (onClick)="drawerVisible.set(true)"
+      />
+    }
   </ng-template>
 
   <ng-template #end>
@@ -43,3 +52,7 @@
 ></app-crud-dialog>
 
 <p-toast />
+
+<p-drawer header="Filtros" [(visible)]="drawerVisible" position="right">
+  <ng-container *ngTemplateOutlet="filtersTemplate()"></ng-container>
+</p-drawer>
