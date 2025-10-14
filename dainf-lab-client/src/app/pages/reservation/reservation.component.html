@@ -8,93 +8,114 @@
 ></app-crud>
 
 <ng-template #crudForm>
-  <div class="p-fluid">
-    <form [formGroup]="form" class="grid grid-cols-12 gap-x-6 gap-y-4">
-      <div class="col-span-12">
-        <h2 class="text-2xl font-semibold">Registro de Reserva</h2>
-        <p class="text-gray-500">
-          Preencha as informações abaixo para registrar uma nova reserva de
-          itens.
+  <div class="p-3 rounded-lg bg-surface-ground">
+    <form [formGroup]="form">
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-primary">
+          Registro de Reserva
+        </h2>
+        <p class="mt-1 text-muted-color">
+          Preencha as informações abaixo para gerenciar uma reserva de itens.
         </p>
       </div>
 
-      <p-fieldset legend="Informações da Reserva" class="col-span-12">
-        <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
-          <app-input-container label="Código" class="col-span-12 md:col-span-2">
-            <input pInputText id="id" formControlName="id" />
-          </app-input-container>
-
-          <app-input-container
-            label="Data da Reserva"
-            class="col-span-12 md:col-span-5"
-          >
-            <p-datepicker
-              formControlName="reservationDate"
-              dateFormat="dd/mm/yy"
-              styleClass="w-full"
-            ></p-datepicker>
-          </app-input-container>
-
-          <app-input-container
-            label="Data da Retirada (Opcional)"
-            class="col-span-12 md:col-span-5"
-          >
-            <p-datepicker
-              formControlName="withdrawalDate"
-              dateFormat="dd/mm/yy"
-              styleClass="w-full"
-            ></p-datepicker>
-          </app-input-container>
-
-          <app-input-container
-            label="Descrição"
-            class="col-span-12 md:col-span-6"
-          >
-            <input pInputText id="description" formControlName="description" />
-          </app-input-container>
-
-          <app-input-container
-            label="Observação"
-            class="col-span-12 md:col-span-6"
-          >
-            <textarea
-              pInputTextarea
-              id="observation"
-              formControlName="observation"
-              rows="3"
-            ></textarea>
-          </app-input-container>
-        </div>
-      </p-fieldset>
-
-      <p-fieldset legend="Responsável" class="col-span-12">
-        <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
-          <app-input-container
-            label="Usuário Responsável"
-            class="col-span-12"
-          >
-            <app-search-select
-              formControlName="user"
-              optionLabel="nome"
-              [service]="userService"
-            ></app-search-select>
-          </app-input-container>
-        </div>
-      </p-fieldset>
-
-      <p-fieldset legend="Itens da Reserva" class="col-span-12">
-        <app-subitem-form
-          formControlName="items"
-          [form]="reservationItemForm"
-          [columns]="reservationItemCols"
+      <div class="grid grid-cols-1 gap-6">
+        <p-fieldset
+          legend="Informações da Reserva"
+          [toggleable]="true"
+          styleClass="block"
         >
-          <ng-template #formTemplate>
-            <ng-container
-              *ngTemplateOutlet="reservationItemFormTemplate"
-            ></ng-container>
-          </ng-template>
-        </app-subitem-form>
-      </p-fieldset>
+          <div class="grid grid-cols-12 gap-4 pt-4">
+            <app-input-container
+              label="Código"
+              class="col-span-12 md:col-span-2"
+            >
+              <input pInputText id="id" formControlName="id" />
+            </app-input-container>
+
+            <app-input-container
+              label="Data da Reserva"
+              class="col-span-12 sm:col-span-6 md:col-span-5"
+            >
+              <p-datepicker
+                formControlName="reservationDate"
+                dateFormat="dd/mm/yy"
+                styleClass="w-full"
+              />
+            </app-input-container>
+
+            <app-input-container
+              label="Data da Retirada (Opcional)"
+              class="col-span-12 sm:col-span-6 md:col-span-5"
+            >
+              <p-datepicker
+                formControlName="withdrawalDate"
+                dateFormat="dd/mm/yy"
+                styleClass="w-full"
+              />
+            </app-input-container>
+
+            <app-input-container
+              label="Descrição"
+              class="col-span-12"
+            >
+              <input
+                pInputText
+                id="description"
+                formControlName="description"
+              />
+            </app-input-container>
+            
+            </div>
+        </p-fieldset>
+
+        <p-fieldset legend="Responsável" [toggleable]="true" styleClass="block">
+          <div class="grid grid-cols-1 gap-4 pt-4">
+            <app-input-container label="Usuário Responsável" class="col-span-1">
+              <app-search-select
+                formControlName="user"
+                optionLabel="nome"
+                [service]="userService"
+              ></app-search-select>
+            </app-input-container>
+          </div>
+        </p-fieldset>
+
+        <p-fieldset
+          legend="Itens da Reserva"
+          [toggleable]="true"
+          styleClass="block"
+        >
+          <div class="pt-2">
+            <app-subitem-form
+              formControlName="items"
+              [form]="reservationItemForm"
+              [columns]="reservationItemCols"
+            >
+              <ng-template #formTemplate>
+                <ng-container
+                  *ngTemplateOutlet="reservationItemFormTemplate"
+                ></ng-container>
+              </ng-template>
+            </app-subitem-form>
+          </div>
+        </p-fieldset>
+        
+        <p-fieldset legend="Observações" [toggleable]="true" styleClass="block">
+            <div class="pt-4">
+                <app-input-container label="Observação (Opcional)" class="col-span-12">
+                  <textarea
+                    pInputTextarea
+                    id="observation"
+                    formControlName="observation"
+                    rows="4"
+                    [autoResize]="true"
+                  ></textarea>
+                </app-input-container>
+            </div>
+        </p-fieldset>
+
+      </div>
     </form>
   </div>
 </ng-template>
@@ -102,7 +123,7 @@
 <ng-template #reservationItemFormTemplate>
   <form
     [formGroup]="reservationItemForm"
-    class="grid grid-cols-12 gap-x-6 gap-y-4 items-center"
+    class="grid grid-cols-12 gap-4 items-center p-2"
   >
     <app-input-container label="Item" class="col-span-12 md:col-span-8">
       <app-search-select
@@ -116,6 +137,7 @@
       <p-inputNumber
         locale="pt-BR"
         formControlName="quantity"
+        styleClass="w-full"
       ></p-inputNumber>
     </app-input-container>
   </form>
