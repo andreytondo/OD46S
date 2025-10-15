@@ -35,6 +35,26 @@ public class MinIOStorageService implements StorageService {
         }
     }
 
+    @Override
+    public void moveToPermanentFolder(String bucket, String oldObjectName, String newObjectName) {
+        try {
+            CopyObjectArgs copyArgs = CopyObjectArgs.builder()
+                    .source(CopySource.builder().bucket(bucket).object(oldObjectName).build())
+                    .bucket(bucket)
+                    .object(newObjectName)
+                    .build();
+            minioClient.copyObject(copyArgs);
+
+            RemoveObjectArgs removeArgs = RemoveObjectArgs.builder()
+                    .bucket(bucket)
+                    .object(oldObjectName)
+                    .build();
+            minioClient.removeObject(removeArgs);
+        } catch (Exception e) {
+            throw new StorageException("Failed to move object in MinIO");
+        }
+    }
+
     private void ensureBucketExists(String bucketName) {
         try {
             boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());

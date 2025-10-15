@@ -92,6 +92,10 @@
       <input type="text" pInputText id="siorg" formControlName="siorg" fluid />
     </app-input-container>
 
+    <app-input-container label="Fotos" class="col-span-12">
+      <app-photo-attachment [service]="storageService" formControlName="images"></app-photo-attachment>
+    </app-input-container>
+
     <p-fieldset legend="Patrimônios" class="col-span-12">
       <app-subitem-form
         formControlName="assets"

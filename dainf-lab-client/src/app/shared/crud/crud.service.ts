@@ -4,7 +4,7 @@ import { Page, SearchRequest } from '../models/search';
 import { Identifiable } from './crud';
 
 export abstract class CrudService<T extends Identifiable> extends BaseService {
-  private _url: string;
+  public readonly _url: string;
 
   constructor(url: string) {
     super();

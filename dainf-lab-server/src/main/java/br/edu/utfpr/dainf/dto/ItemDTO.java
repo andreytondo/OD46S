@@ -1,6 +1,7 @@
 package br.edu.utfpr.dainf.dto;
 
 import br.edu.utfpr.dainf.enums.ItemType;
+import br.edu.utfpr.dainf.model.ItemImage;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,6 +26,7 @@ public class ItemDTO implements Identifiable<Long> {
     private BigDecimal price;
     private CategoryDTO category;
     private List<AssetDTO> assets;
+    private List<ItemImage> images;
     private String siorg;
     private BigDecimal quantity;
     private BigDecimal minimumStock;

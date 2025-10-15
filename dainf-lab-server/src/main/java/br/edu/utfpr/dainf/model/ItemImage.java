@@ -1,6 +1,7 @@
 package br.edu.utfpr.dainf.model;
 
 import br.edu.utfpr.dainf.shared.Identifiable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class ItemImage implements Identifiable<Long> {
     @Column(name = "id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
