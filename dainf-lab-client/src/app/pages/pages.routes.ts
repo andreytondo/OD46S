@@ -9,6 +9,7 @@ import { PurchaseComponent } from './purchase/purchase.component';
 import { FornecedorComponent } from './supplier/fornecedor.component';
 import { UserComponent } from './user/user.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { IssueComponent } from './issue/issue.component';
 
 export default [
   {
@@ -20,6 +21,7 @@ export default [
       { path: 'item', component: ItemComponent, canActivate: [AuthGuard] },
       { path: 'compra', component: PurchaseComponent, canActivate: [AuthGuard] },
       { path: 'loan', component: LoanComponent, canActivate: [AuthGuard] },
+      { path: 'issue', component: IssueComponent, canActivate: [AuthGuard] },
       { path: 'reservation', component: ReservationComponent, canActivate: [AuthGuard] },
       { path: 'purchase-solicitation', component: PurchaseSolicitationComponent, canActivate: [AuthGuard] },
       { path: '**', redirectTo: '/not-found' }
