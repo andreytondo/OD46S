@@ -1,0 +1,131 @@
+<app-crud
+  #crud
+  [columns]="cols"
+  [service]="issueService"
+  [config]="config"
+  [form]="form"
+  [formTemplate]="crudForm"
+></app-crud>
+
+<ng-template #crudForm>
+  <div class="p-3 rounded-lg bg-surface-ground">
+    <form [formGroup]="form">
+      <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-primary">
+          Registro de Saída de Estoque
+        </h2>
+        <p class="mt-1 text-muted-color">
+          Preencha as informações abaixo para registrar a saída de itens.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        <p-fieldset
+          legend="Informações da Saída"
+          [toggleable]="true"
+          styleClass="block"
+        >
+          <div class="grid grid-cols-12 gap-4 pt-4">
+            <app-input-container
+              label="Código"
+              class="col-span-12 md:col-span-4 lg:col-span-2"
+            >
+              <input pInputText id="id" formControlName="id" />
+            </app-input-container>
+
+            <app-input-container
+              label="Data da Saída"
+              class="col-span-12 md:col-span-8 lg:col-span-5"
+            >
+              <p-datepicker
+                formControlName="date"
+                dateFormat="dd/mm/yy"
+                styleClass="w-full"
+              />
+            </app-input-container>
+
+            <app-input-container
+              label="Empréstimo (Opcional)"
+              class="col-span-12 lg:col-span-5"
+            >
+              <app-search-select
+                formControlName="loan"
+                optionLabel="id"
+                [service]="loanService"
+                placeholder="Vincular a um empréstimo"
+              ></app-search-select>
+            </app-input-container>
+
+            <app-input-container
+              label="Observação (Opcional)"
+              class="col-span-12"
+            >
+              <textarea
+                pInputTextarea
+                id="observation"
+                formControlName="observation"
+                rows="3"
+                [autoResize]="true"
+              ></textarea>
+            </app-input-container>
+          </div>
+        </p-fieldset>
+
+        <p-fieldset legend="Responsável" [toggleable]="true" styleClass="block">
+          <div class="grid grid-cols-1 gap-4 pt-4">
+            <app-input-container label="Usuário Responsável" class="col-span-1">
+              <app-search-select
+                formControlName="user"
+                optionLabel="nome"
+                [service]="userService"
+              ></app-search-select>
+            </app-input-container>
+          </div>
+        </p-fieldset>
+
+        <p-fieldset
+          legend="Itens da Saída"
+          [toggleable]="true"
+          styleClass="block"
+        >
+          <div class="pt-2">
+            <app-subitem-form
+              formControlName="items"
+              [form]="issueItemForm"
+              [columns]="issueItemCols"
+            >
+              <ng-template #formTemplate>
+                <ng-container
+                  *ngTemplateOutlet="issueItemFormTemplate"
+                ></ng-container>
+              </ng-template>
+            </app-subitem-form>
+          </div>
+        </p-fieldset>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #issueItemFormTemplate>
+  <form
+    [formGroup]="issueItemForm"
+    class="grid grid-cols-12 gap-4 items-center p-2"
+  >
+    <app-input-container label="Item" class="col-span-12 md:col-span-8">
+      <app-search-select
+        formControlName="item"
+        optionLabel="name"
+        [service]="itemService"
+      ></app-search-select>
+    </app-input-container>
+
+    <app-input-container label="Quantidade" class="col-span-12 md:col-span-4">
+      <p-inputNumber
+        locale="pt-BR"
+        formControlName="quantity"
+        styleClass="w-full"
+      ></p-inputNumber>
+    </app-input-container>
+  </form>
+</ng-template>
