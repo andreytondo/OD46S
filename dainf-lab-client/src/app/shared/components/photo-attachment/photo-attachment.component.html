@@ -1,0 +1,69 @@
+<p-fileUpload
+  [customUpload]="true"
+  (uploadHandler)="onSelect($event)"
+  [disabled]="disabled()"
+  [auto]="true"
+  [multiple]="true"
+  accept="image/*"
+  chooseIcon="pi pi-images"
+  chooseLabel="Escolher imagens"
+  [chooseButtonProps]="{ rounded: false, outlined: true }"
+>
+  <ng-template #content let-files let-removeFileCallback="removeFileCallback">
+    @if (!!files.length) {
+      <ng-container *ngTemplateOutlet="display; context: { $implicit: files, removeFileCallback: removeFileCallback }"></ng-container>
+    }
+  </ng-template>
+
+  <ng-template #empty>
+    <div class="flex items-center justify-center flex-col">
+      <i
+        class="pi pi-cloud-upload border-2 rounded-full p-8 text-4xl text-muted-color"
+      ></i>
+      <p class="mt-6 mb-0">Arraste e solte arquivos aqui para fazer upload.</p>
+    </div>
+  </ng-template>
+</p-fileUpload>
+
+<ng-template #display let-files let-removeFileCallback="removeFileCallback">
+  <p-carousel
+    [value]="files"
+    [numVisible]="4"
+    [numScroll]="1"
+    [circular]="false"
+    [responsiveOptions]="[
+      { breakpoint: '1400px', numVisible: 3, numScroll: 1 },
+      { breakpoint: '1024px', numVisible: 2, numScroll: 1 },
+      { breakpoint: '768px', numVisible: 1, numScroll: 1 },
+    ]"
+    class="w-full"
+  >
+    <ng-template let-item #item>
+      <div
+        style="margin-bottom: 0 !important"
+        class="card m-2 p-1 flex flex-col items-center justify-between border border-surface rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300"
+      >
+        <p-image
+          appendTo="body"
+          [preview]="true"
+          [alt]="item.name"
+          [src]="item.objectURL"
+          [imageStyle]="{ 'max-width': '120px', 'max-height': '80px' }"
+        />
+        <span
+          class="mt-2 font-medium text-sm text-ellipsis max-w-60 whitespace-nowrap overflow-hidden"
+          >{{ item.name }}</span
+        >
+        <p-button
+          icon="pi pi-times"
+          (click)="removeImage($event, item, removeFileCallback)"
+          [outlined]="true"
+          [rounded]="true"
+          severity="danger"
+          size="small"
+          class="mt-2"
+        />
+      </div>
+    </ng-template>
+  </p-carousel>
+</ng-template>
