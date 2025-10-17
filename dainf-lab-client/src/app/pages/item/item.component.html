@@ -93,7 +93,10 @@
     </app-input-container>
 
     <app-input-container label="Fotos" class="col-span-12">
-      <app-photo-attachment [service]="storageService" formControlName="images"></app-photo-attachment>
+      <app-photo-attachment
+        [service]="storageService"
+        formControlName="images"
+      ></app-photo-attachment>
     </app-input-container>
 
     <p-fieldset legend="Patrimônios" class="col-span-12">
@@ -141,4 +144,36 @@
       ></app-static-select>
     </app-input-container>
   </form>
+</ng-template>
+
+<ng-template #filters>
+  <app-input-container label="Nome" class="col-span-12">
+    <input type="text" pInputText id="name" [(ngModel)]="nameFilter" fluid />
+  </app-input-container>
+
+  <app-input-container label="Tipo" class="col-span-12">
+    <app-static-select
+      [options]="itemTypeOptions"
+      [(ngModel)]="typeFilter"
+    ></app-static-select>
+  </app-input-container>
+
+  <app-input-container label="Categoria" class="col-span-12">
+    <app-category-select [(ngModel)]="categoryFilter"></app-category-select>
+  </app-input-container>
+
+  <app-input-container label="Siorg" class="col-span-12">
+    <input type="text" pInputText id="siorg" [(ngModel)]="siorgFilter" fluid />
+  </app-input-container>
+
+  <app-input-container label="Localização" class="col-span-12">
+    <input type="text" pInputText id="location" [(ngModel)]="locationFilter" />
+  </app-input-container>
+
+  <app-input-container label="Situação" class="col-span-12">
+    <app-static-select
+      [options]="assetStatusOptions"
+      [(ngModel)]="statusFilter"
+    ></app-static-select>
+  </app-input-container>
 </ng-template>

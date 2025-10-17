@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core'; // Adicionado OnInit
+import { Component, computed, inject, model, OnInit } from '@angular/core'; // Adicionado OnInit
 import {
   FormBuilder,
   FormGroup,
@@ -21,11 +21,14 @@ import { Purchase, PurchaseItem } from './purchase';
 import { PurchaseService } from './purchase.service';
 
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
+import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { DatePickerModule } from 'primeng/datepicker'; // Corrigido de DatePickerModule
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { Item } from '../item/item';
+import { Fornecedor } from '../supplier/fornecedor';
+import { User } from '../user/user';
 
 @Component({
   standalone: true,
@@ -116,6 +119,38 @@ export class PurchaseComponent implements OnInit {
         }),
     },
   ];
+
+  dateFilter = model<string | undefined>();
+  userFilter = model<User | undefined>();
+  fornecedorFilter = model<Fornecedor | undefined>();
+  searchRequest = computed<SearchRequest>(() => {
+    const filters: SearchFilter[] = [];
+
+    if (this.dateFilter()) {
+      filters.push({
+        field: 'date',
+        value: this.dateFilter(),
+        type: 'EQUALS',
+      });
+    }
+
+    if (this.userFilter()) {
+      filters.push({
+        field: 'user.id',
+        value: this.userFilter()?.id,
+        type: 'EQUALS',
+      });
+    }
+
+    if (this.fornecedorFilter()) {
+      filters.push({
+        field: 'fornecedor.id',
+        value: this.fornecedorFilter()?.id,
+        type: 'EQUALS',
+      });
+    }
+    return <SearchRequest>{ filters };
+  });
 
   ngOnInit() {
     this.form.get('items')?.valueChanges.subscribe((items: PurchaseItem[]) => {

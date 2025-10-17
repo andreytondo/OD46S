@@ -5,6 +5,8 @@
   [config]="config"
   [form]="form"
   [formTemplate]="crudForm"
+  [filtersTemplate]="filters"
+  [searchRequest]="searchRequest()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -17,17 +19,37 @@
     </div>
 
     <form [formGroup]="form" class="grid grid-cols-12 gap-4">
-
-      <app-input-container label="Data do empréstimo" class="col-span-12 md:col-span-4">
-        <input type="date" pInputText id="loanDate" formControlName="loanDate" />
+      <app-input-container
+        label="Data do empréstimo"
+        class="col-span-12 md:col-span-4"
+      >
+        <input
+          type="date"
+          pInputText
+          id="loanDate"
+          formControlName="loanDate"
+        />
       </app-input-container>
 
       <app-input-container label="Prazo" class="col-span-12 md:col-span-4">
-        <input type="date" pInputText id="deadline" formControlName="deadline" />
+        <input
+          type="date"
+          pInputText
+          id="deadline"
+          formControlName="deadline"
+        />
       </app-input-container>
 
-      <app-input-container label="Data de devolução" class="col-span-12 md:col-span-4">
-        <input type="date" pInputText id="devolution_date" formControlName="devolutionDate" />
+      <app-input-container
+        label="Data de devolução"
+        class="col-span-12 md:col-span-4"
+      >
+        <input
+          type="date"
+          pInputText
+          id="devolution_date"
+          formControlName="devolutionDate"
+        />
       </app-input-container>
 
       <app-input-container label="Mutuário" class="col-span-12 md:col-span-6">
@@ -39,16 +61,17 @@
         />
       </app-input-container>
 
-      <app-input-container label="RA/SIAPE" class="col-span-12 md:col-span-6">
-        <input type="text" pInputText id="ra_siape" formControlName="raSiape" />
-      </app-input-container>
-      
       <app-input-container label="Código" class="col-span-12 md:col-span-4">
         <input type="text" pInputText id="id" formControlName="id" />
       </app-input-container>
-      
+
       <app-input-container label="Observação" class="col-span-12 md:col-span-8">
-        <input type="text" pInputText id="observation" formControlName="observation" />
+        <input
+          type="text"
+          pInputText
+          id="observation"
+          formControlName="observation"
+        />
       </app-input-container>
 
       <p-fieldset legend="Itens" class="col-span-12">
@@ -58,7 +81,9 @@
           [columns]="itensCols"
         >
           <ng-template #formTemplate>
-            <ng-container *ngTemplateOutlet="loanItensFormTemplate"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="loanItensFormTemplate"
+            ></ng-container>
           </ng-template>
         </app-subitem-form>
       </p-fieldset>
@@ -67,7 +92,10 @@
 </ng-template>
 
 <ng-template #loanItensFormTemplate>
-  <form [formGroup]="loanItensForm" class="grid grid-cols-12 min-w-0 gap-4 pb-5">
+  <form
+    [formGroup]="loanItensForm"
+    class="grid grid-cols-12 min-w-0 gap-4 pb-5"
+  >
     <app-input-container label="Item" class="col-span-4 lg:col-span-6">
       <app-search-select
         formControlName="item"
@@ -77,19 +105,55 @@
       />
     </app-input-container>
 
-    <app-input-container label="Quantidade" class="col-span-4 md:col-span-6 lg:col-span-3">
-      <p-input-number
-        locale="pt-BR"
-        mode="decimal"
-        formControlName="quantity">
+    <app-input-container
+      label="Quantidade"
+      class="col-span-4 md:col-span-6 lg:col-span-3"
+    >
+      <p-input-number locale="pt-BR" mode="decimal" formControlName="quantity">
       </p-input-number>
     </app-input-container>
 
-    <app-input-container label="Status" class="col-span-12 md:col-span-6 lg:col-span-3">
+    <app-input-container
+      label="Status"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
       <app-static-select
         [options]="loanStatusOptions"
         formControlName="status"
       ></app-static-select>
     </app-input-container>
   </form>
+</ng-template>
+
+<ng-template #filters>
+  <div class="grid grid-cols-12 gap-4">
+    <app-input-container label="Data do empréstimo" class="col-span-12">
+      <input
+        type="date"
+        pInputText
+        id="loanDate"
+        [(ngModel)]="loanDateFilter"
+      />
+    </app-input-container>
+
+    <app-input-container label="Mutuário" class="col-span-12">
+      <app-search-select
+        [(ngModel)]="borrowerFilter"
+        optionLabel="nome"
+        [service]="userService"
+        placeholder="Selecione um usuário"
+      />
+    </app-input-container>
+
+    <app-input-container label="RA/SIAPE" class="col-span-12">
+      <input type="text" pInputText id="ra_siape" [(ngModel)]="raSiapeFilter" />
+    </app-input-container>
+
+    <app-input-container label="Status" class="col-span-12">
+      <app-static-select
+        [options]="loanStatusOptions"
+        [(ngModel)]="statusFilter"
+      ></app-static-select>
+    </app-input-container>
+  </div>
 </ng-template>

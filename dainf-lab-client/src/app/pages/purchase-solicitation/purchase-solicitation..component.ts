@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core'; // Adicionado OnInit
+import { Component, computed, inject, model } from '@angular/core'; // Adicionado OnInit
 import {
   FormBuilder,
   FormGroup,
@@ -19,11 +19,16 @@ import { UserService } from '../user/user.service';
 import { PurchaseService } from './purchase-solicitation..service';
 
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
+import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { DatePickerModule } from 'primeng/datepicker'; // Corrigido de DatePickerModule
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { PurchaseSolicitation, PurchaseSolicitationItem } from './purchase-solicitation.';
+import { User } from '../user/user';
+import {
+  PurchaseSolicitation,
+  PurchaseSolicitationItem,
+} from './purchase-solicitation.';
 
 @Component({
   standalone: true,
@@ -40,12 +45,7 @@ import { PurchaseSolicitation, PurchaseSolicitationItem } from './purchase-solic
     DatePickerModule,
     SearchSelectComponent,
   ],
-  providers: [
-    PurchaseService,
-    UserService,
-    DatePipe,
-    ItemService,
-  ],
+  providers: [PurchaseService, UserService, DatePipe, ItemService],
   selector: 'app-purchase-solicitation',
   templateUrl: 'purchase-solicitation.component.html',
 })
@@ -87,6 +87,29 @@ export class PurchaseSolicitationComponent {
 
   purchaseItemCols: Column<PurchaseSolicitationItem>[] = [
     { field: 'item.name', header: 'Item' },
-    { field: 'quantity', header: 'Qtd.' }
+    { field: 'quantity', header: 'Qtd.' },
   ];
+
+  dateFilter = model<string | undefined>();
+  userFilter = model<User | undefined>();
+  searchRequest = computed<SearchRequest>(() => {
+    const filters: SearchFilter[] = [];
+
+    if (this.dateFilter()) {
+      filters.push({
+        field: 'date',
+        value: this.dateFilter(),
+        type: 'EQUALS',
+      });
+    }
+
+    if (this.userFilter()) {
+      filters.push({
+        field: 'user.id',
+        value: this.userFilter()?.id,
+        type: 'EQUALS',
+      });
+    }
+    return <SearchRequest>{ filters };
+  });
 }

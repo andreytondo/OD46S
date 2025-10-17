@@ -6,11 +6,12 @@ import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-f
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 import { LabelValue } from '@/shared/models/label-value';
+import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { CategoryTreeNodePipe } from '@/shared/pipes/category-tree-node.pipe';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { StorageImplService } from '@/shared/storage/storage-impl.service';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, model } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -21,6 +22,7 @@ import {
 import { Fieldset } from 'primeng/fieldset';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { Category } from '../category/category';
 import { CategoryService } from '../category/category.service';
 import { Asset, AssetStatus, Item, ItemType } from './item';
 import { ItemService } from './item.service';
@@ -56,7 +58,10 @@ export class ItemComponent {
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
 
-  storageService = new StorageImplService(`${this.itemService._url}/storage`, 'item');
+  storageService = new StorageImplService(
+    `${this.itemService._url}/storage`,
+    'item',
+  );
 
   config: CrudConfig<Item> = {
     title: 'Itens',
@@ -78,10 +83,6 @@ export class ItemComponent {
     type: [null, Validators.required],
     quantity: [
       { value: null, disabled: true },
-      Validators.compose([Validators.required]),
-    ],
-    minimumStock: [
-      null,
       Validators.compose([Validators.required]),
     ],
     minimumStock: [null, Validators.compose([Validators.required])],
@@ -129,4 +130,63 @@ export class ItemComponent {
         this.labelValue.transform(row.status, this.assetStatusOptions),
     },
   ];
+
+  nameFilter = model<string | undefined>();
+  typeFilter = model<string | undefined>();
+  categoryFilter = model<Category | undefined>();
+  siorgFilter = model<string | undefined>();
+  locationFilter = model<string | undefined>();
+  statusFilter = model<string | undefined>();
+  searchRequest = computed<SearchRequest>(() => {
+    const filters: SearchFilter[] = [];
+
+    if (this.nameFilter()) {
+      filters.push({
+        field: 'name',
+        value: this.nameFilter(),
+        type: 'ILIKE',
+      });
+    }
+
+    if (this.typeFilter()) {
+      filters.push({
+        field: 'type',
+        value: this.typeFilter(),
+        type: 'EQUALS',
+      });
+    }
+
+    if (this.categoryFilter()) {
+      filters.push({
+        field: 'category.documento',
+        value: this.categoryFilter()?.id,
+        type: 'ILIKE',
+      });
+    }
+
+    if (this.siorgFilter()) {
+      filters.push({
+        field: 'siorg',
+        value: this.siorgFilter(),
+        type: 'ILIKE',
+      });
+    }
+
+    if (this.locationFilter()) {
+      filters.push({
+        field: 'location',
+        value: this.locationFilter(),
+        type: 'ILIKE',
+      });
+    }
+
+    if (this.statusFilter()) {
+      filters.push({
+        field: 'status',
+        value: this.statusFilter(),
+        type: 'EQUALS',
+      });
+    }
+    return <SearchRequest>{ filters };
+  });
 }
