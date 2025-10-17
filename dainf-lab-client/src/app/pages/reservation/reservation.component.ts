@@ -18,18 +18,20 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
+import { ButtonModule } from 'primeng/button';
 
 import { Item } from '../item/item';
 import { ItemService } from '../item/item.service';
 import { UserService } from '../user/user.service';
 import { Reservation, ReservationItem } from './reservation';
 import { ReservationService } from './reservation.service';
-
+import { Router } from '@angular/router';
 @Component({
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+    ButtonModule,
     ReactiveFormsModule,
     CrudComponent,
     InputContainerComponent,
@@ -51,7 +53,7 @@ export class ReservationComponent implements OnInit {
   itemService = inject(ItemService);
   formBuilder = inject(FormBuilder);
   datePipe = inject(DatePipe);
-
+  router = inject(Router);
   config: CrudConfig<Reservation> = {
     title: 'Reservas',
   };
@@ -95,14 +97,31 @@ export class ReservationComponent implements OnInit {
       console.log('Valor atual do array de itens:', itemsValue);
     });
 
-    this.reservationItemForm.get('item')?.valueChanges.subscribe((selectedItem: Item) => {
-      if (selectedItem?.price) {
-        this.reservationItemForm.get('price')?.setValue(selectedItem.price);
-      } else {
-        this.reservationItemForm.get('price')?.setValue(0);
-      }
-      console.log('Item selecionado:', selectedItem);
-    });
+    this.reservationItemForm
+      .get('item')
+      ?.valueChanges.subscribe((selectedItem: Item) => {
+        if (selectedItem?.price) {
+          this.reservationItemForm.get('price')?.setValue(selectedItem.price);
+        } else {
+          this.reservationItemForm.get('price')?.setValue(0);
+        }
+        console.log('Item selecionado:', selectedItem);
+      });
+  }
+
+  createLoanFromReservation(reservation: Reservation) {
+    const loanItems = reservation.items.map((item) => ({
+      item: item.item,
+      quantity: item.quantity,
+      status: 'PENDENTE',
+    }));
+
+    const loanData = {
+      borrower: reservation.user,
+      raSiape: reservation.user.documento,
+      items: loanItems,
+    };
+
+    this.router.navigate(['/pages/loan'], { state: { data: loanData } });
   }
 }
-
