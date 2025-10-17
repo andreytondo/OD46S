@@ -40,7 +40,7 @@ public class Loan implements Identifiable<Long> {
     @Column(name = "observation")
     private String observation;
 
-    @Column(name = "ra_siape", nullable = false)
+    @Column(name = "ra_siape", nullable = true)
     private String raSiape;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -32,7 +32,6 @@ public class LoanDTO implements Identifiable<Long> {
 
     private String observation;
 
-    @NotNull(message = "O campo 'RA/SIAPE' é obrigatório.")
     private String raSiape;
 
     @NotNull(message = "O campo 'Itens' é obrigatório.")
