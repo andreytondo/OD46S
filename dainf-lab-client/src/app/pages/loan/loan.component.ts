@@ -2,7 +2,7 @@ import { InputContainerComponent } from '@/shared/components/input-container/inp
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -16,12 +16,14 @@ import { LoanService } from './loan.service';
 import { LabelValue } from '@/shared/models/label-value';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
-import { Fieldset } from 'primeng/fieldset';
+import { FieldsetModule } from 'primeng/fieldset';
 import { StaticSelectComponent } from '@/shared/components/static-select/static-select.component';
 import { ItemService } from '../item/item.service';
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
-import { InputNumber } from 'primeng/inputnumber';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { UserService } from '../user/user.service';
+import { Router } from '@angular/router';
+import { DatePickerModule } from 'primeng/datepicker'; 
 
 @Component({
   standalone: true,
@@ -31,38 +33,49 @@ import { UserService } from '../user/user.service';
     ReactiveFormsModule,
     InputTextModule,
     InputContainerComponent,
-    Fieldset,
+    FieldsetModule, 
     SubItemFormComponent,
     StaticSelectComponent,
     CrudComponent,
     SearchSelectComponent,
-    InputNumber
-],
-  providers: [LoanService, CategoryService, LabelValuePipe, ItemService, UserService],
-  selector: 'app-item',
+    InputNumberModule,
+    DatePickerModule,
+  ],
+  providers: [
+    LoanService,
+    CategoryService,
+    LabelValuePipe,
+    ItemService,
+    UserService,
+  ],
+  selector: 'app-loan',
   templateUrl: 'loan.component.html',
 })
-export class LoanComponent {
+export class LoanComponent implements AfterViewInit {
   loanService = inject(LoanService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   itemService = inject(ItemService);
   userService = inject(UserService);
+  router = inject(Router);
+
+  @ViewChild('crud') crudComponent!: CrudComponent<Loan>;
+  
+  private receivedData: any;
 
   config: CrudConfig<Loan> = {
     title: 'Empréstimos',
   };
 
-  /** forms */
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     borrower: [null],
-    loanDate: [null],
+    loanDate: [new Date()],
     deadline: [null],
     devolutionDate: [null],
     observation: [null],
     raSiape: [null],
-    items: [null],
+    items: [[]],
   });
 
   loanItensForm: FormGroup = this.formBuilder.group({
@@ -71,17 +84,15 @@ export class LoanComponent {
     item: [null],
     shouldReturn: [false],
     quantity: [1],
-    status: [null],
+    status: ['PENDENTE'],
   });
 
-  /** options */
   loanStatusOptions: LabelValue<LoanStatus>[] = [
     { label: 'Em andamento', value: 'PENDENTE' },
     { label: 'Atrasado', value: 'ATRASADO' },
     { label: 'Devolvido', value: 'DEVOLVIDO' },
   ];
 
-  /** cols */
   cols: Column<Loan>[] = [
     { field: 'id', header: 'Código' },
     { field: 'borrower.nome', header: 'Mutuário' },
@@ -98,4 +109,39 @@ export class LoanComponent {
         this.labelValue.transform(row.status, this.loanStatusOptions),
     },
   ];
+  
+  constructor() {
+    console.log('LoanComponent: CONSTRUTOR 1/3');
+    
+    this.receivedData = history.state?.['data'];
+
+    if (this.receivedData) {
+      console.log('LoanComponent: DADOS RECEBIDOS! ✅', this.receivedData);
+    } else {
+      console.warn('LoanComponent: Nenhum dado recebido na navegação.');
+    }
+  }
+
+  ngAfterViewInit(): void {
+    console.log('LoanComponent: TELA CARREGADA (ngAfterViewInit) 2/3');
+
+    if (this.receivedData) {
+      console.log('LoanComponent: Preenchendo o formulário...');
+      this.form.patchValue({
+        borrower: this.receivedData.borrower,
+        raSiape: this.receivedData.raSiape,
+        items: this.receivedData.items,
+      });
+
+      console.log('LoanComponent: Formulário preenchido. Abrindo o modal...');
+      setTimeout(() => {
+        if (this.crudComponent) {
+          console.log('LoanComponent: Abrindo modal! 3/3 ✅');
+          this.crudComponent.openNew();
+        } else {
+          console.error('LoanComponent: ERRO! O @ViewChild("crud") não foi encontrado.');
+        }
+      }, 0);
+    }
+  }
 }
