@@ -1,7 +1,8 @@
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
-import { Component, inject } from '@angular/core';
+import { SearchRequest } from '@/shared/models/search';
+import { Component, computed, inject, model } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -52,4 +53,20 @@ export class UserComponent {
   config: CrudConfig<User> = {
     title: 'Usuários',
   };
+
+  filtroNome = model<string | undefined>();
+  filtroDocumento = model<string | undefined>();
+
+  searchRequest = computed<SearchRequest>(() => {
+    const filters = [];
+    if (this.filtroNome())
+      filters.push({ field: 'nome', value: this.filtroNome(), type: 'ILIKE' });
+    if (this.filtroDocumento())
+      filters.push({
+        field: 'documento',
+        value: this.filtroDocumento(),
+        type: 'ILIKE',
+      });
+    return <SearchRequest>{ filters };
+  });
 }

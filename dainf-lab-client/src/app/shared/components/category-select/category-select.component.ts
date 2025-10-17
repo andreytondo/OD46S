@@ -16,7 +16,7 @@ import { map, Observable, take, tap } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TreeSelectModule, FormsModule, CategoryTreeNodePipe],
+  imports: [CommonModule, TreeSelectModule, FormsModule],
   selector: 'app-category-select',
   providers: [
     {

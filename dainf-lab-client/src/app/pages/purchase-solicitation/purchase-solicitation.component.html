@@ -5,6 +5,8 @@
   [config]="config"
   [form]="form"
   [formTemplate]="crudForm"
+  [filtersTemplate]="filters"
+  [searchRequest]="searchRequest()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -31,7 +33,7 @@
             <p-datepicker
               formControlName="date"
               dateFormat="dd/mm/yy"
-              ></p-datepicker>
+            ></p-datepicker>
           </app-input-container>
         </div>
       </p-fieldset>
@@ -82,4 +84,23 @@
       <p-inputNumber locale="pt-BR" formControlName="quantity"></p-inputNumber>
     </app-input-container>
   </form>
+</ng-template>
+
+<ng-template #filters>
+  <div class="grid grid-cols-12 gap-4">
+    <app-input-container label="Data da Compra" class="col-span-12">
+      <p-datepicker
+        [(ngModel)]="dateFilter"
+        dateFormat="dd/mm/yy"
+      ></p-datepicker>
+    </app-input-container>
+
+    <app-input-container label="Usuário Responsável" class="col-span-12">
+      <app-search-select
+        [(ngModel)]="userFilter"
+        optionLabel="nome"
+        [service]="userService"
+      ></app-search-select>
+    </app-input-container>
+  </div>
 </ng-template>

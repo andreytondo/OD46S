@@ -8,29 +8,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "item_image")
-public class ItemImage implements Identifiable<Long> {
-
+@Table(name = "cart_item")
+public class CartItem implements Identifiable<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @JsonIgnore
+    @Column(name = "quantity", nullable = false)
+    private BigDecimal quantity;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
     private Item item;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String bucket;
-
-    private String contentType;
+    @ManyToOne
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Cart cart;
 }

@@ -1,28 +1,30 @@
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
+import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
+import { StaticSelectComponent } from '@/shared/components/static-select/static-select.component';
+import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
+import { LabelValue } from '@/shared/models/label-value';
+import { SearchFilter, SearchRequest } from '@/shared/models/search';
+import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, model, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { FieldsetModule } from 'primeng/fieldset'; 
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { CategoryService } from '../category/category.service';
+import { ItemService } from '../item/item.service';
+import { User } from '../user/user';
+import { UserService } from '../user/user.service';
 import { Loan, LoanItem, LoanStatus } from './loan';
 import { LoanService } from './loan.service';
-import { LabelValue } from '@/shared/models/label-value';
-import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
-import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
-import { FieldsetModule } from 'primeng/fieldset';
-import { StaticSelectComponent } from '@/shared/components/static-select/static-select.component';
-import { ItemService } from '../item/item.service';
-import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { UserService } from '../user/user.service';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; 
 import { DatePickerModule } from 'primeng/datepicker'; 
 
 @Component({
@@ -33,7 +35,7 @@ import { DatePickerModule } from 'primeng/datepicker';
     ReactiveFormsModule,
     InputTextModule,
     InputContainerComponent,
-    FieldsetModule, 
+    FieldsetModule,
     SubItemFormComponent,
     StaticSelectComponent,
     CrudComponent,
@@ -51,13 +53,14 @@ import { DatePickerModule } from 'primeng/datepicker';
   selector: 'app-loan',
   templateUrl: 'loan.component.html',
 })
+
 export class LoanComponent implements AfterViewInit {
   loanService = inject(LoanService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   itemService = inject(ItemService);
   userService = inject(UserService);
-  router = inject(Router);
+  router = inject(Router); 
 
   @ViewChild('crud') crudComponent!: CrudComponent<Loan>;
   
@@ -109,39 +112,58 @@ export class LoanComponent implements AfterViewInit {
         this.labelValue.transform(row.status, this.loanStatusOptions),
     },
   ];
-  
+
+  loanDateFilter = model<string | undefined>();
+  borrowerFilter = model<User | undefined>();
+  raSiapeFilter = model<string | undefined>();
+  statusFilter = model<string | undefined>();
+  searchRequest = computed<SearchRequest>(() => {
+    const filters: SearchFilter[] = [];
+
+    if (this.loanDateFilter()) {
+      filters.push({
+        field: 'loanDate',
+        value: this.loanDateFilter(),
+        type: 'EQUALS',
+      });
+    }
+    if (this.borrowerFilter()) {
+      filters.push({
+        field: 'borrower.id',
+        value: this.borrowerFilter()?.id,
+        type: 'EQUALS',
+      });
+    }
+    if (this.raSiapeFilter()) {
+      filters.push({
+        field: 'borrower.documento',
+        value: this.raSiapeFilter(),
+        type: 'ILIKE',
+      });
+    }
+    if (this.statusFilter()) {
+      filters.push({
+        field: 'status',
+        value: this.statusFilter(),
+        type: 'EQUALS',
+      });
+    }
+    return <SearchRequest>{ filters };
+  });
+
   constructor() {
-    console.log('LoanComponent: CONSTRUTOR 1/3');
-    
     this.receivedData = history.state?.['data'];
 
-    if (this.receivedData) {
-      console.log('LoanComponent: DADOS RECEBIDOS! ✅', this.receivedData);
-    } else {
-      console.warn('LoanComponent: Nenhum dado recebido na navegação.');
-    }
   }
 
   ngAfterViewInit(): void {
-    console.log('LoanComponent: TELA CARREGADA (ngAfterViewInit) 2/3');
 
     if (this.receivedData) {
-      console.log('LoanComponent: Preenchendo o formulário...');
       this.form.patchValue({
         borrower: this.receivedData.borrower,
         raSiape: this.receivedData.raSiape,
         items: this.receivedData.items,
       });
-
-      console.log('LoanComponent: Formulário preenchido. Abrindo o modal...');
-      setTimeout(() => {
-        if (this.crudComponent) {
-          console.log('LoanComponent: Abrindo modal! 3/3 ✅');
-          this.crudComponent.openNew();
-        } else {
-          console.error('LoanComponent: ERRO! O @ViewChild("crud") não foi encontrado.');
-        }
-      }, 0);
     }
   }
 }
