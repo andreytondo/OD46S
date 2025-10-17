@@ -37,12 +37,6 @@ class ReservationControllerTest extends CrudControllerTest<ReservationDTO> {
 
     @Override
     protected void onBeforeUpdate(ReservationDTO dto) {
-        // Modify a property to test the update, not the ID.
         dto.setDescription("Teste update");
-    }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
     }
 }

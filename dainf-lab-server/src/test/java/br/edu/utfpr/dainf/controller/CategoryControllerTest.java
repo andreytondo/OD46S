@@ -28,13 +28,7 @@ class CategoryControllerTest extends CrudControllerTest<CategoryDTO> {
 
     @Override
     protected void onBeforeUpdate(CategoryDTO dto) {
-        // Modify a property to test the update, not the ID.
         dto.setDescription("Teste Alterado");
-    }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
     }
 
     private CategoryDTO createChild(String description) {

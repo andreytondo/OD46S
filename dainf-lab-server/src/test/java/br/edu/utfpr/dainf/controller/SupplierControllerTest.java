@@ -46,9 +46,4 @@ class SupplierControllerTest extends CrudControllerTest<FornecedorDTO> {
     protected void onBeforeUpdate(FornecedorDTO dto) {
         dto.setNomeFantasia("Fornecedor Teste Alterado");
     }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
-    }
 }

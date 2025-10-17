@@ -34,7 +34,6 @@ public class UserSignupDTO {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número.")
     private String password;
 
-
     public User toUserModel() {
         return new User(
                 null,
@@ -44,7 +43,8 @@ public class UserSignupDTO {
                 this.documento,
                 this.telefone,
                 null,
-                false
+                false,
+                null
         );
     }
 }

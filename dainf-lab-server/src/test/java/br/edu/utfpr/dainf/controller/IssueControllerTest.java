@@ -35,12 +35,6 @@ class IssueControllerTest extends CrudControllerTest<IssueDTO> {
 
     @Override
     protected void onBeforeUpdate(IssueDTO dto) {
-        // Modify a property to test the update, not the ID.
         dto.setObservation("Teste update");
-    }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
     }
 }

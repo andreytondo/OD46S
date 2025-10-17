@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.model;
 
+import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -8,10 +9,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "app_user")
@@ -48,13 +52,20 @@ public class User implements UserDetails, Identifiable<Long> {
     @Column(name = "email_verificado")
     private boolean emailVerificado;
 
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     public boolean getEmailVerificado() {
         return emailVerificado;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return Optional.ofNullable(this.role)
+                .map(UserRole::name)
+                .map(SimpleGrantedAuthority::new)
+                .map(List::of)
+                .orElse(List.of());
     }
 
     @Override

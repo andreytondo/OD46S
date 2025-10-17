@@ -33,12 +33,6 @@ class ItemControllerTest extends CrudControllerTest<ItemDTO> {
 
     @Override
     protected void onBeforeUpdate(ItemDTO dto) {
-        // Modify a property to test the update, not the ID.
         dto.setName("Teste Alterado");
-    }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
     }
 }

@@ -1,12 +1,14 @@
 package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.ItemDTO;
+import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.model.Item;
 import br.edu.utfpr.dainf.repository.ItemRepository;
 import br.edu.utfpr.dainf.service.InventoryService;
 import br.edu.utfpr.dainf.service.ItemService;
 import br.edu.utfpr.dainf.shared.CrudController;
 import br.edu.utfpr.dainf.storage.StorageService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("items")
+@RolesAllowed({UserRole.ADMIN, UserRole.LAB_TECHNICIAN})
 public class ItemController extends CrudController<Long, Item, ItemDTO, ItemRepository, ItemService> {
 
     private final StorageService storageService;

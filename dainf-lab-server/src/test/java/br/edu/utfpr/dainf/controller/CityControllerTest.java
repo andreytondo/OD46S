@@ -26,9 +26,4 @@ class CityControllerTest extends CrudControllerTest<CidadeDTO> {
     protected void onBeforeUpdate(CidadeDTO dto) {
         dto.setNome("Pato Branco Alterado");
     }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
-    }
 }

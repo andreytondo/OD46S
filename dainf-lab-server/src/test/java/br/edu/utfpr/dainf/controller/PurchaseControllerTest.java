@@ -61,12 +61,6 @@ class PurchaseControllerTest extends CrudControllerTest<PurchaseDTO> {
 
     @Override
     protected void onBeforeUpdate(PurchaseDTO dto) {
-        // Modify a property to test the update, not the ID.
         dto.setDate(Instant.now());
-    }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
     }
 }

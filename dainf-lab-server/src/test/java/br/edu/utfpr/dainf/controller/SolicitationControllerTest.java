@@ -33,9 +33,4 @@ class SolicitationControllerTest extends CrudControllerTest<SolicitationDTO> {
     protected void onBeforeUpdate(SolicitationDTO dto) {
         dto.setObservation("Updated Test Justification");
     }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
-    }
 }

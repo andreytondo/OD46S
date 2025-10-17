@@ -27,9 +27,4 @@ class UserControllerTest extends CrudControllerTest<UserDTO> {
     protected void onBeforeUpdate(UserDTO dto) {
         dto.setPassword("Teste123456!@");
     }
-
-    @Override
-    protected RequestPostProcessor auth() {
-        return SecurityMockMvcRequestPostProcessors.user("usuario1").roles("USER");
-    }
 }

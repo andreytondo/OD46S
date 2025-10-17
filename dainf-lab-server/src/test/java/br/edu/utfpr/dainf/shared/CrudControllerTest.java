@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.shared;
 
+import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.search.request.SearchRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -38,7 +40,9 @@ public abstract class CrudControllerTest<D extends Identifiable<Long>> {
 
     protected abstract void onBeforeUpdate(D dto);
 
-    protected abstract RequestPostProcessor auth();
+    protected RequestPostProcessor auth() {
+        return SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN");
+    }
 
     protected ResultActions performCreate(D dto) throws Exception {
         return mockMvc.perform(post(getURL())
