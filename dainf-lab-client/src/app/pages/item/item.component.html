@@ -3,6 +3,7 @@
   [columns]="cols"
   [service]="itemService"
   [config]="config"
+  [actionsTemplate]="customActions"
   [form]="form"
   [formTemplate]="crudForm"
 ></app-crud>
@@ -176,4 +177,27 @@
       [(ngModel)]="statusFilter"
     ></app-static-select>
   </app-input-container>
+</ng-template>
+
+
+<ng-template #customActions let-row>
+  <p-button
+    icon="pi pi-cart-plus"
+    styleClass="p-button-success mr-2"
+    pTooltip="Adicionar ao Carrinho"
+    (click)="addToCart(row)"
+  ></p-button>
+
+  <p-button
+    icon="pi pi-pencil"
+    styleClass="p-button-secondary mr-2"
+    pTooltip="Editar"
+    (click)="crud.edit(row)"
+  ></p-button>
+  <p-button
+    icon="pi pi-trash"
+    styleClass="p-button-danger"
+    pTooltip="Excluir"
+    (click)="crud.deleteOne(row)"
+  ></p-button>
 </ng-template>
