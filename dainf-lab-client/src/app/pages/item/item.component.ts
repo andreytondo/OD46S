@@ -19,13 +19,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Fieldset } from 'primeng/fieldset';
-import { InputNumber } from 'primeng/inputnumber';
+import { FieldsetModule } from 'primeng/fieldset';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
 import { Category } from '../category/category';
 import { CategoryService } from '../category/category.service';
 import { Asset, AssetStatus, Item, ItemType } from './item';
 import { ItemService } from './item.service';
+import { CartService } from '@/shared/services/cart.service';
 
 @Component({
   standalone: true,
@@ -37,11 +40,13 @@ import { ItemService } from './item.service';
     InputContainerComponent,
     CrudComponent,
     CategorySelectComponent,
-    Fieldset,
+    FieldsetModule,
     SubItemFormComponent,
-    InputNumber,
+    InputNumberModule,
     StaticSelectComponent,
     PhotoAttachmentComponent,
+    ButtonModule,
+    TooltipModule,
   ],
   providers: [
     ItemService,
@@ -57,6 +62,7 @@ export class ItemComponent {
   categoryService = inject(CategoryService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
+  cartService = inject(CartService);
 
   storageService = new StorageImplService(
     `${this.itemService._url}/storage`,
@@ -67,7 +73,6 @@ export class ItemComponent {
     title: 'Itens',
   };
 
-  /** forms */
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     name: [
@@ -101,7 +106,6 @@ export class ItemComponent {
     status: [null, Validators.required],
   });
 
-  /** options */
   itemTypeOptions: LabelValue<ItemType>[] = [
     { label: 'Consumível', value: 'CONSUMABLE' },
     { label: 'Durável', value: 'DURABLE' },
@@ -113,7 +117,6 @@ export class ItemComponent {
     { label: 'Reservado', value: 'RESERVED' },
   ];
 
-  /** cols */
   cols: Column<Item>[] = [
     { field: 'id', header: 'Código' },
     { field: 'name', header: 'Nome' },
@@ -137,56 +140,41 @@ export class ItemComponent {
   siorgFilter = model<string | undefined>();
   locationFilter = model<string | undefined>();
   statusFilter = model<string | undefined>();
+
   searchRequest = computed<SearchRequest>(() => {
     const filters: SearchFilter[] = [];
-
-    if (this.nameFilter()) {
+    if (this.nameFilter())
+      filters.push({ field: 'name', value: this.nameFilter(), type: 'ILIKE' });
+    if (this.typeFilter())
+      filters.push({ field: 'type', value: this.typeFilter(), type: 'EQUALS' });
+    if (this.categoryFilter())
       filters.push({
-        field: 'name',
-        value: this.nameFilter(),
-        type: 'ILIKE',
-      });
-    }
-
-    if (this.typeFilter()) {
-      filters.push({
-        field: 'type',
-        value: this.typeFilter(),
+        field: 'category.id',
+        value: this.categoryFilter()?.id,
         type: 'EQUALS',
       });
-    }
-
-    if (this.categoryFilter()) {
-      filters.push({
-        field: 'category.documento',
-        value: this.categoryFilter()?.id,
-        type: 'ILIKE',
-      });
-    }
-
-    if (this.siorgFilter()) {
+    if (this.siorgFilter())
       filters.push({
         field: 'siorg',
         value: this.siorgFilter(),
         type: 'ILIKE',
       });
-    }
-
-    if (this.locationFilter()) {
+    if (this.locationFilter())
       filters.push({
-        field: 'location',
+        field: 'assets.location',
         value: this.locationFilter(),
         type: 'ILIKE',
       });
-    }
-
-    if (this.statusFilter()) {
+    if (this.statusFilter())
       filters.push({
-        field: 'status',
+        field: 'assets.status',
         value: this.statusFilter(),
         type: 'EQUALS',
       });
-    }
     return <SearchRequest>{ filters };
   });
+
+  addToCart(item: Item): void {
+    this.cartService.addItem(item);
+  }
 }
