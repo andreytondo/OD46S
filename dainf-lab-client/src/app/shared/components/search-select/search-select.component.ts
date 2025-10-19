@@ -116,7 +116,7 @@ export class SearchSelectComponent<T extends Identifiable>
       ...(this.filters() ?? []),
       {
         field: this.optionLabel(),
-        type: 'ILIKE',
+        type: this.optionLabel()?.includes('id') ? 'IS_NOT_NULL' : 'ILIKE',
         value: query,
       },
     ];
