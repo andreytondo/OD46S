@@ -9,6 +9,7 @@ import { LabelValue } from '@/shared/models/label-value';
 import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { CategoryTreeNodePipe } from '@/shared/pipes/category-tree-node.pipe';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
+import { CartService } from '@/shared/services/cart.service';
 import { StorageImplService } from '@/shared/storage/storage-impl.service';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, model } from '@angular/core';
@@ -19,16 +20,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { Category } from '../category/category';
 import { CategoryService } from '../category/category.service';
+import { LoanService } from '../loan/loan.service';
 import { Asset, AssetStatus, Item, ItemType } from './item';
 import { ItemService } from './item.service';
-import { CartService } from '@/shared/services/cart.service';
 
 @Component({
   standalone: true,
@@ -53,6 +54,7 @@ import { CartService } from '@/shared/services/cart.service';
     CategoryService,
     LabelValuePipe,
     CategoryTreeNodePipe,
+    LoanService,
   ],
   selector: 'app-item',
   templateUrl: 'item.component.html',
@@ -60,6 +62,7 @@ import { CartService } from '@/shared/services/cart.service';
 export class ItemComponent {
   itemService = inject(ItemService);
   categoryService = inject(CategoryService);
+  loanService = inject(LoanService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   cartService = inject(CartService);
@@ -176,5 +179,11 @@ export class ItemComponent {
 
   addToCart(item: Item): void {
     this.cartService.addItem(item);
+  }
+
+  showActiveLoans(item: Item): void {
+    this.loanService.getActiveLoansForItem(item.id).subscribe((loans) => {
+      console.log(loans);
+    });
   }
 }

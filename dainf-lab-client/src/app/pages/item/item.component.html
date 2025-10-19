@@ -179,15 +179,7 @@
   </app-input-container>
 </ng-template>
 
-
 <ng-template #customActions let-row>
-  <p-button
-    icon="pi pi-cart-plus"
-    styleClass="p-button-success mr-2"
-    pTooltip="Adicionar ao Carrinho"
-    (click)="addToCart(row)"
-  ></p-button>
-
   <p-button
     icon="pi pi-pencil"
     styleClass="p-button-secondary mr-2"
@@ -196,8 +188,20 @@
   ></p-button>
   <p-button
     icon="pi pi-trash"
-    styleClass="p-button-danger"
+    styleClass="p-button-danger mr-2"
     pTooltip="Excluir"
     (click)="crud.deleteOne(row)"
   ></p-button>
+  <p-button
+    icon="pi pi-cart-plus"
+    pTooltip="Adicionar ao Carrinho"
+    tooltipPosition="left"
+    (click)="addToCart(row)"
+  ></p-button>
+  <!-- <p-button
+    icon="pi pi-cart-plus"
+    pTooltip="Adicionar ao Carrinho"
+    tooltipPosition="left"
+    (click)="showActiveLoans(row)"
+  ></p-button> -->
 </ng-template>
