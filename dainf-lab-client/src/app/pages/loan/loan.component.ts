@@ -8,14 +8,15 @@ import { LabelValue } from '@/shared/models/label-value';
 import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, computed, inject, model, ViewChild } from '@angular/core';
+import { Component, computed, inject, model } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { FieldsetModule } from 'primeng/fieldset'; 
+import { DatePickerModule } from 'primeng/datepicker';
+import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { CategoryService } from '../category/category.service';
@@ -24,8 +25,6 @@ import { User } from '../user/user';
 import { UserService } from '../user/user.service';
 import { Loan, LoanItem, LoanStatus } from './loan';
 import { LoanService } from './loan.service';
-import { Router } from '@angular/router'; 
-import { DatePickerModule } from 'primeng/datepicker'; 
 
 @Component({
   standalone: true,
@@ -54,17 +53,12 @@ import { DatePickerModule } from 'primeng/datepicker';
   templateUrl: 'loan.component.html',
 })
 
-export class LoanComponent implements AfterViewInit {
+export class LoanComponent {
   loanService = inject(LoanService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   itemService = inject(ItemService);
   userService = inject(UserService);
-  router = inject(Router); 
-
-  @ViewChild('crud') crudComponent!: CrudComponent<Loan>;
-  
-  private receivedData: any;
 
   config: CrudConfig<Loan> = {
     title: 'Empréstimos',
@@ -151,19 +145,4 @@ export class LoanComponent implements AfterViewInit {
     return <SearchRequest>{ filters };
   });
 
-  constructor() {
-    this.receivedData = history.state?.['data'];
-
-  }
-
-  ngAfterViewInit(): void {
-
-    if (this.receivedData) {
-      this.form.patchValue({
-        borrower: this.receivedData.borrower,
-        raSiape: this.receivedData.raSiape,
-        items: this.receivedData.items,
-      });
-    }
-  }
 }
