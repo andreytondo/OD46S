@@ -20,7 +20,7 @@ public class LoanDTO implements Identifiable<Long> {
     private Long id;
 
     @NotNull(message = "O campo 'Mutuário' é obrigatório.")
-    private User borrower;
+    private UserDTO borrower;
 
     @NotNull(message = "O campo 'Data de empréstimo' é obrigatório.")
     private Date loanDate;
@@ -35,7 +35,7 @@ public class LoanDTO implements Identifiable<Long> {
     private String raSiape;
 
     @NotNull(message = "O campo 'Itens' é obrigatório.")
-    private List<LoanItem> items;
+    private List<LoanItemDTO> items;
 
     public LoanDTO(Long id) {
         this.id = id;

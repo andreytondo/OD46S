@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.service;
 
+import br.edu.utfpr.dainf.enums.InventoryTransactionType;
 import br.edu.utfpr.dainf.model.Issue;
 import br.edu.utfpr.dainf.model.IssueItem;
 import br.edu.utfpr.dainf.repository.IssueRepository;
@@ -26,7 +27,7 @@ public class IssueService extends CrudService<Long, Issue, IssueRepository> {
         if (entity.getItems() != null) {
             for (IssueItem item : entity.getItems()) {
                 item.setIssue(entity);
-                inventoryService.handleTransaction(item.getItem(), item.getQuantity(), null);
+                inventoryService.handleTransaction(item.getItem(), item.getQuantity(), InventoryTransactionType.ISSUE);
             }
         }
         return super.save(entity);

@@ -17,7 +17,7 @@ import java.time.Instant;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "inventory")
+@Table(name = "inventory_transaction")
 public class InventoryTransaction implements Identifiable<Long> {
 
     @Id

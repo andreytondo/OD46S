@@ -58,11 +58,20 @@
       @if (templateMap()?.get(column.field)) {
         <td>
           <ng-container
-            *ngTemplateOutlet="templateMap()?.get(column.field); context: { $implicit: row }"
+            *ngTemplateOutlet="
+              templateMap()?.get(column.field);
+              context: { $implicit: row }
+            "
           ></ng-container>
         </td>
       } @else {
-        <td>{{ row | deepValue: column.field }}</td>
+        <td>
+          {{
+            column.transform
+              ? column.transform(row)
+              : (row | deepValue: column.field)
+          }}
+        </td>
       }
     }
     <td>

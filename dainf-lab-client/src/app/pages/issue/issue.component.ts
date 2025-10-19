@@ -89,7 +89,6 @@ export class IssueComponent implements OnInit {
       transform: (row) => this.datePipe.transform(row.date, 'dd/MM/yyyy') || '',
     },
     { field: 'user.nome', header: 'Responsável' },
-    { field: 'loan.id', header: 'Empréstimo (ID)' },
   ];
 
   issueItemCols: Column<IssueItem>[] = [

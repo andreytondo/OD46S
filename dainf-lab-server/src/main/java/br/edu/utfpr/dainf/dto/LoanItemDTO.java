@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,15 +19,13 @@ import lombok.Setter;
 public class LoanItemDTO implements Identifiable<Long> {
     private Long id;
 
-    private Loan loan;
-
-    private Item item;
+    private ItemDTO item;
 
     @NotNull(message = "O campo 'Deve retornar?' é obrigatório.")
     private boolean shouldReturn;
 
     @NotNull(message = "O campo 'Quantidade' é obrigatório.")
-    private boolean quantity;
+    private BigDecimal quantity;
 
     @NotNull(message = "O campo 'Status' é obrigatório.")
     private LoanStatus status;
