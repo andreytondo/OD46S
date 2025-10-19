@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { CartItem } from '@/shared/models/cart';
+import { CartService } from '@/shared/services/cart.service';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormsModule } from '@angular/forms';
-import { CartService } from '@/shared/services/cart.service';
-import { CartItem } from '@/shared/models/cart';
 
 @Component({
   selector: 'app-cart',
@@ -42,6 +42,6 @@ export class CartComponent {
 
     if (cartItemsData.length === 0) return;
 
-    this.router.navigate(['/pages/reservation'], { state: { cartData: cartItemsData } });
+    this.router.navigate(['/pages/reservation'], { state: { data: cartItemsData } });
   }
 }

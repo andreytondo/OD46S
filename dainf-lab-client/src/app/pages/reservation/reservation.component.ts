@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,19 +13,18 @@ import { SearchSelectComponent } from '@/shared/components/search-select/search-
 import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
+import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
-import { ButtonModule } from 'primeng/button';
 
-import { Item } from '../item/item';
+import { Router } from '@angular/router';
 import { ItemService } from '../item/item.service';
 import { UserService } from '../user/user.service';
 import { Reservation, ReservationItem } from './reservation';
 import { ReservationService } from './reservation.service';
-import { Router } from '@angular/router';
 @Component({
   standalone: true,
   imports: [
@@ -47,7 +46,7 @@ import { Router } from '@angular/router';
   selector: 'app-reservation',
   templateUrl: 'reservation.component.html',
 })
-export class ReservationComponent implements OnInit {
+export class ReservationComponent {
   reservationService = inject(ReservationService);
   userService = inject(UserService);
   itemService = inject(ItemService);
@@ -72,7 +71,6 @@ export class ReservationComponent implements OnInit {
     id: [null],
     item: [null, Validators.required],
     quantity: [1, [Validators.required, Validators.min(1)]],
-    price: [{ value: null, disabled: true }, Validators.required],
   });
 
   cols: Column<Reservation>[] = [
@@ -92,22 +90,6 @@ export class ReservationComponent implements OnInit {
     { field: 'quantity', header: 'Quantidade' },
   ];
 
-  ngOnInit() {
-    this.form.get('items')?.valueChanges.subscribe((itemsValue) => {
-      console.log('Valor atual do array de itens:', itemsValue);
-    });
-
-    this.reservationItemForm
-      .get('item')
-      ?.valueChanges.subscribe((selectedItem: Item) => {
-        if (selectedItem?.price) {
-          this.reservationItemForm.get('price')?.setValue(selectedItem.price);
-        } else {
-          this.reservationItemForm.get('price')?.setValue(0);
-        }
-        console.log('Item selecionado:', selectedItem);
-      });
-  }
 
   createLoanFromReservation(reservation: Reservation) {
     const loanItems = reservation.items.map((item) => ({
