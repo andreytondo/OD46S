@@ -13,6 +13,5 @@ import java.math.BigDecimal;
 public class ReservationItemDTO implements Identifiable<Long> {
     private Long id;
     private BigDecimal quantity;
-    private BigDecimal price;
     private ItemDTO item;
 }
