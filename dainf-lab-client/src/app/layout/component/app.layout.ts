@@ -6,12 +6,11 @@ import { LayoutService } from '../service/layout.service';
 import { AppFooter } from './app.footer';
 import { AppSidebar } from './app.sidebar';
 import { AppTopbar } from './app.topbar';
-import { CartComponent } from '@/shared/components/cart-component/cart.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter, CartComponent],
+  imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter],
   template: `
     <div class="layout-wrapper" [ngClass]="containerClass">
       <app-topbar></app-topbar>
