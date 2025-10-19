@@ -92,9 +92,10 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.loadItems();
   }
 
-  loadItems() {
+  loadItems(page?: number, rows?: number) {
     this.loadingItems.set(true);
-    this._loadItems(this.searchRequest())
+    const request = { ...this.searchRequest(), page, rows}
+    this._loadItems(request)
       .pipe(
         tap((result) => {
           this.items.set(result);
@@ -105,7 +106,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   }
 
   onPage(event: { page: number; size: number }) {
-    this.loadItems();
+    this.loadItems(event.page, event.size);
   }
 
   openNew() {

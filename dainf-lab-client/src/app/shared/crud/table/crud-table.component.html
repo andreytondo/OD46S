@@ -86,11 +86,13 @@
           severity="secondary"
           (click)="edit(row)"
         ></p-button>
-        <p-button
-          icon="pi pi-trash"
-          severity="danger"
-          (click)="deleteOne(row)"
-        ></p-button>
+        @if (config()?.allowDeletion) {
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            (click)="deleteOne(row)"
+          ></p-button>
+        }
       }
     </td>
   </tr>

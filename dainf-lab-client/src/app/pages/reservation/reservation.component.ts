@@ -21,6 +21,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
 import { Router } from '@angular/router';
+import { TooltipModule } from 'primeng/tooltip';
 import { ItemService } from '../item/item.service';
 import { UserService } from '../user/user.service';
 import { Reservation, ReservationItem } from './reservation';
@@ -41,6 +42,7 @@ import { ReservationService } from './reservation.service';
     SubItemFormComponent,
     DatePickerModule,
     SearchSelectComponent,
+    TooltipModule
   ],
   providers: [ReservationService, UserService, ItemService, DatePipe],
   selector: 'app-reservation',

@@ -24,9 +24,6 @@ public class ReservationItem {
     @Column(name = "quantity", nullable = false)
     private BigDecimal quantity;
 
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
     private Item item;

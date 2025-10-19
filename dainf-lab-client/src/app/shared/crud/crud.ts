@@ -7,6 +7,7 @@ export interface Column<T extends Identifiable> {
 
 export interface CrudConfig<T extends Identifiable> {
   title?: string;
+  allowDeletion?: boolean;
 }
 
 export interface Identifiable<T = number> {
