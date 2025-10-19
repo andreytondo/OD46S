@@ -1,9 +1,10 @@
 import { Identifiable } from "@/shared/crud/crud";
 import { Item } from "../item/item";
+import { User } from "../user/user";
 
 export interface Loan extends Identifiable {
   id: number;
-  borrower: string;
+  borrower: User;
   loanDate: string;
   deadline: string;
   devolutionDate: string;
