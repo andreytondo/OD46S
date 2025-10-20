@@ -5,6 +5,7 @@
   [config]="config"
   [form]="form"
   [formTemplate]="crudForm"
+  (entityLoad)="onEntityLoad($event)"
 ></app-crud>
 
 <ng-template #crudForm>

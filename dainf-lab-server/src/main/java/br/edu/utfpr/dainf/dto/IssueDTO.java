@@ -17,4 +17,6 @@ public class IssueDTO implements Identifiable<Long> {
     private String observation;
     private SimpleUserDTO user;
     private List<IssueItemDTO> items;
+    private LoanDTO loan;
+
 }

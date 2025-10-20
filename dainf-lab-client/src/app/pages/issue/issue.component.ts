@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -44,17 +44,11 @@ import { TextareaModule } from 'primeng/textarea';
     SearchSelectComponent,
     TextareaModule,
   ],
-  providers: [
-    IssueService,
-    LoanService,
-    UserService,
-    DatePipe,
-    ItemService,
-  ],
+  providers: [IssueService, LoanService, UserService, DatePipe, ItemService],
   selector: 'app-issue',
   templateUrl: 'issue.component.html',
 })
-export class IssueComponent implements OnInit {
+export class IssueComponent {
   issueService = inject(IssueService);
   userService = inject(UserService);
   itemService = inject(ItemService);
@@ -96,6 +90,9 @@ export class IssueComponent implements OnInit {
     { field: 'quantity', header: 'Quantidade' },
   ];
 
-  ngOnInit() {
+  onEntityLoad(issue: Issue) {
+    this.form.patchValue({
+      date: new Date(issue.date),
+    });
   }
 }
