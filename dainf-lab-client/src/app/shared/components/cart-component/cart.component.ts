@@ -1,5 +1,6 @@
 import { CartItem } from '@/shared/models/cart';
 import { CartService } from '@/shared/services/cart.service';
+import { ContextStore } from '@/shared/store/context-store.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,17 +11,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonModule,
-    InputNumberModule,
-    FormsModule
-  ],
+  imports: [CommonModule, ButtonModule, InputNumberModule, FormsModule],
   templateUrl: './cart.component.html',
 })
 export class CartComponent {
   cartService = inject(CartService);
   router = inject(Router);
+  context = inject(ContextStore);
 
   items = this.cartService.items;
 
@@ -35,13 +32,13 @@ export class CartComponent {
   }
 
   goToReservation(): void {
-    const cartItemsData = this.items().map(ci => ({
+    const cartItemsData = this.items().map((ci) => ({
       item: ci.item,
-      quantity: ci.quantity
+      quantity: ci.quantity,
     }));
 
     if (cartItemsData.length === 0) return;
-
-    this.router.navigate(['/pages/reservation'], { state: { data: cartItemsData } });
+    this.context.set('cart', cartItemsData);
+    this.router.navigate(['/pages/reservation']);
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,6 +20,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
+import { ContextStore } from '@/shared/store/context-store.service';
 import { Router } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { ItemService } from '../item/item.service';
@@ -42,22 +43,25 @@ import { ReservationService } from './reservation.service';
     SubItemFormComponent,
     DatePickerModule,
     SearchSelectComponent,
-    TooltipModule
+    TooltipModule,
   ],
   providers: [ReservationService, UserService, ItemService, DatePipe],
   selector: 'app-reservation',
   templateUrl: 'reservation.component.html',
 })
-export class ReservationComponent {
+export class ReservationComponent implements OnInit {
   reservationService = inject(ReservationService);
   userService = inject(UserService);
   itemService = inject(ItemService);
   formBuilder = inject(FormBuilder);
   datePipe = inject(DatePipe);
   router = inject(Router);
+  context = inject(ContextStore);
   config: CrudConfig<Reservation> = {
     title: 'Reservas',
   };
+
+  crud = viewChild(CrudComponent);
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
@@ -92,6 +96,13 @@ export class ReservationComponent {
     { field: 'quantity', header: 'Quantidade' },
   ];
 
+  ngOnInit(): void {
+    const data = this.context.consume('cart');
+    if (data) {
+      this.crud()?.openNew();
+      this.form.patchValue({ items: data });
+    }
+  }
 
   createLoanFromReservation(reservation: Reservation) {
     const loanItems = reservation.items.map((item) => ({
@@ -105,7 +116,7 @@ export class ReservationComponent {
       raSiape: reservation.user.documento,
       items: loanItems,
     };
-
-    this.router.navigate(['/pages/loan'], { state: { data: loanData } });
+    this.context.set('reservation', loanData);
+    this.router.navigate(['/pages/loan']);
   }
 }

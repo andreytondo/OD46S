@@ -7,8 +7,9 @@ import { CrudComponent } from '@/shared/crud/crud.component';
 import { LabelValue } from '@/shared/models/label-value';
 import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
+import { ContextStore } from '@/shared/store/context-store.service';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, model } from '@angular/core';
+import { Component, computed, inject, model, OnInit, viewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -52,13 +53,15 @@ import { LoanService } from './loan.service';
   selector: 'app-loan',
   templateUrl: 'loan.component.html',
 })
-
-export class LoanComponent {
+export class LoanComponent implements OnInit {
   loanService = inject(LoanService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   itemService = inject(ItemService);
   userService = inject(UserService);
+  context = inject(ContextStore);
+
+  crud = viewChild(CrudComponent);
 
   config: CrudConfig<Loan> = {
     title: 'Empréstimos',
@@ -145,4 +148,11 @@ export class LoanComponent {
     return <SearchRequest>{ filters };
   });
 
+  ngOnInit(): void {
+    const data = this.context.consume('reservation');
+    if (data) {
+      this.crud()?.openNew();
+      this.form.patchValue({ items: data.items, borrower: data.borrower });
+    }
+  }
 }
