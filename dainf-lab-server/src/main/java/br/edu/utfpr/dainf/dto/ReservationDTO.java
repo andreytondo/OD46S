@@ -18,7 +18,7 @@ public class ReservationDTO implements Identifiable<Long> {
     private String observation;
     private Instant reservationDate;
     private Instant withdrawalDate;
-    private User user;
+    private SimpleUserDTO user;
     private List<ReservationItemDTO> items;
 
 }

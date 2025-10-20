@@ -20,7 +20,7 @@ public class LoanDTO implements Identifiable<Long> {
     private Long id;
 
     @NotNull(message = "O campo 'Mutuário' é obrigatório.")
-    private UserDTO borrower;
+    private SimpleUserDTO borrower;
 
     @NotNull(message = "O campo 'Data de empréstimo' é obrigatório.")
     private Date loanDate;

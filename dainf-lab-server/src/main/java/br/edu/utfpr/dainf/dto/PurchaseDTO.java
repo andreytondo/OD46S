@@ -15,6 +15,6 @@ public class PurchaseDTO implements Identifiable<Long> {
     private Long id;
     private Instant date;
     private FornecedorDTO fornecedor;
-    private UserDTO user;
+    private SimpleUserDTO user;
     private List<PurchaseItemDTO> items;
 }

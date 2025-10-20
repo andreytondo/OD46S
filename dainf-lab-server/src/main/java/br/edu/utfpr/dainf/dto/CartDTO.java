@@ -22,7 +22,7 @@ import java.util.List;
 public class CartDTO implements Identifiable<Long> {
 
     private Long id;
-    private UserDTO user;
+    private SimpleUserDTO user;
     private List<CartItemDTO> items;
 
     public CartDTO(Long id) {
