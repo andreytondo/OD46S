@@ -64,7 +64,6 @@ export class PurchaseSolicitationComponent {
     id: [{ value: null, disabled: true }],
     date: [new Date(), Validators.required],
     user: [null, Validators.required],
-    description: [null],
     observation: [null],
     items: [[]],
   });
@@ -83,6 +82,7 @@ export class PurchaseSolicitationComponent {
       transform: (row) => this.datePipe.transform(row.date, 'dd/MM/yyyy') || '',
     },
     { field: 'user.nome', header: 'Responsável' },
+    { field: 'user.observation', header: 'Observação' },
   ];
 
   purchaseItemCols: Column<PurchaseSolicitationItem>[] = [

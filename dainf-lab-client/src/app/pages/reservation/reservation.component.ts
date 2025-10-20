@@ -87,8 +87,13 @@ export class ReservationComponent implements OnInit {
       transform: (row) =>
         this.datePipe.transform(row.reservationDate, 'dd/MM/yyyy') || '',
     },
+    {
+      field: 'withdrawalDate',
+      header: 'Data da Retirada',
+      transform: (row) =>
+        this.datePipe.transform(row.withdrawalDate, 'dd/MM/yyyy') || '',
+    },
     { field: 'user.nome', header: 'Usuário' },
-    { field: 'description', header: 'Descrição' },
   ];
 
   reservationItemCols: Column<ReservationItem>[] = [

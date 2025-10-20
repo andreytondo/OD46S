@@ -83,6 +83,7 @@ export class IssueComponent {
       transform: (row) => this.datePipe.transform(row.date, 'dd/MM/yyyy') || '',
     },
     { field: 'user.nome', header: 'Responsável' },
+    { field: 'observation', header: 'Observações' },
   ];
 
   issueItemCols: Column<IssueItem>[] = [

@@ -106,7 +106,9 @@ export class LoanComponent implements OnInit {
   cols: Column<Loan>[] = [
     { field: 'id', header: 'Código' },
     { field: 'borrower.nome', header: 'Mutuário' },
-    { field: 'raSiape', header: 'RA/SIAPE' },
+    { field: 'loanDate', header: 'Data do empréstimo' },
+    { field: 'deadline', header: 'Prazo de devolução' },
+    { field: 'status', header: 'Status' },
   ];
 
   itensCols: Column<LoanItem>[] = [

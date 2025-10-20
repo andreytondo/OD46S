@@ -21,6 +21,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
@@ -28,10 +29,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Category } from '../category/category';
 import { CategoryService } from '../category/category.service';
 import { LoanService } from '../loan/loan.service';
+import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
 import { Asset, AssetStatus, Item, ItemType } from './item';
 import { ItemService } from './item.service';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
 
 @Component({
   standalone: true,
@@ -50,7 +50,6 @@ import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
     PhotoAttachmentComponent,
     ButtonModule,
     TooltipModule,
-    
   ],
   providers: [
     ItemService,
@@ -58,7 +57,7 @@ import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
     LabelValuePipe,
     CategoryTreeNodePipe,
     LoanService,
-    DialogService
+    DialogService,
   ],
   selector: 'app-item',
   templateUrl: 'item.component.html',
@@ -131,6 +130,13 @@ export class ItemComponent {
     { field: 'id', header: 'Código' },
     { field: 'name', header: 'Nome' },
     { field: 'category.description', header: 'Categoria' },
+    { field: 'quantity', header: 'Quantidade' },
+    {
+      field: 'assets',
+      header: 'Localização',
+      transform: (item: Item) =>
+        item.assets?.map((asset) => asset?.location)?.join(', '),
+    },
   ];
 
   assetCols: Column<Asset>[] = [
@@ -198,8 +204,8 @@ export class ItemComponent {
         baseZIndex: 10000,
         data: {
           loans: loans,
-          itemName: item.name 
-        }
+          itemName: item.name,
+        },
       });
     });
   }
