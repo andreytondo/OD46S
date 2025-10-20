@@ -38,6 +38,7 @@ import { Observable, take, tap } from 'rxjs';
       [placeholder]="placeholder()"
       (onSelect)="handleChange($event)"
       appendTo="body"
+      [disabled]="disabled"
     />
   `,
 })

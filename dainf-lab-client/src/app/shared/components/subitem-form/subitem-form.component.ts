@@ -42,6 +42,9 @@ export class SubItemFormComponent<T extends Identifiable> implements ControlValu
   formTemplate: any = contentChild('formTemplate');
   columns = input<Column<T>[]>([]);
   form = input.required<FormGroup>();
+  allowEditing = input(true);
+  allowDeleting = input(true);
+  allowAdding = input(true);
 
   items = signal<any[]>([]);
   editing = signal(false);

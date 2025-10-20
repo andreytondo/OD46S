@@ -7,6 +7,8 @@
   [formTemplate]="crudForm"
   [filtersTemplate]="filters"
   [searchRequest]="searchRequest()"
+  (entityLoad)="onEntityLoad($event)"
+  (cancelClick)="onCancel()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -61,10 +63,6 @@
         />
       </app-input-container>
 
-      <app-input-container label="Código" class="col-span-12 md:col-span-4">
-        <input type="text" pInputText id="id" formControlName="id" />
-      </app-input-container>
-
       <app-input-container label="Observação" class="col-span-12 md:col-span-8">
         <input
           type="text"
@@ -79,6 +77,9 @@
           formControlName="items"
           [form]="loanItensForm"
           [columns]="itensCols"
+          [allowEditing]="!disabled()"
+          [allowDeleting]="!disabled()"
+          [allowAdding]="!disabled()"
         >
           <ng-template #formTemplate>
             <ng-container

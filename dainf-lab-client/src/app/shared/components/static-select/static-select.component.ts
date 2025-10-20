@@ -29,6 +29,7 @@ import { SelectModule } from 'primeng/select';
       optionLabel="label"
       optionValue="value"
       appendTo="body"
+      [disabled]="disabled"
     >
     </p-select>
   `,

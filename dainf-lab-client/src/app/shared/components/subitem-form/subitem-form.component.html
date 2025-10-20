@@ -4,20 +4,22 @@
 
     <ng-container>
       <div class="flex justify-end col-span-12">
-        @if (editing()) {
-          <p-button
-            icon="pi pi-pencil"
-            label="Salvar"
-            severity="info"
-            (click)="save()"
-          />
-        } @else {
-          <p-button
-            icon="pi pi-plus"
-            label="Adicionar"
-            severity="success"
-            (click)="save()"
-          />
+        @if (allowAdding()) {
+          @if (editing()) {
+            <p-button
+              icon="pi pi-pencil"
+              label="Salvar"
+              severity="info"
+              (click)="save()"
+            />
+          } @else {
+            <p-button
+              icon="pi pi-plus"
+              label="Adicionar"
+              severity="success"
+              (click)="save()"
+            />
+          }
         }
       </div>
     </ng-container>
@@ -46,17 +48,21 @@
         </td>
       }
       <td>
-        <p-button
-          icon="pi pi-pencil"
-          class="mr-2"
-          severity="secondary"
-          (click)="edit(rowIndex)"
-        />
-        <p-button
-          icon="pi pi-trash"
-          severity="danger"
-          (click)="remove(rowIndex)"
-        />
+        @if (allowEditing()) {
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            severity="secondary"
+            (click)="edit(rowIndex)"
+          />
+        }
+        @if (allowDeleting()) {
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            (click)="remove(rowIndex)"
+          />
+        }
       </td>
     </tr>
   </ng-template>

@@ -9,12 +9,21 @@ import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { ContextStore } from '@/shared/store/context-store.service';
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, model, OnInit, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  model,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -62,6 +71,9 @@ export class LoanComponent implements OnInit {
   context = inject(ContextStore);
 
   crud = viewChild(CrudComponent);
+  subItem = viewChild(SubItemFormComponent);
+
+  disabled = signal(false);
 
   config: CrudConfig<Loan> = {
     title: 'Empréstimos',
@@ -74,14 +86,12 @@ export class LoanComponent implements OnInit {
     deadline: [null],
     devolutionDate: [null],
     observation: [null],
-    raSiape: [null],
     items: [[]],
   });
 
   loanItensForm: FormGroup = this.formBuilder.group({
     id: [null],
-    loan: [null],
-    item: [null],
+    item: [null, Validators.required],
     shouldReturn: [false],
     quantity: [1],
     status: ['PENDENTE'],
@@ -154,5 +164,27 @@ export class LoanComponent implements OnInit {
       this.crud()?.openNew();
       this.form.patchValue({ items: data.items, borrower: data.borrower });
     }
+  }
+
+  onEntityLoad(loan: Loan) {
+    setTimeout(() => {
+      this.loanItensForm.disable();
+      this.form.get('borrower')?.disable();
+
+      this.loanItensForm.updateValueAndValidity();
+      this.form.get('borrower')?.updateValueAndValidity();
+
+      this.disabled.set(true);
+    }, 150);
+  }
+
+  onCancel() {
+    this.loanItensForm.enable();
+    this.form.get('borrower')?.enable();
+
+    this.loanItensForm.updateValueAndValidity();
+    this.form.get('borrower')?.updateValueAndValidity();
+
+    this.disabled.set(false);
   }
 }
