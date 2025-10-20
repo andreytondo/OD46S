@@ -30,6 +30,8 @@ import { CategoryService } from '../category/category.service';
 import { LoanService } from '../loan/loan.service';
 import { Asset, AssetStatus, Item, ItemType } from './item';
 import { ItemService } from './item.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
 
 @Component({
   standalone: true,
@@ -48,6 +50,7 @@ import { ItemService } from './item.service';
     PhotoAttachmentComponent,
     ButtonModule,
     TooltipModule,
+    
   ],
   providers: [
     ItemService,
@@ -55,6 +58,7 @@ import { ItemService } from './item.service';
     LabelValuePipe,
     CategoryTreeNodePipe,
     LoanService,
+    DialogService
   ],
   selector: 'app-item',
   templateUrl: 'item.component.html',
@@ -66,6 +70,9 @@ export class ItemComponent {
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   cartService = inject(CartService);
+  dialogService = inject(DialogService);
+
+  dialogRef: DynamicDialogRef | undefined;
 
   storageService = new StorageImplService(
     `${this.itemService._url}/storage`,
@@ -183,7 +190,17 @@ export class ItemComponent {
 
   showActiveLoans(item: Item): void {
     this.loanService.getActiveLoansForItem(item.id).subscribe((loans) => {
-      console.log(loans);
+      this.dialogRef = this.dialogService.open(ActiveLoansDialog, {
+        header: `Empréstimos Ativos: ${item.name}`,
+        width: '60%',
+        contentStyle: { 'max-height': '500px', overflow: 'auto' },
+        modal: true,
+        baseZIndex: 10000,
+        data: {
+          loans: loans,
+          itemName: item.name 
+        }
+      });
     });
   }
 }

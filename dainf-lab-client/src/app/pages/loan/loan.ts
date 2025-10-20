@@ -22,4 +22,21 @@ export interface LoanItem extends Identifiable {
   status: LoanStatus;
 }
 
+export interface LoanItemTracking extends Identifiable {
+  loanItemId: number;
+  quantity: number;
+  status: string;
+
+  loanId?: number;
+  raSiape?: string;
+  observation?: string;
+  loanDate?: string | Date;
+  deadline?: string | Date;
+  devolutionDate?: string | Date;
+
+  borrowerId?: number;
+  borrowerName?: string;
+  borrowerEmail?: string;
+}
+
 export type LoanStatus = 'PENDENTE' | 'ATRASADO' | 'DEVOLVIDO';
