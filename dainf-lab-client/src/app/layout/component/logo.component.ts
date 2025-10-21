@@ -8,9 +8,9 @@ import { LayoutService } from '../service/layout.service';
   selector: 'app-logo',
   template: `
   @if (isDarkTheme()) {
-    <img src="images/logo-dark.png" alt="Logo" [style.width]="width()">
+    <img src="brand/logo-light-128x54.svg" alt="Logo" [style.width]="width()">
   } @else {
-    <img src="images/logo-light.png" alt="Logo" [style.width]="width()">
+    <img src="brand/logo-dark-128x54.svg" alt="Logo" [style.width]="width()">
   }
   `
 })
