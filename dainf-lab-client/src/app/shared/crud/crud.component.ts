@@ -94,7 +94,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
 
   loadItems(page?: number, rows?: number) {
     this.loadingItems.set(true);
-    const request = { ...this.searchRequest(), page, rows}
+    const request = { ...this.searchRequest(), page, rows };
     this._loadItems(request)
       .pipe(
         tap((result) => {
@@ -133,7 +133,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
           this.saveClick.emit();
         }),
         catchError((error) => {
-          this._showWarn(`Falha ao salvar o registro: ${error.error.message}`);
+          this._showWarn(this._extractErrorMessage(error));
           return throwError(() => error);
         }),
         take(1),
@@ -174,6 +174,16 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.dialogVisible.set(false);
     this.form()?.reset();
     this.cancelClick.emit();
+  }
+
+  private _extractErrorMessage(error: any): string {
+    if (!!error?.error?.errors) {
+      return Object.entries(error.error.errors)
+        .map(([field, message]) => `${message}`)
+        .join(', ');
+    }
+
+    return error?.error?.message || 'Informações inválidas';
   }
 
   private _showWarn(detail: string) {

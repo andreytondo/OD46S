@@ -42,7 +42,7 @@ public class ExceptionHandlerAdvice {
             validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        return new WarnMessage(HttpStatus.BAD_REQUEST.value(), "Erro ao validar as informações!", request.getServletPath(), validationErrors);
+        return new WarnMessage(HttpStatus.BAD_REQUEST.value(), "Informações inválidas", request.getServletPath(), validationErrors);
     }
 
     @ExceptionHandler({WarnException.class})
