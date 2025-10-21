@@ -8,14 +8,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MinIOConfig {
 
-    @Value("${storage.url:http://localhost:9000}")
+    @Value("${storage.url}")
     private String url;
 
-    @Value("${storage.access.key:admin}")
+    @Value("${storage.access.key}")
     private String accessKey;
 
-    @Value("${storage.access.secret:minio123}")
+    @Value("${storage.access.secret}")
     private String accessSecret;
+
+    @Value("${storage.bucket}")
+    private String bucket;
 
     @Bean
     public MinioClient minioClient() {

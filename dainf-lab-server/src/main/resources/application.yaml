@@ -2,11 +2,12 @@ server:
   port: ${PORT:8080}
   servlet:
     context-path: /api
+
 spring:
   config:
-    name: ${APP_NAME:""}
+    name: ${APP_NAME:"dainf-lab-api"}
   application:
-    name: ${APP_NAME:""}
+    name: ${APP_NAME:"dainf-lab-api"}
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -17,10 +18,32 @@ spring:
       ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: ${MAIL_HOST:teste}
+    port: ${MAIL_PORT:1234}
+    username: ${MAIL_USERNAME:teste}
+    password: ${MAIL_PASSWORD:teste}
+    test-connection: false
+    properties:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          socketFactory:
+            port: 465
+            class: java.net.ssl.SSLSocketFactory
 
 jwt:
-  secret: "VGt0MGNRU3p3VQ=="
-  expiration: 3600000 # 1 hora em ms
+  secret: ${TOKEN_SECRET:VGt0MGNRU3p3VQ==}
+  expiration: ${TOKEN_EXPIRATION:3600000} # 1 hora em ms
   refresh:
-    expiration: 2629746000 # 1 mes em ms
-    secret: "Tkt0cQSzwU"
+    expiration: ${TOKEN_REFRESH_EXPIRATION:2629746000} # 1 mes em ms
+    secret: ${TOKEN_REFRESH_SECRET:Tkt0cQSzwU}
+
+storage:
+  url: ${MINIO_URL:http://localhost:9000}
+  bucket: ${MINIO_BUCKET:dainf-lab}
+  access:
+    key: ${MINIO_ACCESS_KEY:admin}
+    secret: ${MINIO_SECRET_KEY:minio123}
+
