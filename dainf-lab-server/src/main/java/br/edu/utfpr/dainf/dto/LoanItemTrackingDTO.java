@@ -22,7 +22,6 @@ public class LoanItemTrackingDTO {
     private String observation;
     private Instant loanDate;
     private Instant deadline;
-    private Instant devolutionDate;
     private String borrowerName;
     private String borrowerEmail;
     private Long borrowerId;
@@ -39,7 +38,6 @@ public class LoanItemTrackingDTO {
             this.observation = loan.getObservation();
             this.loanDate = loan.getLoanDate();
             this.deadline = loan.getDeadline();
-            this.devolutionDate = loan.getDevolutionDate();
 
             if (loan.getBorrower() != null) {
                 this.borrowerId = loan.getBorrower().getId();

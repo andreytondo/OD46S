@@ -25,36 +25,17 @@
         label="Data do empréstimo"
         class="col-span-12 md:col-span-4"
       >
-        <input
-          type="date"
-          pInputText
-          id="loanDate"
-          formControlName="loanDate"
-        />
-      </app-input-container>
-
-      <app-input-container label="Prazo" class="col-span-12 md:col-span-4">
-        <input
-          type="date"
-          pInputText
-          id="deadline"
-          formControlName="deadline"
-        />
+        <p-datepicker dateFormat="dd/mm/yy" formControlName="loanDate" />
       </app-input-container>
 
       <app-input-container
         label="Data de devolução"
         class="col-span-12 md:col-span-4"
       >
-        <input
-          type="date"
-          pInputText
-          id="devolution_date"
-          formControlName="devolutionDate"
-        />
+        <p-datepicker dateFormat="dd/mm/yy" formControlName="deadline" />
       </app-input-container>
 
-      <app-input-container label="Mutuário" class="col-span-12 md:col-span-6">
+      <app-input-container label="Mutuário" class="col-span-12 md:col-span-4">
         <app-search-select
           formControlName="borrower"
           optionLabel="nome"
@@ -63,13 +44,13 @@
         />
       </app-input-container>
 
-      <app-input-container label="Observação" class="col-span-12 md:col-span-8">
-        <input
-          type="text"
-          pInputText
-          id="observation"
+      <app-input-container label="Observação" class="col-span-12">
+        <textarea
+          rows="5"
+          cols="30"
+          pTextarea
           formControlName="observation"
-        />
+        ></textarea>
       </app-input-container>
 
       <p-fieldset legend="Itens" class="col-span-12">
@@ -129,12 +110,7 @@
 <ng-template #filters>
   <div class="grid grid-cols-12 gap-4">
     <app-input-container label="Data do empréstimo" class="col-span-12">
-      <input
-        type="date"
-        pInputText
-        id="loanDate"
-        [(ngModel)]="loanDateFilter"
-      />
+      <p-datepicker dateFormat="dd/mm/yy" [(ngModel)]="loanDateFilter" />
     </app-input-container>
 
     <app-input-container label="Mutuário" class="col-span-12">

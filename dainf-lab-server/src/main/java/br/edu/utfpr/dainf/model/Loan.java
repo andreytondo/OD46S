@@ -34,9 +34,6 @@ public class Loan implements Identifiable<Long> {
     @Column(name = "deadline")
     private Instant deadline;
 
-    @Column(name = "devolution_date")
-    private Instant devolutionDate;
-
     @Column(name = "observation")
     private String observation;
 

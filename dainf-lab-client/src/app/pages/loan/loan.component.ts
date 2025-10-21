@@ -27,8 +27,11 @@ import {
 } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FieldsetModule } from 'primeng/fieldset';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
 import { CategoryService } from '../category/category.service';
 import { ItemService } from '../item/item.service';
 import { User } from '../user/user';
@@ -51,6 +54,9 @@ import { LoanService } from './loan.service';
     SearchSelectComponent,
     InputNumberModule,
     DatePickerModule,
+    TextareaModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
   providers: [
     LoanService,
@@ -81,10 +87,9 @@ export class LoanComponent implements OnInit {
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
-    borrower: [null],
-    loanDate: [new Date()],
-    deadline: [null],
-    devolutionDate: [null],
+    borrower: [null, Validators.required],
+    loanDate: [new Date(), Validators.required],
+    deadline: [null, Validators.required],
     observation: [null],
     items: [[]],
   });
@@ -169,6 +174,11 @@ export class LoanComponent implements OnInit {
   }
 
   onEntityLoad(loan: Loan) {
+    this.form.patchValue({
+      loanDate: new Date(loan.loanDate),
+      deadline: new Date(loan.deadline),
+    });
+
     setTimeout(() => {
       this.loanItensForm.disable();
       this.form.get('borrower')?.disable();
@@ -177,7 +187,7 @@ export class LoanComponent implements OnInit {
       this.form.get('borrower')?.updateValueAndValidity();
 
       this.disabled.set(true);
-    }, 150);
+    }, 100);
   }
 
   onCancel() {

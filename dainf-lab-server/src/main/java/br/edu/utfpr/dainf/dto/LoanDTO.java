@@ -3,13 +3,14 @@ package br.edu.utfpr.dainf.dto;
 import br.edu.utfpr.dainf.model.LoanItem;
 import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.shared.Identifiable;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -23,17 +24,16 @@ public class LoanDTO implements Identifiable<Long> {
     private SimpleUserDTO borrower;
 
     @NotNull(message = "O campo 'Data de empréstimo' é obrigatório.")
-    private Date loanDate;
+    private Instant loanDate;
 
     @NotNull(message = "O campo 'Prazo' é obrigatório.")
-    private Date deadline;
-
-    private Date devolutionDate;
+    private Instant deadline;
 
     private String observation;
 
     private String raSiape;
 
+    @NotEmpty
     @NotNull(message = "O campo 'Itens' é obrigatório.")
     private List<LoanItemDTO> items;
 
