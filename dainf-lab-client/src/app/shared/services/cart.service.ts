@@ -1,13 +1,13 @@
-import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { CartItem } from '../models/cart';
 import { Item } from '@/pages/item/item';
+import { HttpClient } from '@angular/common/http';
+import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { catchError, tap, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { CartItem } from '../models/cart';
 
 @Injectable({
-  providedIn: 'root' 
+  providedIn: 'root'
 })
 export class CartService {
   private http = inject(HttpClient);
@@ -70,7 +70,7 @@ export class CartService {
 
   updateQuantity(itemId: number, newQuantity: number): void {
     if (newQuantity < 1) {
-      this.removeItem(itemId); 
+      this.removeItem(itemId);
       return;
     }
     this.cartItems.update(items => items.map(ci =>
@@ -86,6 +86,5 @@ export class CartService {
 
   toggleCartVisibility(): void {
     this.isCartVisible.update(visible => !visible);
-    console.log('CartService: Toggled visibility to', this.isCartVisible());
   }
 }
