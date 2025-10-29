@@ -39,6 +39,6 @@ export class CartComponent {
 
     if (cartItemsData.length === 0) return;
     this.context.set('cart', cartItemsData);
-    this.router.navigate(['/pages/reservation']);
+    this.router.navigate(['reservation']);
   }
 }

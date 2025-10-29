@@ -5,5 +5,4 @@ import { SignUpComponent } from './sign-in/sign-up.component';
 export default [
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: '**', redirectTo: '/not-found' }
 ] as Routes;

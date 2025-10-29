@@ -122,6 +122,6 @@ export class ReservationComponent implements OnInit {
       items: loanItems,
     };
     this.context.set('reservation', loanData);
-    this.router.navigate(['/pages/loan']);
+    this.router.navigate(['loan']);
   }
 }

@@ -35,9 +35,9 @@ export class AppMenu {
       {
         label: 'Operações',
         items: [
-          { label: 'Empréstimo', icon: 'pi pi-clock', routerLink: '/pages/loan' },
-          { label: 'Saída', icon: 'pi pi-sign-out', routerLink: '/pages/issue' },
-          { label: 'Reserva', icon: 'pi pi-calendar', routerLink: '/pages/reservation' },
+          { label: 'Empréstimo', icon: 'pi pi-clock', routerLink: 'loan' },
+          { label: 'Saída', icon: 'pi pi-sign-out', routerLink: 'issue' },
+          { label: 'Reserva', icon: 'pi pi-calendar', routerLink: 'reservation' },
         ],
       },
       {
@@ -46,30 +46,30 @@ export class AppMenu {
           {
             label: 'Nova Compra',
             icon: 'pi pi-shopping-cart',
-            routerLink: '/pages/compra',
+            routerLink: 'compra',
           },
           {
             label: 'Solicitar Compra',
             icon: 'pi pi-receipt',
-            routerLink: '/pages/purchase-solicitation',
+            routerLink: 'purchase-solicitation',
           },
         ],
       },
       {
         label: 'Cadastros',
         items: [
-          { label: 'Itens', icon: 'pi pi-box', routerLink: '/pages/item' },
+          { label: 'Itens', icon: 'pi pi-box', routerLink: 'item' },
           {
             label: 'Categorias',
             icon: 'pi pi-list',
-            routerLink: '/pages/category',
+            routerLink: 'category',
           },
           {
             label: 'Fornecedores',
             icon: 'pi pi-truck',
-            routerLink: '/pages/fornecedores',
+            routerLink: 'fornecedores',
           },
-          { label: 'Usuários', icon: 'pi pi-users', routerLink: '/pages/user' },
+          { label: 'Usuários', icon: 'pi pi-users', routerLink: 'user' },
         ],
       },
     ];

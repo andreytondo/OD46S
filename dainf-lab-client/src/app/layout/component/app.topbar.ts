@@ -1,18 +1,18 @@
 import { AuthService } from '@/pages/auth/services/auth.service';
+import { CartComponent } from '@/shared/components/cart-component/cart.component';
+import { CartService } from '@/shared/services/cart.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
+import { PopoverModule } from 'primeng/popover';
 import { StyleClassModule } from 'primeng/styleclass';
 import { TooltipModule } from 'primeng/tooltip';
-import { PopoverModule } from 'primeng/popover';
-import { CartService } from '@/shared/services/cart.service';
 import { LayoutService } from '../service/layout.service';
 import { AppConfigurator } from './app.configurator';
 import { LogoComponent } from './logo.component';
 import { UserDropdownComponent } from './user-dropdown.component';
-import { CartComponent } from '@/shared/components/cart-component/cart.component';
 
 @Component({
   selector: 'app-topbar',
@@ -139,6 +139,6 @@ export class AppTopbar {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['login']);
   }
 }

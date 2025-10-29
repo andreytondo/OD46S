@@ -75,7 +75,7 @@ export class SignUpComponent {
     this._authService.signUp(payload).subscribe({
       next: (res) => {
         console.log('Registro bem-sucedido!', res);
-        this._router.navigate(['/auth/login']);
+        this._router.navigate(['login']);
       },
       error: (err) => {
         console.error('Falha no registro', err);
