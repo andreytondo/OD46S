@@ -86,7 +86,7 @@
           severity="secondary"
           (click)="edit(row)"
         ></p-button>
-        @if (config()?.allowDeletion) {
+        @if (config()?.allowDeletion !== false) {
           <p-button
             icon="pi pi-trash"
             severity="danger"

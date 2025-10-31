@@ -80,6 +80,8 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   messageService = inject(MessageService);
   confirmationService = inject(ConfirmationService);
 
+  lastPagination: { page: number; rows: number } | undefined;
+
   searchRequestChange$ = toObservable(this.searchRequest)
     .pipe(
       debounceTime(600),
@@ -94,6 +96,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
 
   loadItems(page?: number, rows?: number) {
     this.loadingItems.set(true);
+    this.lastPagination = { page: page ?? 0, rows: rows ?? 10 };
     const request = { ...this.searchRequest(), page, rows };
     this._loadItems(request)
       .pipe(
@@ -129,7 +132,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
       ?.pipe(
         tap(() => {
           this.cancel();
-          this.loadItems();
+          this.loadItems(this.lastPagination?.page, this.lastPagination?.rows);
           this.saveClick.emit();
           this._showSuccess('Registro salvo com sucesso.');
         }),
@@ -160,7 +163,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.service()
       .delete(item.id)
       .pipe(
-        tap(() => this.loadItems()),
+        tap(() => this.loadItems(this.lastPagination?.page, this.lastPagination?.rows)),
         catchError((error) => {
           this._showWarn(`Falha ao deletar o registro: ${error.error.message}`);
           return throwError(() => error);
