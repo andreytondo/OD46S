@@ -102,17 +102,19 @@
       ></app-photo-attachment>
     </app-input-container>
 
-    <p-fieldset legend="Patrimônios" class="col-span-12">
-      <app-subitem-form
-        formControlName="assets"
-        [form]="assetForm"
-        [columns]="assetCols"
-      >
-        <ng-template #formTemplate>
-          <ng-container *ngTemplateOutlet="assetFormTemplate"></ng-container>
-        </ng-template>
-      </app-subitem-form>
-    </p-fieldset>
+    @if (form.get("type")?.value === "DURABLE") {
+      <p-fieldset legend="Patrimônios" class="col-span-12">
+        <app-subitem-form
+          formControlName="assets"
+          [form]="assetForm"
+          [columns]="assetCols"
+        >
+          <ng-template #formTemplate>
+            <ng-container *ngTemplateOutlet="assetFormTemplate"></ng-container>
+          </ng-template>
+        </app-subitem-form>
+      </p-fieldset>
+    }
   </form>
 </ng-template>
 
@@ -135,16 +137,6 @@
       class="col-span-12 md:col-span-6 lg:col-span-4"
     >
       <input type="text" pInputText id="location" formControlName="location" />
-    </app-input-container>
-
-    <app-input-container
-      label="Situação"
-      class="col-span-12 md:col-span-6 lg:col-span-3"
-    >
-      <app-static-select
-        [options]="assetStatusOptions"
-        formControlName="status"
-      ></app-static-select>
     </app-input-container>
   </form>
 </ng-template>
@@ -171,13 +163,6 @@
 
   <app-input-container label="Localização" class="col-span-12">
     <input type="text" pInputText id="location" [(ngModel)]="locationFilter" />
-  </app-input-container>
-
-  <app-input-container label="Situação" class="col-span-12">
-    <app-static-select
-      [options]="assetStatusOptions"
-      [(ngModel)]="statusFilter"
-    ></app-static-select>
   </app-input-container>
 </ng-template>
 

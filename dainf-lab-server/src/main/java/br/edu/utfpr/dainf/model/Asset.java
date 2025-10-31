@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.model;
 
-import br.edu.utfpr.dainf.enums.AssetStatus;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -29,7 +28,4 @@ public class Asset implements Identifiable<Long> {
     private String location;
 
     private String serialNumber;
-
-    @Enumerated(EnumType.STRING)
-    private AssetStatus status;
 }

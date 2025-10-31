@@ -30,7 +30,7 @@ import { Category } from '../category/category';
 import { CategoryService } from '../category/category.service';
 import { LoanService } from '../loan/loan.service';
 import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
-import { Asset, AssetStatus, Item, ItemType } from './item';
+import { Asset, Item, ItemType } from './item';
 import { ItemService } from './item.service';
 
 @Component({
@@ -112,18 +112,11 @@ export class ItemComponent {
       null,
       Validators.compose([Validators.required, Validators.maxLength(255)]),
     ],
-    status: [null, Validators.required],
   });
 
   itemTypeOptions: LabelValue<ItemType>[] = [
     { label: 'Consumível', value: 'CONSUMABLE' },
     { label: 'Durável', value: 'DURABLE' },
-  ];
-
-  assetStatusOptions: LabelValue<AssetStatus>[] = [
-    { label: 'Disponível', value: 'AVAILABLE' },
-    { label: 'Emprestado', value: 'LOANED' },
-    { label: 'Reservado', value: 'RESERVED' },
   ];
 
   cols: Column<Item>[] = [
@@ -142,12 +135,6 @@ export class ItemComponent {
   assetCols: Column<Asset>[] = [
     { field: 'serialNumber', header: 'Patrimônio' },
     { field: 'location', header: 'Localização' },
-    {
-      field: 'status',
-      header: 'Situação',
-      transform: (row) =>
-        this.labelValue.transform(row.status, this.assetStatusOptions),
-    },
   ];
 
   nameFilter = model<string | undefined>();
@@ -155,7 +142,6 @@ export class ItemComponent {
   categoryFilter = model<Category | undefined>();
   siorgFilter = model<string | undefined>();
   locationFilter = model<string | undefined>();
-  statusFilter = model<string | undefined>();
 
   searchRequest = computed<SearchRequest>(() => {
     const filters: SearchFilter[] = [];
@@ -180,12 +166,6 @@ export class ItemComponent {
         field: 'assets.location',
         value: this.locationFilter(),
         type: 'ILIKE',
-      });
-    if (this.statusFilter())
-      filters.push({
-        field: 'assets.status',
-        value: this.statusFilter(),
-        type: 'EQUALS',
       });
     return <SearchRequest>{ filters };
   });
