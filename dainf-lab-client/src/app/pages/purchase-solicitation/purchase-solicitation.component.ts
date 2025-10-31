@@ -16,7 +16,7 @@ import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 
 import { UserService } from '../user/user.service';
-import { PurchaseService } from './purchase-solicitation..service';
+import { PurchaseService } from './purchase-solicitation.service';
 
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
 import { SearchFilter, SearchRequest } from '@/shared/models/search';

@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.dto;
 
-import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import lombok.*;
 
@@ -17,6 +16,6 @@ public class SolicitationDTO implements Identifiable<Long> {
     private String description;
     private String observation;
     private Instant date;
-    private User user;
+    private UserDTO user;
     private List<SolicitationItemDTO> items;
 }

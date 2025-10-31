@@ -33,12 +33,12 @@ public class LoanItem implements Identifiable<Long> {
     private Item item;
 
     @Column(name = "return", nullable = false)
-    private boolean shouldReturn;
+    private boolean shouldReturn; // TODO: remover?
 
     @Column(name = "quantity", nullable = false)
     private BigDecimal quantity;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private LoanStatus status;
+    private LoanStatus status; // TODO: remover?
 }

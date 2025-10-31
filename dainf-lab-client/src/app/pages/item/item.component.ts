@@ -99,7 +99,7 @@ export class ItemComponent {
       { value: null, disabled: true },
       Validators.compose([Validators.required]),
     ],
-    minimumStock: [null, Validators.compose([Validators.required])],
+    minimumStock: [null],
   });
 
   assetForm: FormGroup = this.formBuilder.group({

@@ -40,7 +40,6 @@ public class Solicitation implements Identifiable<Long> {
     private User user;
 
     @NotNull(message = "Deve ser escolhido ao menos 1 item.")
-    @OneToMany(mappedBy = "solicitation",
-            cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "solicitation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SolicitationItem> items;
 }

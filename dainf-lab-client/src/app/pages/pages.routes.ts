@@ -5,7 +5,7 @@ import { CategoryComponent } from './category/category.component';
 import { IssueComponent } from './issue/issue.component';
 import { ItemComponent } from './item/item.component';
 import { LoanComponent } from './loan/loan.component';
-import { PurchaseSolicitationComponent } from './purchase-solicitation/purchase-solicitation..component';
+import { PurchaseSolicitationComponent } from './purchase-solicitation/purchase-solicitation.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { FornecedorComponent } from './supplier/fornecedor.component';

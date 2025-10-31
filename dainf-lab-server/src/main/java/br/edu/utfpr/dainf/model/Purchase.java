@@ -37,7 +37,6 @@ public class Purchase implements Identifiable<Long> {
     private User user;
 
     @NotNull(message = "Deve ser escolhido ao menos 1 produto.")
-    @OneToMany(mappedBy = "purchase",
-            cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseItem> items;
 }

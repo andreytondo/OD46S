@@ -25,7 +25,7 @@ public class PurchaseItem {
     private BigDecimal quantity;
 
     @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    private BigDecimal price; // TODO: remover esse campo?
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
