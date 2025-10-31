@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { map, Observable, switchMap } from 'rxjs';
-import { BaseService } from '../base.service';
+import { BaseService } from '../services/base.service';
 import { Image } from './image';
 import { StorageService } from './storage.service';
 
