@@ -9,7 +9,7 @@ export interface Loan extends Identifiable {
   deadline: string;
   observation: string;
   raSiape: string;
-  items: Item[];
+  items: LoanItem[];
 }
 
 export interface LoanItem extends Identifiable {

@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.model;
 
-import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -12,12 +11,13 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "loan_item")
+@Table(name = "return_item")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanItem implements Identifiable<Long> {
+public class ReturnItem implements Identifiable<Long> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,20 +25,16 @@ public class LoanItem implements Identifiable<Long> {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "loan_id", referencedColumnName = "id")
-    private Loan loan;
+    @JoinColumn(name = "return_id", referencedColumnName = "id")
+    private Return aReturn;
 
     @ManyToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item;
 
-    @Column(name = "return", nullable = false)
-    private boolean shouldReturn;
+    @Column(name = "quantity_returned")
+    private BigDecimal quantityReturned;
 
-    @Column(name = "quantity", nullable = false)
-    private BigDecimal quantity;
-
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private LoanStatus status;
+    @Column(name = "quantity_issued")
+    private BigDecimal quantityIssued;
 }

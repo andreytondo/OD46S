@@ -25,7 +25,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
+import { DialogService } from 'primeng/dynamicdialog';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -38,6 +40,7 @@ import { User } from '../user/user';
 import { UserService } from '../user/user.service';
 import { Loan, LoanItem, LoanStatus } from './loan';
 import { LoanService } from './loan.service';
+import { LoanReturnDialog } from './return-dialog/return-dialog';
 
 @Component({
   standalone: true,
@@ -57,6 +60,7 @@ import { LoanService } from './loan.service';
     TextareaModule,
     InputGroupModule,
     InputGroupAddonModule,
+    ButtonModule,
   ],
   providers: [
     LoanService,
@@ -64,12 +68,14 @@ import { LoanService } from './loan.service';
     LabelValuePipe,
     ItemService,
     UserService,
+    DialogService,
   ],
   selector: 'app-loan',
   templateUrl: 'loan.component.html',
 })
 export class LoanComponent implements OnInit {
   loanService = inject(LoanService);
+  dialogService = inject(DialogService);
   formBuilder = inject(FormBuilder);
   labelValue = inject(LabelValuePipe);
   itemService = inject(ItemService);
@@ -198,5 +204,24 @@ export class LoanComponent implements OnInit {
     this.form.get('borrower')?.updateValueAndValidity();
 
     this.disabled.set(false);
+  }
+
+  openReturnDialog(loan: Loan) {
+    const ref = this.dialogService.open(LoanReturnDialog, {
+      header: `Devolução de empréstimo`,
+      width: '60%',
+      modal: true,
+      data: { loan },
+    });
+
+    ref.onClose.subscribe((result: any) => {
+      if (result?.success) {
+        this.crud()?.loadItems();
+      }
+    });
+  }
+
+  openEdit(row: Loan) {
+    this.crud()?.edit(row);
   }
 }

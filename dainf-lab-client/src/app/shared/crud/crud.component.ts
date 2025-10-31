@@ -131,6 +131,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
           this.cancel();
           this.loadItems();
           this.saveClick.emit();
+          this._showSuccess('Registro salvo com sucesso.');
         }),
         catchError((error) => {
           this._showWarn(this._extractErrorMessage(error));
@@ -190,6 +191,14 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
     this.messageService.add({
       severity: 'warn',
       summary: 'Atenção!',
+      detail: detail,
+    });
+  }
+
+  private _showSuccess(detail: string) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso!',
       detail: detail,
     });
   }

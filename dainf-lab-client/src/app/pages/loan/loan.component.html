@@ -9,6 +9,7 @@
   [searchRequest]="searchRequest()"
   (entityLoad)="onEntityLoad($event)"
   (cancelClick)="onCancel()"
+  [actionsTemplate]="actions"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -29,7 +30,7 @@
       </app-input-container>
 
       <app-input-container
-        label="Data de devolução"
+        label="Prazo de devolução"
         class="col-span-12 md:col-span-4"
       >
         <p-datepicker dateFormat="dd/mm/yy" formControlName="deadline" />
@@ -71,6 +72,11 @@
       </p-fieldset>
     </form>
   </div>
+</ng-template>
+
+<ng-template #actions let-row>
+  <p-button icon="pi pi-pencil" class="mr-2" severity="secondary" (click)="openEdit(row)"></p-button>
+  <p-button icon="pi pi-undo" class="mr-2" severity="info" (click)="openReturnDialog(row)"></p-button>
 </ng-template>
 
 <ng-template #loanItensFormTemplate>
