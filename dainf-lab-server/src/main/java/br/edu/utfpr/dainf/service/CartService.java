@@ -19,14 +19,15 @@ import java.util.stream.Collectors;
 @Service
 public class CartService {
 
-    @Autowired
-    private CartRepository repository;
+    private final CartRepository repository;
+    private final ItemRepository itemRepository;
+    private final UserService userService;
 
-    @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
-    private UserService userService;
+    public CartService(CartRepository repository, ItemRepository itemRepository, UserService userService) {
+        this.repository = repository;
+        this.itemRepository = itemRepository;
+        this.userService = userService;
+    }
 
     public Cart manageCart(List<CartItemDTO> itemsDTO) {
         Cart cart = findCart();
