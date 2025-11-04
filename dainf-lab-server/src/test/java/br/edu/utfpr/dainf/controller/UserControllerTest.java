@@ -2,8 +2,6 @@ package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.UserDTO;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 class UserControllerTest extends CrudControllerTest<UserDTO> {
 
@@ -15,12 +13,28 @@ class UserControllerTest extends CrudControllerTest<UserDTO> {
     @Override
     protected UserDTO createValidObject() {
         Integer random = (int) (Math.random() * 10000);
-        return new UserDTO(null, random + "teste@mail.com", "Teste123456!", "teste", "odfdso", "teste", "teste", false);
+        return UserDTO.builder()
+                .email(random + "teste@mail.com")
+                .password("Teste123456!")
+                .nome("teste")
+                .documento("odfdso")
+                .telefone("teste")
+                .fotoUrl("teste")
+                .emailVerificado(false)
+                .build();
     }
 
     @Override
     protected UserDTO createInvalidObject() {
-        return new UserDTO(null, "testelcom", "123", "teste", "odfdso", "teste", "teste", false);
+        return UserDTO.builder()
+                .email("testecom")
+                .password("teste")
+                .nome("teste")
+                .documento("teste")
+                .telefone("teste")
+                .fotoUrl("teste")
+                .emailVerificado(false)
+                .build();
     }
 
     @Override

@@ -42,7 +42,7 @@
       </app-input-container>
 
       <app-input-container label="Acesso" class="col-span-12 md:col-span-4">
-        <p-select [options]="[]" formControlName="roles"></p-select>
+        <p-select [options]="roleOptions" formControlName="role" appendTo="body"></p-select>
       </app-input-container>
 
       <app-input-container label="RA/SIAPE" class="col-span-12 md:col-span-4">

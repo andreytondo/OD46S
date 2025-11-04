@@ -1,20 +1,19 @@
 package br.edu.utfpr.dainf.dto;
 
+import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import br.edu.utfpr.dainf.validator.ValidUser;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @ValidUser
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserDTO implements Identifiable<Long> {
 
     private Long id;
@@ -35,6 +34,8 @@ public class UserDTO implements Identifiable<Long> {
     private String fotoUrl;
 
     private boolean emailVerificado;
+
+    private UserRole role;
 
     public UserDTO(Long id) {
         this.id = id;

@@ -41,7 +41,7 @@ export class UserComponent {
     nome: [null, Validators.required],
     telefone: [null],
     documento: [null],
-    roles: [null, Validators.required],
+    role: [null, Validators.required],
     password: [null, Validators.required],
   });
 
@@ -55,6 +55,13 @@ export class UserComponent {
   config: CrudConfig<User> = {
     title: 'Usuários',
   };
+
+  roleOptions = [
+    { label: 'Admin', value: 'ROLE_ADMIN' },
+    { label: 'Professor', value: 'ROLE_PROFESSOR' },
+    { label: 'Lab Technician', value: 'ROLE_LAB_TECHNICIAN' },
+    { label: 'Student', value: 'ROLE_STUDENT' },
+  ]
 
   filtroNome = model<string | undefined>();
   filtroDocumento = model<string | undefined>();
