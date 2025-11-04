@@ -87,6 +87,9 @@ public class ReturnService extends CrudService<Long, Return, ReturnRepository> {
         }
 
         for (ReturnItem item : entity.getItems()) {
+            if (item.getQuantityIssued().compareTo(BigDecimal.ZERO) <= 0) {
+                continue;
+            }
             IssueItem issueItem = new IssueItem();
             issueItem.setItem(item.getItem());
             issueItem.setQuantity(item.getQuantityIssued());

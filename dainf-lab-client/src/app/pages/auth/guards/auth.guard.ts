@@ -8,10 +8,7 @@ export const AuthGuard: CanActivateFn = (route, state) => {
 	const tokenService = new TokenService();
 	const router = new Router();
 	const token = tokenService.getToken();
-	const publicRoutes = ['/auth/login', '/auth/sign-up', '/not-found'];
-	if (publicRoutes.includes(state.url)) {
-		return true;
-	}
+
 	if (token) {
 		return true;
 	} else {
