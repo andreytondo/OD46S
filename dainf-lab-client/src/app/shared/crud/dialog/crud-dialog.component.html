@@ -18,11 +18,13 @@
       icon="pi pi-times"
       (onClick)="cancel()"
     />
-    <p-button
-      label="Salvar"
-      severity="success"
-      icon="pi pi-check"
-      (onClick)="save()"
-    />
+    @if (config()?.allowUpdate !== false) {
+      <p-button
+        label="Salvar"
+        severity="success"
+        icon="pi pi-check"
+        (onClick)="save()"
+      />
+    }
   </ng-template>
 </p-dialog>

@@ -2,6 +2,7 @@ import { InputContainerComponent } from '@/shared/components/input-container/inp
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
 import { SearchRequest } from '@/shared/models/search';
+import { TelefonePipe } from '@/shared/pipes/telefone.pipe';
 import { Component, computed, inject, model } from '@angular/core';
 import {
   FormBuilder,
@@ -27,11 +28,12 @@ import { UserService } from './user.service';
   ],
   selector: 'app-user',
   templateUrl: 'user.component.html',
-  providers: [UserService],
+  providers: [UserService, TelefonePipe],
 })
 export class UserComponent {
   userService = inject(UserService);
   formBuilder = inject(FormBuilder);
+  telefonePipe = inject(TelefonePipe);
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
@@ -46,7 +48,7 @@ export class UserComponent {
   cols: Column<User>[] = [
     { field: 'email', header: 'E-mail' },
     { field: 'nome', header: 'Nome' },
-    { field: 'telefone', header: 'Telefone' },
+    { field: 'telefone', header: 'Telefone', transform: (row: User) => this.telefonePipe.transform(row.telefone) },
     { field: 'documento', header: 'RA/SIAPE' },
   ];
 

@@ -6,6 +6,7 @@
   [form]="form"
   [formTemplate]="crudForm"
   (entityLoad)="onEntityLoad($event)"
+  (cancelClick)="onCancel()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -38,10 +39,7 @@
               label="Data da Saída"
               class="col-span-12 md:col-span-8 lg:col-span-5"
             >
-              <p-datepicker
-                formControlName="date"
-                dateFormat="dd/mm/yy"
-              />
+              <p-datepicker formControlName="date" dateFormat="dd/mm/yy" />
             </app-input-container>
 
             <app-input-container
@@ -56,10 +54,7 @@
               ></app-search-select>
             </app-input-container>
 
-            <app-input-container
-              label="Observação"
-              class="col-span-12"
-            >
+            <app-input-container label="Observação" class="col-span-12">
               <textarea
                 pInputTextarea
                 id="observation"
@@ -93,6 +88,9 @@
               formControlName="items"
               [form]="issueItemForm"
               [columns]="issueItemCols"
+              [allowEditing]="!disabled()"
+              [allowDeleting]="!disabled()"
+              [allowAdding]="!disabled()"
             >
               <ng-template #formTemplate>
                 <ng-container

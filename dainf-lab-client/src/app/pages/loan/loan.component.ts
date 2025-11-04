@@ -8,7 +8,7 @@ import { LabelValue } from '@/shared/models/label-value';
 import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { ContextStore } from '@/shared/store/context-store.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   Component,
   computed,
@@ -69,6 +69,7 @@ import { LoanReturnDialog } from './return-dialog/return-dialog';
     ItemService,
     UserService,
     DialogService,
+    DatePipe
   ],
   selector: 'app-loan',
   templateUrl: 'loan.component.html',
@@ -81,6 +82,7 @@ export class LoanComponent implements OnInit {
   itemService = inject(ItemService);
   userService = inject(UserService);
   context = inject(ContextStore);
+  datePipe = inject(DatePipe);
 
   crud = viewChild(CrudComponent);
   subItem = viewChild(SubItemFormComponent);
@@ -117,8 +119,8 @@ export class LoanComponent implements OnInit {
   cols: Column<Loan>[] = [
     { field: 'id', header: 'Código' },
     { field: 'borrower.nome', header: 'Mutuário' },
-    { field: 'loanDate', header: 'Data do empréstimo' },
-    { field: 'deadline', header: 'Prazo de devolução' },
+    { field: 'loanDate', header: 'Data do empréstimo', transform: (row) => this.datePipe.transform(row.loanDate, 'dd/MM/yyyy') || '' },
+    { field: 'deadline', header: 'Prazo de devolução', transform: (row) => this.datePipe.transform(row.deadline, 'dd/MM/yyyy') || '' },
     { field: 'status', header: 'Status' },
   ];
 

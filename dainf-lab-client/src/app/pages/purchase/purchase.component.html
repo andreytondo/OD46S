@@ -7,6 +7,8 @@
   [formTemplate]="crudForm"
   [filtersTemplate]="filters"
   [searchRequest]="searchRequest()"
+  (entityLoad)="onEntityLoad($event)"
+  (cancelClick)="onCancel()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -67,6 +69,9 @@
           formControlName="items"
           [form]="purchaseItemForm"
           [columns]="purchaseItemCols"
+          [allowEditing]="!disabled()"
+          [allowDeleting]="!disabled()"
+          [allowAdding]="!disabled()"
         >
           <ng-template #formTemplate>
             <ng-container

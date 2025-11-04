@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -56,6 +56,8 @@ export class IssueComponent {
   formBuilder = inject(FormBuilder);
   datePipe = inject(DatePipe);
 
+  disabled = signal(false);
+
   config: CrudConfig<Issue> = {
     title: 'Saídas de Estoque',
   };
@@ -95,5 +97,25 @@ export class IssueComponent {
     this.form.patchValue({
       date: new Date(issue.date),
     });
+
+    setTimeout(() => {
+      this.issueItemForm.disable();
+      this.form.get('borrower')?.disable();
+
+      this.issueItemForm.updateValueAndValidity();
+      this.form.get('borrower')?.updateValueAndValidity();
+
+      this.disabled.set(true);
+    }, 100);
+  }
+
+  onCancel() {
+    this.issueItemForm.enable();
+    this.form.get('borrower')?.enable();
+
+    this.issueItemForm.updateValueAndValidity();
+    this.form.get('borrower')?.updateValueAndValidity();
+
+    this.disabled.set(false);
   }
 }

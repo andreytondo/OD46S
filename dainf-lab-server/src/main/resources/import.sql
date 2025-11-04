@@ -77,4 +77,4 @@ INSERT INTO inventory_transaction (quantity,"type","date",inventory_id,user_id) 
 INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-10-30 23:50:39',1,NULL,NULL);
 INSERT INTO solicitation_item (quantity,item_id,solicitation_id) VALUES (10.00,2,1);
 INSERT INTO loan (deadline,loan_date,user_id,observation,ra_siape) values ('2025-11-30 00:00:00-03','2025-10-30 23:53:15-03',1,NULL,NULL);
-INSERT INTO loan_item (quantity,"return",item_id,loan_id,status) values (5.00,false,3,1,'PENDENTE');
+INSERT INTO loan_item (quantity,"return",item_id,loan_id) values (5.00,false,3,1);

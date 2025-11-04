@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, computed, inject, model, OnInit } from '@angular/core'; // Adicionado OnInit
+import { Component, computed, inject, model, OnInit, signal } from '@angular/core'; // Adicionado OnInit
 import {
   FormBuilder,
   FormGroup,
@@ -62,6 +62,8 @@ export class PurchaseComponent implements OnInit {
   itemService = inject(ItemService);
   formBuilder = inject(FormBuilder);
   datePipe = inject(DatePipe);
+
+  disabled = signal(false);
 
   config: CrudConfig<Purchase> = {
     title: 'Compras',
@@ -166,5 +168,31 @@ export class PurchaseComponent implements OnInit {
         this.purchaseItemForm.get('price')?.setValue(item.price || 0);
       }
     });
+  }
+
+  onEntityLoad(purchase: Purchase) {
+    this.form.patchValue({
+      date: new Date(purchase.date),
+    });
+
+    setTimeout(() => {
+      this.purchaseItemForm.disable();
+      this.form.get('borrower')?.disable();
+
+      this.purchaseItemForm.updateValueAndValidity();
+      this.form.get('borrower')?.updateValueAndValidity();
+
+      this.disabled.set(true);
+    }, 100);
+  }
+
+  onCancel() {
+    this.purchaseItemForm.enable();
+    this.form.get('borrower')?.enable();
+
+    this.purchaseItemForm.updateValueAndValidity();
+    this.form.get('borrower')?.updateValueAndValidity();
+
+    this.disabled.set(false);
   }
 }

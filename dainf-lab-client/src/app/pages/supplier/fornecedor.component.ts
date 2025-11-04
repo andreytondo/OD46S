@@ -16,8 +16,10 @@ import { TextareaModule } from 'primeng/textarea';
 import { EstadoSelectComponent } from '@/shared/components/estado-select/estado-select.component';
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
 import { SearchRequest } from '@/shared/models/search';
+import { CnpjPipe } from '@/shared/pipes/cnpj.pipe';
 import { CEPResult, CEPService } from '@/shared/services/cep.service';
 import { CommonModule } from '@angular/common';
+import { InputMaskModule } from 'primeng/inputmask';
 import { SelectModule } from 'primeng/select';
 import { debounceTime, switchMap, tap } from 'rxjs';
 import { CidadeService } from '../cidade/cidade.service';
@@ -37,28 +39,31 @@ import { FornecedorService } from './fornecedor.service';
     SelectModule,
     EstadoSelectComponent,
     SearchSelectComponent,
+    InputMaskModule
   ],
   selector: 'app-fornecedor',
   templateUrl: './fornecedor.component.html',
+  providers: [CnpjPipe],
 })
 export class FornecedorComponent implements OnInit {
   fornecedorService = inject(FornecedorService);
   cepService = inject(CEPService);
   formBuilder = inject(FormBuilder);
   cidadeService = inject(CidadeService);
+  cnpjPipe = inject(CnpjPipe);
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     razaoSocial: [null, Validators.required],
     nomeFantasia: [null, Validators.required],
     cnpj: [null, Validators.required],
-    ie: [null, Validators.required],
+    ie: [null],
     telefone: [null, Validators.required],
     email: [null, [Validators.required, Validators.email]],
     endereco: [null, Validators.required],
     estado: [null, Validators.required],
     cidade: [null, Validators.required],
-    cep: [null, Validators.required],
+    cep: [null],
     observacao: [null, Validators.maxLength(2000)],
   });
 
@@ -66,7 +71,7 @@ export class FornecedorComponent implements OnInit {
     { field: 'id', header: 'Código' },
     { field: 'razaoSocial', header: 'Razão Social' },
     { field: 'nomeFantasia', header: 'Nome Fantasia' },
-    { field: 'cnpj', header: 'CNPJ' },
+    { field: 'cnpj', header: 'CNPJ', transform: (row: Fornecedor) => this.cnpjPipe.transform(row.cnpj) },
   ];
 
   config: CrudConfig<Fornecedor> = {
