@@ -29,7 +29,6 @@ public class LoanItemTrackingDTO {
     public LoanItemTrackingDTO(LoanItem loanItem) {
         this.loanItemId = loanItem.getId();
         this.quantity = loanItem.getQuantity();
-        this.status = loanItem.getStatus().getStatus();
 
         Loan loan = loanItem.getLoan();
         if (loan != null) {
@@ -38,6 +37,7 @@ public class LoanItemTrackingDTO {
             this.observation = loan.getObservation();
             this.loanDate = loan.getLoanDate();
             this.deadline = loan.getDeadline();
+            this.status = loan.getStatus().getStatus();
 
             if (loan.getBorrower() != null) {
                 this.borrowerId = loan.getBorrower().getId();

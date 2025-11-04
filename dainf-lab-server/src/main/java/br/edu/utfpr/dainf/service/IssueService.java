@@ -24,10 +24,16 @@ public class IssueService extends CrudService<Long, Issue, IssueRepository> {
 
     @Override
     public Issue save(Issue entity) {
+        return save(entity, true);
+    }
+
+    public Issue save(Issue entity, boolean handleTransaction) {
         if (entity.getItems() != null) {
             for (IssueItem item : entity.getItems()) {
                 item.setIssue(entity);
-                inventoryService.handleTransaction(item.getItem(), item.getQuantity(), InventoryTransactionType.ISSUE);
+                if (handleTransaction) {
+                    inventoryService.handleTransaction(item.getItem(), item.getQuantity(), InventoryTransactionType.ISSUE);
+                }
             }
         }
         return super.save(entity);

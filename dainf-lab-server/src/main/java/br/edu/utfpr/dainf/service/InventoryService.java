@@ -45,6 +45,51 @@ public class InventoryService extends CrudService<Long, Inventory, InventoryRepo
         save(inventory);
     }
 
+    @Transactional
+    public void undoTransaction(Item item, BigDecimal oldQuantity, InventoryTransactionType oldType) {
+        Inventory inventory = findByItem(item);
+
+        InventoryTransactionType reverseType = TransactionFactory.reverseType(oldType);
+        TransactionProcessor reverseProcessor = createProcessor(reverseType);
+        reverseProcessor.process(inventory, oldQuantity, reverseType);
+
+        save(inventory);
+    }
+
+    @Transactional
+    public void updateTransaction(
+            Item item,
+            BigDecimal oldQty,
+            InventoryTransactionType type,
+            BigDecimal newQty
+    ) {
+        oldQty = defaultZero(oldQty);
+        newQty = defaultZero(newQty);
+
+        boolean oldHas = oldQty.compareTo(BigDecimal.ZERO) > 0;
+        boolean newHas = newQty.compareTo(BigDecimal.ZERO) > 0;
+
+        // Case 1: Was >0, now 0 → undo old
+        if (oldHas && !newHas) {
+            undoTransaction(item, oldQty, type);
+            return;
+        }
+
+        // Case 2: Was 0, now >0 → apply new
+        if (!oldHas && newHas) {
+            handleTransaction(item, newQty, type);
+            return;
+        }
+
+        // Case 3: Was >0, now >0 and changed → update
+        if (oldHas && oldQty.compareTo(newQty) != 0) {
+            undoTransaction(item, oldQty, type);
+            handleTransaction(item, newQty, type);
+        }
+
+        // Case 4: both 0 → do nothing
+    }
+
     /**
      * Retrieves existing inventory or creates a empty one
      */
@@ -59,5 +104,9 @@ public class InventoryService extends CrudService<Long, Inventory, InventoryRepo
         Transaction transaction = TransactionFactory.create(type);
         TransactionValidator validator = TransactionFactory.createValidators(type);
         return new TransactionProcessor(transaction, validator, auditor);
+    }
+
+    private BigDecimal defaultZero(BigDecimal value) {
+        return value != null ? value : BigDecimal.ZERO;
     }
 }

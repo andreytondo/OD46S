@@ -29,6 +29,7 @@ public class InventoryTransaction implements Identifiable<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     private Inventory inventory;
 
+    @Enumerated(EnumType.STRING)
     private InventoryTransactionType type;
 
     private BigDecimal quantity;

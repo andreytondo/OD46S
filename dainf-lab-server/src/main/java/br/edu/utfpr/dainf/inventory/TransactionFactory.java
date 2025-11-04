@@ -27,4 +27,11 @@ public class TransactionFactory {
             ));
         };
     }
+
+    public static InventoryTransactionType reverseType(InventoryTransactionType type) {
+        return switch (type) {
+            case PURCHASE, RETURN -> InventoryTransactionType.ISSUE;
+            case ISSUE, LOAN -> InventoryTransactionType.RETURN;
+        };
+    }
 }

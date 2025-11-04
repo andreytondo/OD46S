@@ -41,7 +41,6 @@ public class Issue implements Identifiable<Long> {
     private Loan loan;
 
     @NotNull(message = "Deve ser escolhido ao menos 1 produto.")
-    @OneToMany(mappedBy = "issue",
-            cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IssueItem> items;
 }

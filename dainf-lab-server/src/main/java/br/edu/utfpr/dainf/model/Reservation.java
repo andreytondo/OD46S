@@ -40,7 +40,6 @@ public class Reservation implements Identifiable<Long> {
     private User user;
 
     @NotNull(message = "Deve ser escolhido ao menos 1 produto.")
-    @OneToMany(mappedBy = "reservation",
-            cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationItem> items;
 }
