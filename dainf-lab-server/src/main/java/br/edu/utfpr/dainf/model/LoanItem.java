@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @Table(name = "loan_item")
 @Getter
 @Setter
+@Audited
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoanItem implements Identifiable<Long> {

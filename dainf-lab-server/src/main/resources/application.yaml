@@ -18,6 +18,9 @@ spring:
       ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      org.hibernate.envers.store_data_at_delete: true
+      org.hibernate.envers.global_with_modified_flag: true
   mail:
     host: ${MAIL_HOST:teste}
     port: ${MAIL_PORT:1234}

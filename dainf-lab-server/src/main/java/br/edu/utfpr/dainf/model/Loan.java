@@ -8,12 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 import java.time.Instant;
 import java.util.List;
 
 @Entity
 @Table(name = "loan")
+@Audited
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,9 +39,6 @@ public class Loan implements Identifiable<Long> {
 
     @Column(name = "observation")
     private String observation;
-
-    @Column(name = "ra_siape", nullable = true)
-    private String raSiape;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LoanItem> items;

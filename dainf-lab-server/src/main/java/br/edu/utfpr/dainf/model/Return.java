@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Table(name = "return")
 @Getter
 @Setter
+@Audited
 @NoArgsConstructor
 @AllArgsConstructor
 public class Return implements Identifiable<Long> {

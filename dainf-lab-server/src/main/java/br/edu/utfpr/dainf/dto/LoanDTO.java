@@ -31,8 +31,6 @@ public class LoanDTO implements Identifiable<Long> {
 
     private String observation;
 
-    private String raSiape;
-
     @NotEmpty
     @NotNull(message = "O campo 'Itens' é obrigatório.")
     private List<LoanItemDTO> items;
