@@ -1,7 +1,6 @@
 package br.edu.utfpr.dainf.service;
 
 import br.edu.utfpr.dainf.enums.InventoryTransactionType;
-import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.model.Loan;
 import br.edu.utfpr.dainf.model.LoanItem;
 import br.edu.utfpr.dainf.repository.LoanRepository;
@@ -10,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class LoanService extends CrudService<Long, Loan, LoanRepository> {
@@ -38,7 +36,7 @@ public class LoanService extends CrudService<Long, Loan, LoanRepository> {
     }
 
     public List<LoanItem> getActiveLoansForItem(Long itemId) {
-        return repository.findActiveByItem(itemId, Set.of(LoanStatus.ATRASADO, LoanStatus.PENDENTE));
+        return repository.findActiveByItem(itemId);
     }
 
     public List<LoanItem> getHistoryForItem(Long itemId) {

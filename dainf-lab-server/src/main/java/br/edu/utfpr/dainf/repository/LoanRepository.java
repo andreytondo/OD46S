@@ -1,6 +1,5 @@
 package br.edu.utfpr.dainf.repository;
 
-import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.model.Loan;
 import br.edu.utfpr.dainf.model.LoanItem;
 import br.edu.utfpr.dainf.shared.CrudRepository;
@@ -8,7 +7,6 @@ import br.edu.utfpr.dainf.spec.LoanSpecExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExecutor {
