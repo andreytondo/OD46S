@@ -1,6 +1,7 @@
 
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { RoleGuard } from './auth/guards/role.guard';
 import { CategoryComponent } from './category/category.component';
 import { IssueComponent } from './issue/issue.component';
 import { ItemComponent } from './item/item.component';
@@ -15,15 +16,15 @@ export default [
   {
     path: '',
     children: [
-      { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
-      { path: 'fornecedores', component: FornecedorComponent, canActivate: [AuthGuard] },
-      { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
-      { path: 'item', component: ItemComponent, canActivate: [AuthGuard] },
-      { path: 'compra', component: PurchaseComponent, canActivate: [AuthGuard] },
-      { path: 'loan', component: LoanComponent, canActivate: [AuthGuard] },
-      { path: 'issue', component: IssueComponent, canActivate: [AuthGuard] },
-      { path: 'reservation', component: ReservationComponent, canActivate: [AuthGuard] },
-      { path: 'purchase-solicitation', component: PurchaseSolicitationComponent, canActivate: [AuthGuard] },
+      { path: 'category', component: CategoryComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'supplier', component: FornecedorComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'user', component: UserComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'item', component: ItemComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'loan', component: LoanComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'issue', component: IssueComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'reservation', component: ReservationComponent, canActivate: [AuthGuard, RoleGuard] },
+      { path: 'purchase-solicitation', component: PurchaseSolicitationComponent, canActivate: [AuthGuard, RoleGuard] },
     ]
   },
 ] as Routes;

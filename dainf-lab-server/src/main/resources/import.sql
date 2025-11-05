@@ -5,6 +5,9 @@ INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "passw
 INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role) VALUES('2343185', 'felipevilhalva@alunos.utfpr.edu.br', false, NULL, 'Felipe Vilhalva', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_ADMIN');
 INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role) VALUES('2343185', 'rafaelabandeira@alunos.utfpr.edu.br', false, NULL, 'Rafaela Bandeira', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_ADMIN');
 INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role) VALUES('2343185', 'renancezarotto@alunos.utfpr.edu.br', false, NULL, 'Renan Cezarotto', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_ADMIN');
+INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role) VALUES('2343185', 'aluno@alunos.utfpr.edu.br', false, NULL, 'Aluno UTFPR', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_STUDENT');
+INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role) VALUES('2343185', 'tecnico@alunos.utfpr.edu.br', false, NULL, 'Técnico UTFPR', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_LAB_TECHNICIAN');
+INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role) VALUES('2343185', 'professor@alunos.utfpr.edu.br', false, NULL, 'Professor UTFPR', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_PROFESSOR');
 insert into pais (nome, sigla) values('Brasil', 'BR');
 insert into pais (nome, sigla) values('China', 'CN');
 insert into pais (nome, sigla) values('Estados Unidos', 'EUA');

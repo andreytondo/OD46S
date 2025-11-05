@@ -1,3 +1,4 @@
+import { MenuService } from '@/shared/services/menu.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -26,52 +27,11 @@ import { AppMenuitem } from './app.menuitem';
 export class AppMenu {
   model: MenuItem[] = [];
 
+  constructor(private _menuService: MenuService) {}
+
   ngOnInit() {
-    this.model = [
-      {
-        label: 'Início',
-        items: [{ label: 'Dashboard', icon: 'pi pi-home' }],
-      },
-      {
-        label: 'Operações',
-        items: [
-          { label: 'Empréstimo', icon: 'pi pi-clock', routerLink: 'loan' },
-          { label: 'Saída', icon: 'pi pi-sign-out', routerLink: 'issue' },
-          { label: 'Reserva', icon: 'pi pi-calendar', routerLink: 'reservation' },
-        ],
-      },
-      {
-        label: 'Compras',
-        items: [
-          {
-            label: 'Nova Compra',
-            icon: 'pi pi-shopping-cart',
-            routerLink: 'compra',
-          },
-          {
-            label: 'Solicitar Compra',
-            icon: 'pi pi-receipt',
-            routerLink: 'purchase-solicitation',
-          },
-        ],
-      },
-      {
-        label: 'Cadastros',
-        items: [
-          { label: 'Itens', icon: 'pi pi-box', routerLink: 'item' },
-          {
-            label: 'Categorias',
-            icon: 'pi pi-list',
-            routerLink: 'category',
-          },
-          {
-            label: 'Fornecedores',
-            icon: 'pi pi-truck',
-            routerLink: 'fornecedores',
-          },
-          { label: 'Usuários', icon: 'pi pi-users', routerLink: 'user' },
-        ],
-      },
-    ];
+    this._menuService.getMenu().subscribe((menuItems) => {
+      this.model = menuItems.items;
+    });
   }
 }
