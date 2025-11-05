@@ -4,7 +4,6 @@ import { StaticSelectComponent } from '@/shared/components/static-select/static-
 import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
-import { LabelValue } from '@/shared/models/label-value';
 import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { LabelValuePipe } from '@/shared/pipes/label-value.pipe';
 import { ContextStore } from '@/shared/store/context-store.service';
@@ -38,7 +37,7 @@ import { CategoryService } from '../category/category.service';
 import { ItemService } from '../item/item.service';
 import { User } from '../user/user';
 import { UserService } from '../user/user.service';
-import { Loan, LoanItem, LoanStatus } from './loan';
+import { Loan, LoanItem } from './loan';
 import { LoanService } from './loan.service';
 import { LoanReturnDialog } from './return-dialog/return-dialog';
 
@@ -107,38 +106,28 @@ export class LoanComponent implements OnInit {
     item: [null, Validators.required],
     shouldReturn: [false],
     quantity: [1],
-    status: ['PENDENTE'],
   });
-
-  loanStatusOptions: LabelValue<LoanStatus>[] = [
-    { label: 'Em andamento', value: 'PENDENTE' },
-    { label: 'Atrasado', value: 'ATRASADO' },
-    { label: 'Devolvido', value: 'DEVOLVIDO' },
-  ];
 
   cols: Column<Loan>[] = [
     { field: 'id', header: 'Código' },
     { field: 'borrower.nome', header: 'Mutuário' },
     { field: 'loanDate', header: 'Data do empréstimo', transform: (row) => this.datePipe.transform(row.loanDate, 'dd/MM/yyyy') || '' },
     { field: 'deadline', header: 'Prazo de devolução', transform: (row) => this.datePipe.transform(row.deadline, 'dd/MM/yyyy') || '' },
-    { field: 'status', header: 'Status' },
+    {
+      field: 'deadline',
+      header: 'Status',
+      transform: (row) => new Date(row.deadline) < new Date() ? 'Em atraso' : 'Pendente',
+    },
   ];
 
   itensCols: Column<LoanItem>[] = [
     { field: 'item.name', header: 'Nome' },
     { field: 'quantity', header: 'Quantidade' },
-    {
-      field: 'status',
-      header: 'Status',
-      transform: (row) =>
-        this.labelValue.transform(row.status, this.loanStatusOptions),
-    },
   ];
 
   loanDateFilter = model<string | undefined>();
   borrowerFilter = model<User | undefined>();
   raSiapeFilter = model<string | undefined>();
-  statusFilter = model<string | undefined>();
   searchRequest = computed<SearchRequest>(() => {
     const filters: SearchFilter[] = [];
 
@@ -161,13 +150,6 @@ export class LoanComponent implements OnInit {
         field: 'borrower.documento',
         value: this.raSiapeFilter(),
         type: 'ILIKE',
-      });
-    }
-    if (this.statusFilter()) {
-      filters.push({
-        field: 'status',
-        value: this.statusFilter(),
-        type: 'EQUALS',
       });
     }
     return <SearchRequest>{ filters };

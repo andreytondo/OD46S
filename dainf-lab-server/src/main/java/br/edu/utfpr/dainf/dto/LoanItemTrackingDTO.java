@@ -16,7 +16,6 @@ public class LoanItemTrackingDTO {
 
     private Long loanItemId;
     private BigDecimal quantity;
-    private String status;
     private Long loanId;
     private String observation;
     private Instant loanDate;
@@ -35,7 +34,6 @@ public class LoanItemTrackingDTO {
             this.observation = loan.getObservation();
             this.loanDate = loan.getLoanDate();
             this.deadline = loan.getDeadline();
-            this.status = loan.getStatus().getStatus();
 
             if (loan.getBorrower() != null) {
                 this.borrowerId = loan.getBorrower().getId();

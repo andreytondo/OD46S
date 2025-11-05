@@ -1,8 +1,5 @@
 package br.edu.utfpr.dainf.dto;
 
-import br.edu.utfpr.dainf.enums.LoanStatus;
-import br.edu.utfpr.dainf.model.Item;
-import br.edu.utfpr.dainf.model.Loan;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,9 +23,6 @@ public class LoanItemDTO implements Identifiable<Long> {
 
     @NotNull(message = "O campo 'Quantidade' é obrigatório.")
     private BigDecimal quantity;
-
-    @NotNull(message = "O campo 'Status' é obrigatório.")
-    private LoanStatus status;
 
     public LoanItemDTO(Long id) {
         this.id = id;

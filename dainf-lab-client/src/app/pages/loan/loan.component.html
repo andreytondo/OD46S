@@ -75,8 +75,18 @@
 </ng-template>
 
 <ng-template #actions let-row>
-  <p-button icon="pi pi-pencil" class="mr-2" severity="secondary" (click)="openEdit(row)"></p-button>
-  <p-button icon="pi pi-undo" class="mr-2" severity="info" (click)="openReturnDialog(row)"></p-button>
+  <p-button
+    icon="pi pi-pencil"
+    class="mr-2"
+    severity="secondary"
+    (click)="openEdit(row)"
+  ></p-button>
+  <p-button
+    icon="pi pi-undo"
+    class="mr-2"
+    severity="info"
+    (click)="openReturnDialog(row)"
+  ></p-button>
 </ng-template>
 
 <ng-template #loanItensFormTemplate>
@@ -100,16 +110,6 @@
       <p-input-number locale="pt-BR" mode="decimal" formControlName="quantity">
       </p-input-number>
     </app-input-container>
-
-    <app-input-container
-      label="Status"
-      class="col-span-12 md:col-span-6 lg:col-span-3"
-    >
-      <app-static-select
-        [options]="loanStatusOptions"
-        formControlName="status"
-      ></app-static-select>
-    </app-input-container>
   </form>
 </ng-template>
 
@@ -130,13 +130,6 @@
 
     <app-input-container label="RA/SIAPE" class="col-span-12">
       <input type="text" pInputText id="ra_siape" [(ngModel)]="raSiapeFilter" />
-    </app-input-container>
-
-    <app-input-container label="Status" class="col-span-12">
-      <app-static-select
-        [options]="loanStatusOptions"
-        [(ngModel)]="statusFilter"
-      ></app-static-select>
     </app-input-container>
   </div>
 </ng-template>

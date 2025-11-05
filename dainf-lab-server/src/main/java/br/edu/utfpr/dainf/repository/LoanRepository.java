@@ -15,10 +15,9 @@ public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExec
     @Query("SELECT li FROM LoanItem li " +
             "JOIN FETCH li.loan l " +
             "JOIN FETCH l.borrower " +
-            "WHERE li.item.id = :itemId AND l.status IN :statuses")
+            "WHERE li.item.id = :itemId")
     List<LoanItem> findActiveByItem(
-            @Param("itemId") Long itemId,
-            @Param("statuses") Collection<LoanStatus> statuses
+            @Param("itemId") Long itemId
     );
 
     @Query("SELECT li FROM LoanItem li " +

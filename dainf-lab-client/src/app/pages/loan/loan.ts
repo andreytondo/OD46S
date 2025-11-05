@@ -18,13 +18,11 @@ export interface LoanItem extends Identifiable {
   item: Item;
   shouldReturn: boolean;
   quantity: number;
-  status: LoanStatus;
 }
 
 export interface LoanItemTracking extends Identifiable {
   loanItemId: number;
   quantity: number;
-  status: string;
 
   loanId?: number;
   raSiape?: string;
