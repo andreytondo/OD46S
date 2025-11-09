@@ -41,7 +41,7 @@ export class LoginComponent {
     this._login().subscribe({
       next: (res) => {
         this._tokenService.setToken(res.token);
-        this._router.navigate(['/']);
+        this._router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error('Login failed', err);
