@@ -8,4 +8,5 @@ export interface User extends Identifiable {
   telefone?: string;
   documento?: string;
   role?: string;
+  enabled?: boolean;
 }

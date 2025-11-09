@@ -14,6 +14,7 @@ import {
 import { Button } from "primeng/button";
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 import { User } from './user';
 import { UserService } from './user.service';
@@ -28,7 +29,8 @@ import { UserService } from './user.service';
     InputContainerComponent,
     Select,
     Button,
-    TooltipModule
+    TooltipModule,
+    ToggleSwitchModule
 ],
   selector: 'app-user',
   templateUrl: 'user.component.html',
@@ -47,6 +49,7 @@ export class UserComponent {
     documento: [null],
     role: [null, Validators.required],
     password: [null, Validators.required],
+    enabled: [true],
   });
 
   cols: Column<User>[] = [

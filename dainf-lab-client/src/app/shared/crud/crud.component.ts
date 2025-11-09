@@ -160,10 +160,29 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   }
 
   deleteOne(item: T) {
+    this.confirmationService.confirm({
+      header: 'Atenção!',
+      message: 'Deseja realmente excluir este registro?',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      rejectButtonStyleClass: 'p-button-secondary',
+      accept: () => this._delete(item),
+    });
+  }
+
+  cancel() {
+    this.dialogVisible.set(false);
+    this.form()?.reset();
+    this.cancelClick.emit();
+  }
+
+  private _delete(item: T) {
     this.service()
       .delete(item.id)
       .pipe(
-        tap(() => this.loadItems(this.lastPagination?.page, this.lastPagination?.rows)),
+        tap(() =>
+          this.loadItems(this.lastPagination?.page, this.lastPagination?.rows),
+        ),
         catchError((error) => {
           this._showWarn(`Falha ao deletar o registro: ${error.error.message}`);
           return throwError(() => error);
@@ -172,12 +191,6 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
       )
       .subscribe();
     this.cancel();
-  }
-
-  cancel() {
-    this.dialogVisible.set(false);
-    this.form()?.reset();
-    this.cancelClick.emit();
   }
 
   private _extractErrorMessage(error: any): string {

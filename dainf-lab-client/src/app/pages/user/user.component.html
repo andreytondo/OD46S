@@ -19,14 +19,13 @@
       </p>
     </div>
 
-    <!-- 2. Campos reorganizados em linhas lógicas -->
     <form [formGroup]="form" class="grid grid-cols-12 gap-4">
-      <app-input-container label="Código" class="col-span-12 md:col-span-4">
-        <input type="text" pInputText id="id" formControlName="id" />
-      </app-input-container>
-
       <app-input-container label="Nome" class="col-span-12 md:col-span-8">
         <input type="text" pInputText id="nome" formControlName="nome" />
+      </app-input-container>
+
+      <app-input-container label="Ativo" class="col-span-12 md:col-span-4">
+        <p-toggleswitch class="mt-2" formControlName="enabled" />
       </app-input-container>
 
       <app-input-container label="E-mail" class="col-span-12 md:col-span-6">
