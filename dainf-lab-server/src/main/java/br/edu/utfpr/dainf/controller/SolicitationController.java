@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("solicitations")
 @RolesAllowed({UserRole.ADMIN, UserRole.LAB_TECHNICIAN})
-public class SoclititationController extends CrudController<Long, Solicitation, SolicitationDTO, SolicitationRepository, SolicitationService> {
-    public SoclititationController() {
+public class SolicitationController extends CrudController<Long, Solicitation, SolicitationDTO, SolicitationRepository, SolicitationService> {
+    public SolicitationController() {
         super(Solicitation.class, SolicitationDTO.class);
     }
 }
