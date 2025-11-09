@@ -7,6 +7,7 @@
   [formTemplate]="crudForm"
   [filtersTemplate]="filters"
   [searchRequest]="searchRequest()"
+  [actionsTemplate]="customActions"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -42,7 +43,11 @@
       </app-input-container>
 
       <app-input-container label="Acesso" class="col-span-12 md:col-span-4">
-        <p-select [options]="roleOptions" formControlName="role" appendTo="body"></p-select>
+        <p-select
+          [options]="roleOptions"
+          formControlName="role"
+          appendTo="body"
+        ></p-select>
       </app-input-container>
 
       <app-input-container label="RA/SIAPE" class="col-span-12 md:col-span-4">
@@ -88,4 +93,27 @@
       />
     </app-input-container>
   </div>
+</ng-template>
+
+<ng-template #customActions let-row>
+  <p-button
+    icon="pi pi-pencil"
+    styleClass="p-button-secondary mr-2"
+    pTooltip="Editar"
+    tooltipPosition="left"
+    (click)="crud.edit(row)"
+  ></p-button>
+  <p-button
+    icon="pi pi-check-square"
+    styleClass="p-button-info mr-2"
+    pTooltip="Emitir documento de nada consta"
+    tooltipPosition="left"
+  ></p-button>
+  <p-button
+    icon="pi pi-trash"
+    styleClass="p-button-danger mr-2"
+    pTooltip="Excluir"
+    (click)="crud.deleteOne(row)"
+    tooltipPosition="left"
+  ></p-button>
 </ng-template>

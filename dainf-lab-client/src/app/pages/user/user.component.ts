@@ -11,8 +11,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Button } from "primeng/button";
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
+import { TooltipModule } from 'primeng/tooltip';
 import { User } from './user';
 import { UserService } from './user.service';
 
@@ -25,7 +27,9 @@ import { UserService } from './user.service';
     InputTextModule,
     InputContainerComponent,
     Select,
-  ],
+    Button,
+    TooltipModule
+],
   selector: 'app-user',
   templateUrl: 'user.component.html',
   providers: [UserService, TelefonePipe],
