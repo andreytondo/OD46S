@@ -331,15 +331,15 @@ INSERT INTO solicitation_item (quantity,item_id,solicitation_id) VALUES (10.00, 
 
 
 -- loan
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-30 00:00:00-03','2025-10-30 23:53:15-03',1,NULL);
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-12-06 00:00:00-03','2025-11-06 09:00:00-03', 7, 'Projeto TCC Aluno');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-20 00:00:00-03','2025-11-04 10:00:00-03', 1, 'Uso laboratório');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-20 00:00:00-03','2025-11-10 09:30:00-03', 7, 'Protoboard extra TCC');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-21 00:00:00-03','2025-11-11 10:00:00-03', 7, 'LCD TCC');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-22 00:00:00-03','2025-11-12 14:00:00-03', 9, 'Teste fonte Raspberry');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-23 00:00:00-03','2025-11-13 10:30:00-03', 7, 'LEDs projeto');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-12-15 00:00:00-03','2025-11-15 09:00:00-03', 7, 'Kit TCC (Sensores e Servos)');
-INSERT INTO loan (deadline,loan_date,user_id,observation) values ('2025-11-28 00:00:00-03','2025-11-18 10:00:00-03', 7, 'Baterias p/ carrinho');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-30 00:00:00-03','2025-10-30 23:53:15-03',1,NULL, 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-12-06 00:00:00-03','2025-11-06 09:00:00-03', 7, 'Projeto TCC Aluno', 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-20 00:00:00-03','2025-11-04 10:00:00-03', 1, 'Uso laboratório', 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-20 00:00:00-03','2025-11-10 09:30:00-03', 7, 'Protoboard extra TCC', 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-21 00:00:00-03','2025-11-11 10:00:00-03', 7, 'LCD TCC', 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-22 00:00:00-03','2025-11-12 14:00:00-03', 9, 'Teste fonte Raspberry', 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-23 00:00:00-03','2025-11-13 10:30:00-03', 7, 'LEDs projeto', 'ONGOING');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-05 00:00:00-03','2025-10-15 09:00:00-03', 7, 'Kit TCC (Sensores e Servos)', 'OVERDUE');
+INSERT INTO loan (deadline,loan_date,user_id,observation, status) values ('2025-11-28 00:00:00-03','2025-11-18 10:00:00-03', 7, 'Baterias p/ carrinho', 'ONGOING');
 
 
 -- loan_item
