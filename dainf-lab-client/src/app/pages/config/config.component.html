@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="font-semibold text-2xl mb-4">Configurações</div>
+
+  <form [formGroup]="form" class="grid grid-cols-12 gap-4">
+    <app-input-container
+      label="E-mail para envio do nada consta"
+      class="col-span-12 md:col-span-6 lg:col-span-3"
+    >
+      <input
+        type="text"
+        pInputText
+        id="clearanceEmailRecipient"
+        formControlName="clearanceEmailRecipient"
+        fluid
+      />
+    </app-input-container>
+  </form>
+
+  <div class="flex justify-end mt-4">
+    <button
+      pButton
+      type="button"
+      label="Salvar"
+      icon="pi pi-check"
+      class="p-button-success"
+      (click)="save()"
+    ></button>
+  </div>
+</div>
+
+<p-toast />

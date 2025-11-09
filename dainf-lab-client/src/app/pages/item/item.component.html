@@ -167,12 +167,6 @@
 </ng-template>
 
 <ng-template #customActions let-row>
-  <p-button
-    icon="pi pi-pencil"
-    styleClass="p-button-secondary mr-2"
-    pTooltip="Editar"
-    (click)="crud.edit(row)"
-  ></p-button>
   <!-- <p-button
     icon="pi pi-trash"
     styleClass="p-button-danger mr-2"
@@ -186,11 +180,21 @@
     tooltipPosition="left"
     (click)="addToCart(row)"
   ></p-button>
-  <p-button
-    icon="pi pi-clock"
-    pTooltip="Ver empréstimos do item"
-    styleClass="p-button-secondary"
-    tooltipPosition="left"
-    (click)="showActiveLoans(row)"
-  ></p-button>
+
+  @if (userHasAdvancedPrivileges()) {
+    <p-button
+      icon="pi pi-clock"
+      pTooltip="Ver empréstimos do item"
+      styleClass="p-button-secondary mr-2"
+      tooltipPosition="left"
+      (click)="showActiveLoans(row)"
+    ></p-button>
+    <p-button
+      icon="pi pi-pencil"
+      styleClass="p-button-secondary mr-2"
+      pTooltip="Editar"
+      tooltipPosition="left"
+      (click)="crud.edit(row)"
+    ></p-button>
+  }
 </ng-template>

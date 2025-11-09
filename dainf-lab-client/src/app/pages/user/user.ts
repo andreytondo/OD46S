@@ -7,5 +7,5 @@ export interface User extends Identifiable {
   nome?: string;
   telefone?: string;
   documento?: string;
-  roles?: string[];
+  role?: string;
 }

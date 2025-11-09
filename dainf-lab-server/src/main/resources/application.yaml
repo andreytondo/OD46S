@@ -22,10 +22,10 @@ spring:
       org.hibernate.envers.store_data_at_delete: true
       org.hibernate.envers.global_with_modified_flag: true
   mail:
-    host: ${MAIL_HOST:teste}
-    port: ${MAIL_PORT:1234}
-    username: ${MAIL_USERNAME:teste}
-    password: ${MAIL_PASSWORD:teste}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:andreytondo0408@gmail.com}
+    password: ${MAIL_PASSWORD:mpwf ocuh pojb jmad}
     test-connection: false
     properties:
         smtp:

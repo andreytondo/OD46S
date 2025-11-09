@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { RoleGuard } from './auth/guards/role.guard';
 import { CategoryComponent } from './category/category.component';
+import { ConfigurationComponent } from './config/config.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IssueComponent } from './issue/issue.component';
 import { ItemComponent } from './item/item.component';
@@ -26,6 +27,7 @@ export default [
       { path: 'issue', component: IssueComponent, canActivate: [RoleGuard] },
       { path: 'reservation', component: ReservationComponent, canActivate: [RoleGuard] },
       { path: 'purchase-solicitation', component: PurchaseSolicitationComponent, canActivate: [RoleGuard] },
+      { path: 'configuration', component: ConfigurationComponent, canActivate: [RoleGuard] },
     ]
   },
 ] as Routes;

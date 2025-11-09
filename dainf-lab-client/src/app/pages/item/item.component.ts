@@ -13,6 +13,7 @@ import { CartService } from '@/shared/services/cart.service';
 import { StorageImplService } from '@/shared/storage/storage-impl.service';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, model } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormGroup,
@@ -29,6 +30,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Category } from '../category/category';
 import { CategoryService } from '../category/category.service';
 import { LoanService } from '../loan/loan.service';
+import { UserService } from '../user/user.service';
 import { ActiveLoansDialog } from './active-loans-dialog/active-loans-dialog';
 import { Asset, Item, ItemType } from './item';
 import { ItemService } from './item.service';
@@ -54,6 +56,7 @@ import { ItemService } from './item.service';
   providers: [
     ItemService,
     CategoryService,
+    UserService,
     LabelValuePipe,
     CategoryTreeNodePipe,
     LoanService,
@@ -63,6 +66,7 @@ import { ItemService } from './item.service';
   templateUrl: 'item.component.html',
 })
 export class ItemComponent {
+  userService = inject(UserService);
   itemService = inject(ItemService);
   categoryService = inject(CategoryService);
   loanService = inject(LoanService);
@@ -72,6 +76,8 @@ export class ItemComponent {
   dialogService = inject(DialogService);
 
   dialogRef: DynamicDialogRef | undefined;
+
+  userHasAdvancedPrivileges = toSignal(this.userService.hasAdvancedPrivileges(), { initialValue: false });
 
   storageService = new StorageImplService(
     `${this.itemService._url}/storage`,
