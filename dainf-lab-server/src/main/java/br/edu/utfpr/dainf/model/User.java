@@ -57,9 +57,7 @@ public class User implements UserDetails, Identifiable<Long> {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public boolean getEmailVerificado() {
-        return emailVerificado;
-    }
+    private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,5 +71,10 @@ public class User implements UserDetails, Identifiable<Long> {
     @Override
     public String getUsername() {
         return getEmail();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }

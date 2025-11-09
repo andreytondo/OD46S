@@ -44,7 +44,8 @@ public class UserSignupDTO {
                 this.telefone,
                 null,
                 false,
-                null
+                null,
+                true
         );
     }
 }
