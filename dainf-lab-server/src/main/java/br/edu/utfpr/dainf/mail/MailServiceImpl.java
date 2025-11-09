@@ -6,16 +6,21 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 @Service
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender javaMailSender;
+    private final TemplateEngine templateEngine;
 
-    public MailServiceImpl(JavaMailSender javaMailSender) {
+    public MailServiceImpl(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
+        this.templateEngine = templateEngine;
     }
 
     @Override
@@ -26,6 +31,13 @@ public class MailServiceImpl implements MailService {
         } catch (Exception e) {
             throw new MailException("Falha ao enviar e-mail");
         }
+    }
+
+    @Override
+    public String buildTemplate(String templateName, Map<String, Object> variables) {
+        Context context = new Context();
+        context.setVariables(variables);
+        return templateEngine.process(templateName, context);
     }
 
     private MimeMessage buildMessage(Mail mail) throws MessagingException, UnsupportedEncodingException {

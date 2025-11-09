@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lembrete: Devolução de material próxima do vencimento</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #ffc107;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .header img {
+            max-width: 160px;
+        }
+
+        .content {
+            padding: 32px;
+            color: #333333;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #212121;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #212121;
+        }
+
+        ul {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px 24px;
+            list-style: none;
+        }
+
+        ul li {
+            font-size: 15px;
+            color: #333;
+            padding: 6px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <!-- Substitua pela logo oficial -->
+        <img src="cid:utfpr-logo" alt="UTFPR Logo" />
+    </div>
+
+    <div class="content">
+        <h1>Lembrete: Devolução de material próxima do vencimento</h1>
+
+        <p>Olá <strong>{{mutuario}}</strong>,</p>
+
+        <p>
+            Este é um lembrete de que o prazo para devolução do(s)
+            material(is) emprestado(s) na <strong>Sala de Apoio</strong> está se
+            aproximando.
+        </p>
+
+        <p>
+            Por favor, realize a devolução até
+            <span class="highlight">{{dataDevolucao}}</span> para evitar
+            pendências no sistema.
+        </p>
+
+        <p><strong>Itens emprestados:</strong></p>
+        <ul>
+            {{listaItens}}
+        </ul>
+
+        <p>
+            Em caso de necessidade de prorrogação, entre em contato com a equipe
+            responsável.
+        </p>
+
+        <p style="margin-top: 24px;">
+            Atenciosamente,<br />
+            <strong>Equipe da Sala de Apoio</strong>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>
+            Universidade Tecnológica Federal do Paraná — UTFPR<br />
+            Este é um e-mail automático, por favor, não responda.
+        </p>
+    </div>
+</div>
+</body>
+</html>

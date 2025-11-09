@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documento de Nada Consta - UTFPR</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #ffc107;
+            padding: 24px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 160px;
+        }
+        .content {
+            padding: 32px;
+            color: #333333;
+        }
+        h1 {
+            font-size: 22px;
+            color: #212121;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            padding: 20px;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #ffc107;
+            color: #212121;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        a.button:hover {
+            background-color: #e0a800;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #212121;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <!-- Substitua pela logo oficial -->
+        <img src="cid:utfpr-logo" alt="UTFPR Logo" />
+    </div>
+
+    <div class="content">
+        <h1>Documento de Nada Consta</h1>
+
+        <p>Olá <strong>{{mutuario}}</strong>,</p>
+
+        <p>
+            Informamos que foi gerado o seu
+            <strong>documento de Nada Consta</strong> referente à
+            <strong>Sala de Apoio do DAINF</strong>.
+        </p>
+
+        <p>
+            O documento confirma que não há pendências de devolução ou empréstimos
+            ativos em seu nome.
+        </p>
+
+        <p style="text-align: center; margin-top: 30px;">
+            <a href="{{linkDocumento}}" class="button" target="_blank">
+                Acessar Documento
+            </a>
+        </p>
+
+        <p style="margin-top: 30px;">
+            Atenciosamente,<br />
+            <strong>Equipe da Sala de Apoio DAINF</strong>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>
+            Universidade Tecnológica Federal do Paraná — UTFPR<br />
+            Este é um e-mail automático, por favor, não responda.
+        </p>
+    </div>
+</div>
+</body>
+</html>
