@@ -3,6 +3,7 @@ package br.edu.utfpr.dainf.mail;
 import br.edu.utfpr.dainf.exception.MailException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,10 @@ import java.util.Map;
 
 @Service
 public class MailServiceImpl implements MailService {
+
+    @Value("${spring.mail.username}")
+    private String username;
+
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
@@ -29,7 +34,7 @@ public class MailServiceImpl implements MailService {
             MimeMessage message = buildMessage(mail);
             javaMailSender.send(message);
         } catch (Exception e) {
-            throw new MailException("Falha ao enviar e-mail");
+            throw new MailException("Falha ao enviar e-mail", e);
         }
     }
 
@@ -43,9 +48,9 @@ public class MailServiceImpl implements MailService {
     private MimeMessage buildMessage(Mail mail) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setFrom(mail.getFrom(), "Laboratório de Informática - UTFPR/PB");
-        helper.setReplyTo(mail.getFrom());
-
+        helper.setFrom(username, "Laboratório de Informática - UTFPR/PB");
+        helper.setReplyTo(username);
+        helper.setTo(mail.getTo().toArray(new String[0]));
         helper.setSubject(mail.getSubject());
         helper.setText(mail.getContent(), true);
 

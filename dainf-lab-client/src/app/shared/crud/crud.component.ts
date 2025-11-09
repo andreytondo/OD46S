@@ -47,7 +47,6 @@ import { CrudTableComponent } from './table/crud-table.component';
   ],
   selector: 'app-crud',
   templateUrl: 'crud.component.html',
-  providers: [MessageService, ConfirmationService],
 })
 export class CrudComponent<T extends Identifiable> implements OnInit {
   table = viewChild(CrudTableComponent);

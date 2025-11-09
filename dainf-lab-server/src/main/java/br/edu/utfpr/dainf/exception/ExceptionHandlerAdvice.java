@@ -2,6 +2,7 @@ package br.edu.utfpr.dainf.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import org.jboss.logging.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
+
+    private static final Logger LOGGER = Logger.getLogger(ExceptionHandlerAdvice.class);
 
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -56,6 +59,7 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public WarnMessage handlerException(Exception exception, HttpServletRequest request) {
+        LOGGER.error("Erro inesperado", exception);
         Map<String, String> errors = new HashMap<>();
         errors.put("message", exception.getMessage());
         return new WarnMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage(), request.getServletPath(), errors);

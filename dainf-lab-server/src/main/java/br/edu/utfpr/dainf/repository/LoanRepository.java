@@ -2,18 +2,21 @@ package br.edu.utfpr.dainf.repository;
 
 import br.edu.utfpr.dainf.dto.LoanCountByDay;
 import br.edu.utfpr.dainf.dto.LoanStatusSummary;
+import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.model.Loan;
 import br.edu.utfpr.dainf.model.LoanItem;
+import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.shared.CrudRepository;
 import br.edu.utfpr.dainf.spec.LoanSpecExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExecutor {
+    List<Loan> findByBorrowerAndStatusIn(User borrower, List<LoanStatus> statuses);
+
     @Query("SELECT li FROM LoanItem li " +
             "JOIN FETCH li.loan l " +
             "JOIN FETCH l.borrower " +

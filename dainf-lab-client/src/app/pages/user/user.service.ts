@@ -9,6 +9,10 @@ export class UserService extends CrudService<User> {
     super('users');
   }
 
+  grantClearance(user: User): Observable<any> {
+    return this._http.post<any>(`${this._url}/clearance`, user);
+  }
+
   getCurrentUser(): Observable<User> {
     return this._http.get<User>(`${this._url}/me`);
   }

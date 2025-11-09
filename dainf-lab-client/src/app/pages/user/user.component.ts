@@ -11,11 +11,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Button } from "primeng/button";
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
+import { catchError, take, tap } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
 
@@ -30,14 +32,16 @@ import { UserService } from './user.service';
     Select,
     Button,
     TooltipModule,
-    ToggleSwitchModule
-],
+    ToggleSwitchModule,
+  ],
   selector: 'app-user',
   templateUrl: 'user.component.html',
   providers: [UserService, TelefonePipe],
 })
 export class UserComponent {
   userService = inject(UserService);
+  confirmationService = inject(ConfirmationService);
+  messageService = inject(MessageService);
   formBuilder = inject(FormBuilder);
   telefonePipe = inject(TelefonePipe);
 
@@ -55,7 +59,11 @@ export class UserComponent {
   cols: Column<User>[] = [
     { field: 'email', header: 'E-mail' },
     { field: 'nome', header: 'Nome' },
-    { field: 'telefone', header: 'Telefone', transform: (row: User) => this.telefonePipe.transform(row.telefone) },
+    {
+      field: 'telefone',
+      header: 'Telefone',
+      transform: (row: User) => this.telefonePipe.transform(row.telefone),
+    },
     { field: 'documento', header: 'RA/SIAPE' },
   ];
 
@@ -68,7 +76,7 @@ export class UserComponent {
     { label: 'Professor', value: 'ROLE_PROFESSOR' },
     { label: 'Lab Technician', value: 'ROLE_LAB_TECHNICIAN' },
     { label: 'Student', value: 'ROLE_STUDENT' },
-  ]
+  ];
 
   filtroNome = model<string | undefined>();
   filtroDocumento = model<string | undefined>();
@@ -85,4 +93,40 @@ export class UserComponent {
       });
     return <SearchRequest>{ filters };
   });
+
+  grantClearance(user: User) {
+    this.confirmationService.confirm({
+      header: 'Atenção!',
+      message:
+        'Ao emitir o documento de nada consta, o usuário será inativado no sistema. Deseja realmente emitir o documento?',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      rejectButtonStyleClass: 'p-button-secondary',
+      accept: () => this._grantClearance(user),
+    });
+  }
+
+  private _grantClearance(user: User) {
+    this.userService
+      .grantClearance(user)
+      .pipe(
+        take(1),
+        tap(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso!',
+            detail: 'Documento emitido com sucesso.',
+          });
+        }),
+        catchError((err) => {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Atenção!',
+            detail: 'Falha ao emitir o documento.',
+          });
+          return err;
+        }),
+      )
+      .subscribe();
+  }
 }

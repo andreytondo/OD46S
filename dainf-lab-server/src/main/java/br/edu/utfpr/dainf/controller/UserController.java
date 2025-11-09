@@ -7,9 +7,7 @@ import br.edu.utfpr.dainf.repository.UserRepository;
 import br.edu.utfpr.dainf.service.UserService;
 import br.edu.utfpr.dainf.shared.CrudController;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("users")
@@ -32,5 +30,11 @@ public class UserController extends CrudController<Long, User, UserDTO, UserRepo
     public UserDTO getCurrentUser() {
         User currentUser = service.getCurrentUser();
         return toDto(currentUser);
+    }
+
+    @PostMapping(value = "clearance")
+    @RolesAllowed(UserRole.ADMIN)
+    public void grantClearance(@RequestBody User user) {
+        service.grantClearance(user);
     }
 }

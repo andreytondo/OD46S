@@ -9,7 +9,6 @@ import java.util.List;
 @Builder
 @Getter @Setter
 public class Mail {
-    private String from;
     private List<String> to;
     private String subject;
     private String content;

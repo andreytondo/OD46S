@@ -1,7 +1,13 @@
 package br.edu.utfpr.dainf.service;
 
+import br.edu.utfpr.dainf.enums.LoanStatus;
+import br.edu.utfpr.dainf.exception.WarnException;
+import br.edu.utfpr.dainf.mail.Mail;
+import br.edu.utfpr.dainf.mail.MailService;
+import br.edu.utfpr.dainf.model.Loan;
 import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.model.UserRecovery;
+import br.edu.utfpr.dainf.repository.LoanRepository;
 import br.edu.utfpr.dainf.repository.UserRecoveryRepository;
 import br.edu.utfpr.dainf.repository.UserRepository;
 import br.edu.utfpr.dainf.shared.CrudService;
@@ -15,20 +21,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class UserService extends CrudService<Long, User, UserRepository> implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
-
     private final UserRecoveryRepository userRecoveryRepository;
+    private final MailService mailService;
+    private final ConfigurationService configurationService;
+    private final LoanRepository loanRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRecoveryRepository userRecoveryRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRecoveryRepository userRecoveryRepository,
+                       MailService mailService, ConfigurationService configurationService, LoanRepository loanRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRecoveryRepository = userRecoveryRepository;
+        this.mailService = mailService;
+        this.configurationService = configurationService;
+        this.loanRepository = loanRepository;
     }
 
+    @Override
     public User save(User user) {
         if (user.getId() != null && user.getPassword() == null) {
             user.setPassword(repository.findById(user.getId())
@@ -51,6 +66,25 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         return repository;
     }
 
+    public void grantClearance(User user) {
+        var ongoingLoans = loanRepository.findByBorrowerAndStatusIn(user, List.of(LoanStatus.ONGOING, LoanStatus.OVERDUE));
+        if (!ongoingLoans.isEmpty()) throw new WarnException("O usuário ainda possui pendências");
+
+        String to = configurationService.get().getClearanceEmailRecipient();
+        if (to == null) throw new WarnException("Nenhum e-mail de destino informado. Acesse a tela de 'Configurações' para continuar");
+
+        User dbUser = findById(user.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        dbUser.setEnabled(false);
+        save(dbUser);
+
+        String clearance = mailService.buildTemplate("clearance", Map.of());
+        mailService.send(Mail.builder()
+                .subject("Documento de nada consta")
+                .to(List.of(to))
+                .content(clearance)
+                .build());
+    }
+
     public void forgotPassword(String email) {
         UserRecovery recovery = new UserRecovery();
 
@@ -64,8 +98,12 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         recovery.setUser(user);
         userRecoveryRepository.save(recovery);
 
-        // TODO implement real email service
-        //emailService.sendPasswordResetEmail(user.getEmail(), token);
+        String recoveryMail = mailService.buildTemplate("password-recovery2", Map.of());
+        mailService.send(Mail.builder()
+                .subject("Recuperação de senha")
+                .to(List.of(user.getEmail()))
+                .content(recoveryMail)
+                .build());
     }
 
     public void resetPassword(String token, String newPassword) {
