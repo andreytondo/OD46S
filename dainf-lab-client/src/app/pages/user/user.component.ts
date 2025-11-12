@@ -122,7 +122,7 @@ export class UserComponent {
           this.messageService.add({
             severity: 'warn',
             summary: 'Atenção!',
-            detail: 'Falha ao emitir o documento.',
+            detail: err?.error?.message ||  'Falha ao emitir o documento.',
           });
           return err;
         }),

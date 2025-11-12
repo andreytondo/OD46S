@@ -10,7 +10,6 @@ export class ConfigService extends BaseService {
   }
 
   update(config: Configuration): Observable<Configuration> {
-    console.log(config)
     return this._http.put<Configuration>(
       `${this.apiUrl}/configuration`,
       config,
