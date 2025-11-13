@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -75,9 +76,21 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
 
         User dbUser = findById(user.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         dbUser.setEnabled(false);
+        dbUser.setClearanceDate(Instant.now());
+        dbUser.setClearanceCode(UUID.randomUUID().toString());
         save(dbUser);
 
-        String clearance = mailService.buildTemplate("clearance", Map.of());
+        LocalDateTime now = LocalDateTime.now();
+        String clearance = mailService.buildTemplate("clearance", Map.of(
+                "nomeAluno", user.getNome(),
+                "matricula", user.getDocumento(),
+                 "dia", now.getDayOfMonth(),
+                "mes", now.getMonthValue(),
+                "ano", now.getYear(),
+                "codigoValidacao", dbUser.getClearanceCode(),
+                "linkValidacao", "não implementado"
+
+        ));
         mailService.send(Mail.builder()
                 .subject("Documento de nada consta")
                 .to(List.of(to))
@@ -98,12 +111,12 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         recovery.setUser(user);
         userRecoveryRepository.save(recovery);
 
-        String recoveryMail = mailService.buildTemplate("password-recovery2", Map.of());
-        mailService.send(Mail.builder()
-                .subject("Recuperação de senha")
-                .to(List.of(user.getEmail()))
-                .content(recoveryMail)
-                .build());
+//        String recoveryMail = mailService.buildTemplate("password-recovery2", Map.of());
+//        mailService.send(Mail.builder()
+//                .subject("Recuperação de senha")
+//                .to(List.of(user.getEmail()))
+//                .content(recoveryMail)
+//                .build());
     }
 
     public void resetPassword(String token, String newPassword) {

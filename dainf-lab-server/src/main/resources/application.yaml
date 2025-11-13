@@ -24,8 +24,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:andreytondo@alunos.utfpr.edu.br}
-    password: ${MAIL_PASSWORD:abcd efgh ijkl mnop}
+    username: ${MAIL_USERNAME:andreytondo0408@gmail.com}
+    password: ${MAIL_PASSWORD:jpyu vzvi fbin utbv}
     test-connection: false
     properties:
         smtp:

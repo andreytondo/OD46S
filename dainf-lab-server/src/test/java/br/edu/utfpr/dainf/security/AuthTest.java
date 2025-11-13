@@ -65,7 +65,9 @@ public class AuthTest {
                 "teste",
                 true,
                 null,
-                true
+                true,
+                null,
+                null
         ));
     }
 }

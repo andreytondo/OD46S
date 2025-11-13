@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,9 @@ public class User implements UserDetails, Identifiable<Long> {
     private UserRole role;
 
     private boolean enabled;
+
+    private String clearanceCode;
+    private Instant clearanceDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

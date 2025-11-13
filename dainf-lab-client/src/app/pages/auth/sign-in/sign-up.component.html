@@ -42,6 +42,7 @@
                 placeholder="Número de registro"
                 class="w-full"
                 formControlName="documento"
+                maxlength="16"
               />
             </app-input-container>
           </div>
@@ -63,11 +64,12 @@
               <input
                 pInputText
                 id="telefone"
-                type="tel"
+                type="text"
                 inputmode="tel"
                 placeholder="(xx) xxxxx-xxxx"
                 class="w-full"
                 formControlName="telefone"
+                maxlength="11"
               />
             </app-input-container>
           </div>
@@ -113,9 +115,7 @@
         <div class="text-center mt-8">
           <span
             >Já possui cadastro?
-            <a routerLink="login" class="text-primary"
-              >Realizar login</a
-            ></span
+            <a routerLink="login" class="text-primary">Realizar login</a></span
           >
         </div>
       </div>

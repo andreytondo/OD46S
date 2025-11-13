@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Documento de Nada Consta - UTFPR</title>
+    <title>Declaração de Nada Consta - UTFPR</title>
     <style>
         body {
             margin: 0;
@@ -64,9 +64,15 @@
         a.button:hover {
             background-color: #e0a800;
         }
-        .highlight {
-            font-weight: bold;
+        .code-validation {
+            display: inline-block;
+            background-color: #e0e0e0;
             color: #212121;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 10px;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -78,24 +84,31 @@
     </div>
 
     <div class="content">
-        <h1>Documento de Nada Consta</h1>
-
-        <p>Olá <strong>{{mutuario}}</strong>,</p>
+        <h1>Declaração de Nada Consta</h1>
 
         <p>
-            Informamos que foi gerado o seu
-            <strong>documento de Nada Consta</strong> referente à
-            <strong>Sala de Apoio do DAINF</strong>.
+            Declaramos, para os devidos fins, que o aluno
+            <strong th:text="${nomeAluno}">Nome do Aluno</strong>,
+            registro acadêmico
+            <strong th:text="${matricula}">123456</strong>,
+            não possui quaisquer pendências com a Sala de Apoio do Departamento Acadêmico de Informática, da Universidade Tecnológica Federal do Paraná, Campus Pato Branco.
         </p>
 
         <p>
-            O documento confirma que não há pendências de devolução ou empréstimos
-            ativos em seu nome.
+            Pato Branco,
+            <span th:text="${dia}">01</span> de
+            <span th:text="${mes}">01</span> de
+            <span th:text="${ano}">2025</span>.
+        </p>
+
+        <p>
+            Código de validação:
+            <span class="code-validation" th:text="${codigoValidacao}">XXXX</span>
         </p>
 
         <p style="text-align: center; margin-top: 30px;">
-            <a href="{{linkDocumento}}" class="button" target="_blank">
-                Acessar Documento
+            <a th:href="${linkValidacao}" class="button" target="_blank">
+                Validar Documento
             </a>
         </p>
 

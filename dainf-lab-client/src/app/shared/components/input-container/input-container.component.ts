@@ -55,4 +55,5 @@ const errorMap: Record<string, (error: any) => string> = {
   minlength: (e) => `Mínimo de ${e.requiredLength} caracteres.`,
   maxlength: (e) => `Máximo de ${e.requiredLength} caracteres.`,
   pattern: () => 'Formato inválido.',
+  name: () => 'Por favor informe nome e sobrenome',
 };

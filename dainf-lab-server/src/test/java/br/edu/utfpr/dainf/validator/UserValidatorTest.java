@@ -62,7 +62,9 @@ class UserValidatorTest {
                 "teste",
                 true,
                 null,
-                true
+                true,
+                null,
+                null
         );
         when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.of(existingUser));
         assertFalse(userValidator.isValid(user, context));
@@ -81,7 +83,9 @@ class UserValidatorTest {
                 "teste",
                 true,
                 null,
-                true
+                true,
+                null,
+                null
         );
         when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.of(existingUser));
         assertTrue(userValidator.isValid(user, context));

@@ -4,6 +4,7 @@ import br.edu.utfpr.dainf.exception.MailException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,9 @@ public class MailServiceImpl implements MailService {
         helper.setTo(mail.getTo().toArray(new String[0]));
         helper.setSubject(mail.getSubject());
         helper.setText(mail.getContent(), true);
+
+        ClassPathResource logo = new ClassPathResource("images/utfpr-logo.png");
+        helper.addInline("utfpr-logo", logo);
 
         return message;
     }

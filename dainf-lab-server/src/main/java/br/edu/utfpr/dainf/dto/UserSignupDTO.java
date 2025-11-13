@@ -46,7 +46,9 @@ public class UserSignupDTO {
                 null,
                 false,
                 UserRole.ROLE_STUDENT,
-                true
+                true,
+                null,
+                null
         );
     }
 }
