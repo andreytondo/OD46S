@@ -26,5 +26,7 @@ WORKDIR /app
 # Copy only the built jar
 COPY --from=build /workspace/app/target/*.jar app.jar
 
+ENV TZ=America/Sao_Paulo
+
 # Run the app
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

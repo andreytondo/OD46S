@@ -1,0 +1,50 @@
+services:
+  client:
+    image: dainf-lab-client
+    container_name: dainf-lab-client
+    build:
+      context: ./dainf-lab-client
+      dockerfile: Dockerfile
+    ports:
+      - "8090:80"
+    environment:
+      API_URL: http://localhost:8099/api
+    restart: unless-stopped
+    profiles: ["app"]
+
+  server:
+    image: dainf-lab-server
+    container_name: dainf-lab-server
+    build:
+      context: ./dainf-lab-server
+      dockerfile: Dockerfile
+    ports:
+      - "8099:8080"
+    restart: unless-stopped
+    env_file:
+      - .env
+    profiles: ["app"]
+
+  postgres:
+    image: postgres:16
+    container_name: dainf-lab-postgres
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dainf_lab
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 5432
+    profiles: ["infra"]
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: dainf-lab-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: minio123
+    profiles: ["infra"]
