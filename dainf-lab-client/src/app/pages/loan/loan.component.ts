@@ -1,6 +1,5 @@
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
-import { StaticSelectComponent } from '@/shared/components/static-select/static-select.component';
 import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
@@ -51,7 +50,6 @@ import { LoanReturnDialog } from './return-dialog/return-dialog';
     InputContainerComponent,
     FieldsetModule,
     SubItemFormComponent,
-    StaticSelectComponent,
     CrudComponent,
     SearchSelectComponent,
     InputNumberModule,

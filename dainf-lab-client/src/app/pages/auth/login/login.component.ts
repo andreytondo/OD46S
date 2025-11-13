@@ -35,7 +35,7 @@ export class LoginComponent {
 
   private _authService = inject(AuthService);
   private _tokenService = inject(TokenService);
-  private _router = new Router();
+  private _router = inject(Router);
 
   loginClick() {
     this._login().subscribe({

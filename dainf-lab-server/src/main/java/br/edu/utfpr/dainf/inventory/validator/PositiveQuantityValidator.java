@@ -10,7 +10,7 @@ public class PositiveQuantityValidator implements TransactionValidator {
     @Override
     public void validate(Inventory inventory, BigDecimal quantity, Transaction transaction) {
         if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidTransactionException("Quantity must be greater than zero.");
+            throw new InvalidTransactionException("A quantidade deve ser maior que 0.");
         }
     }
 }

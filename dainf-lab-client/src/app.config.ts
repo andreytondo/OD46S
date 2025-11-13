@@ -4,7 +4,11 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
@@ -16,10 +20,16 @@ import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { appRoutes } from './app.routes';
 
+import { EnvironmentService } from '@/shared/services/config.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(() => {
+      const env = inject(EnvironmentService);
+      return firstValueFrom(env.load());
+    }),
     provideRouter(
       appRoutes,
       withInMemoryScrolling({
@@ -35,6 +45,6 @@ export const appConfig: ApplicationConfig = {
       theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } },
     }),
     MessageService,
-    ConfirmationService
+    ConfirmationService,
   ],
 };

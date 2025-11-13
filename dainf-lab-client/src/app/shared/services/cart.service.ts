@@ -1,18 +1,16 @@
 import { Item } from '@/pages/item/item';
-import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { catchError, tap, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { CartItem } from '../models/cart';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
-  private http = inject(HttpClient);
+export class CartService extends BaseService {
   private messageService = inject(MessageService);
-  private apiUrl = `${environment.apiUrl}/carts`;
+  private _apiUrl: string = `${this.apiUrl}/carts`;
 
   private cartItems: WritableSignal<CartItem[]> = signal([]);
   items = this.cartItems.asReadonly();
@@ -20,11 +18,12 @@ export class CartService {
   isCartVisible = signal(false);
 
   constructor() {
+    super();
     this.loadCart();
   }
 
   loadCart(): void {
-    this.http.get<CartItem[]>(this.apiUrl).pipe(
+    this._http.get<CartItem[]>(this._apiUrl).pipe(
       tap(items => this.cartItems.set(items)),
       catchError(err => {
         console.error("Failed to load cart", err);
@@ -35,7 +34,7 @@ export class CartService {
   }
 
   private saveCart(): void {
-    this.http.put<CartItem[]>(this.apiUrl, this.cartItems()).pipe(
+    this._http.put<CartItem[]>(this._apiUrl, this.cartItems()).pipe(
       tap(updatedItems => this.cartItems.set(updatedItems)),
       catchError(err => {
         console.error("Failed to save cart", err);

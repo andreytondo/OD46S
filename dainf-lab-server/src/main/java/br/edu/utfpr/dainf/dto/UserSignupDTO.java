@@ -1,5 +1,6 @@
 package br.edu.utfpr.dainf.dto;
 
+import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.model.User;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ public class UserSignupDTO {
                 this.telefone,
                 null,
                 false,
-                null,
+                UserRole.ROLE_STUDENT,
                 true
         );
     }

@@ -19,11 +19,16 @@ public class MinimumStockValidator implements TransactionValidator {
             BigDecimal minimumStock = minimum.get();
             BigDecimal remaining = inventory.getQuantity().subtract(quantity);
             if (remaining.compareTo(minimumStock) < 0) {
-                throw new InvalidTransactionException(
-                        String.format("Cannot subtract quantity. " +
-                                        "Minimum stock of %f would be breached. " +
-                                        "Current stock: %f, attempted subtraction: %f",
-                                minimumStock, inventory.getQuantity(), quantity));
+                String itemName = Optional.of(inventory.getItem())
+                        .map(Item::getName)
+                        .orElse("");
+
+                throw new InvalidTransactionException(String.format(
+                        "Não é possível remover %.2f unidades do item '%s'. " +
+                                "O estoque mínimo é %.2f e seria ultrapassado. " +
+                                "Estoque atual: %.2f.",
+                        quantity, itemName, minimumStock, inventory.getQuantity()
+                ));
             }
         }
     }

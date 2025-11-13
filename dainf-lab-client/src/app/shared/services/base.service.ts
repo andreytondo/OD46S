@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { EnvironmentService } from './config.service';
 
 export abstract class BaseService {
   protected readonly _http = inject(HttpClient);
-  protected readonly apiUrl = environment.apiUrl;
-
+  protected readonly environmentService = inject(EnvironmentService);
+  protected get apiUrl(): string {
+    return this.environmentService.apiUrl;
+  }
 }

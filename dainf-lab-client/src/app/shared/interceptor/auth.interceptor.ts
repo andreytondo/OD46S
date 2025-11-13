@@ -4,7 +4,7 @@ import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { EnvironmentService } from '../services/config.service';
 
 export function authInterceptor(
   req: HttpRequest<unknown>,
@@ -12,10 +12,11 @@ export function authInterceptor(
 ) {
   const authService = inject(AuthService);
   const tokenService = inject(TokenService);
+  const enviroment = inject(EnvironmentService);
   const authToken = tokenService.getToken();
 
   const authReq =
-    authToken && isAPICall(req.url)
+    authToken && isAPICall(req.url, enviroment.apiUrl)
       ? req.clone({
           setHeaders: { Authorization: `Bearer ${authToken}` },
           withCredentials: true,
@@ -29,8 +30,8 @@ export function authInterceptor(
   );
 }
 
-function isAPICall(path: string) {
-  return path.includes(environment.apiUrl);
+function isAPICall(path: string, apiUrl: string) {
+  return path.includes(apiUrl);
 }
 
 function handleRefresh(

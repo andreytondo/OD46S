@@ -17,9 +17,6 @@ public class MinIOConfig {
     @Value("${storage.access.secret}")
     private String accessSecret;
 
-    @Value("${storage.bucket}")
-    private String bucket;
-
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()

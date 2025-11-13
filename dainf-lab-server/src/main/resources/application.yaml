@@ -1,13 +1,13 @@
 server:
-  port: ${PORT:8080}
+  port: 8080
   servlet:
     context-path: /api
 
 spring:
   config:
-    name: ${APP_NAME:"dainf-lab-api"}
+    name: ${APP_NAME:"dainf-lab-server"}
   application:
-    name: ${APP_NAME:"dainf-lab-api"}
+    name: ${APP_NAME:"dainf-lab-server"}
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -24,8 +24,8 @@ spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:andreytondo0408@gmail.com}
-    password: ${MAIL_PASSWORD:mpwf ocuh pojb jmad}
+    username: ${MAIL_USERNAME:andreytondo@alunos.utfpr.edu.br}
+    password: ${MAIL_PASSWORD:abcd efgh ijkl mnop}
     test-connection: false
     properties:
         smtp:
