@@ -16,7 +16,7 @@ public class MinIOStorageService implements StorageService {
     public MinIOStorageService(MinioClient minioClient, @Value("${storage.bucket}") String rootBucket) {
         this.minioClient = minioClient;
         this.rootBucket = rootBucket;
-//        ensureBucketExists(rootBucket);
+        ensureBucketExists(rootBucket);
     }
 
     @Override
