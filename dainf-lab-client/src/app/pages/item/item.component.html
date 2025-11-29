@@ -115,7 +115,21 @@
         </app-subitem-form>
       </p-fieldset>
     }
-  </form>
+    
+    @if (form.get('id')?.value) {
+      <p-fieldset legend="Empréstimos Ativos" class="col-span-12">
+        <p class="mb-3">
+          Clique no botão abaixo para visualizar a lista completa de empréstimos ativos para este item.
+        </p>
+        <p-button
+          icon="pi pi-clock"
+          label="Ver Empréstimos Ativos do Item"
+          styleClass="p-button-secondary"
+          (click)="showAllLoans()"
+        ></p-button>
+      </p-fieldset>
+    }
+    </form>
 </ng-template>
 
 <ng-template #assetFormTemplate>
@@ -167,12 +181,6 @@
 </ng-template>
 
 <ng-template #customActions let-row>
-  <!-- <p-button
-    icon="pi pi-trash"
-    styleClass="p-button-danger mr-2"
-    pTooltip="Excluir"
-    (click)="crud.deleteOne(row)"
-  ></p-button> -->
   <p-button
     icon="pi pi-cart-plus"
     pTooltip="Adicionar ao Carrinho"

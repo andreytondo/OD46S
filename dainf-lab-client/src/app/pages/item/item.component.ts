@@ -24,6 +24,7 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FieldsetModule } from 'primeng/fieldset';
+import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TooltipModule } from 'primeng/tooltip';
@@ -52,6 +53,7 @@ import { ItemService } from './item.service';
     PhotoAttachmentComponent,
     ButtonModule,
     TooltipModule,
+    TableModule
   ],
   providers: [
     ItemService,
@@ -191,6 +193,30 @@ export class ItemComponent {
         data: {
           loans: loans,
           itemName: item.name,
+        },
+      });
+    });
+  }
+
+  showAllLoans(): void {
+    const itemId = this.form.get('id')?.value;
+    const itemName = this.form.get('name')?.value;
+
+    if (!itemId || !itemName) {
+      console.error('ID ou Nome do Item não encontrado no formulário.');
+      return;
+    }
+
+    this.loanService.getActiveLoansForItem(itemId).subscribe((loans) => {
+      this.dialogRef = this.dialogService.open(ActiveLoansDialog, {
+        header: `Empréstimos Ativos: ${itemName}`,
+        width: '60%',
+        contentStyle: { 'max-height': '500px', overflow: 'auto' },
+        modal: true,
+        baseZIndex: 10000,
+        data: {
+          loans: loans,
+          itemName: itemName,
         },
       });
     });
