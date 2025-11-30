@@ -27,6 +27,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
+import { Loan } from '../loan/loan';
 
 @Component({
   standalone: true,
@@ -64,7 +65,7 @@ export class IssueComponent {
 
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
-    date: [new Date(), Validators.required],
+    date: [null, Validators.required],
     user: [null, Validators.required],
     loan: [null],
     observation: [null],
@@ -74,7 +75,7 @@ export class IssueComponent {
   issueItemForm: FormGroup = this.formBuilder.group({
     id: [null],
     item: [null, Validators.required],
-    quantity: [1, [Validators.required, Validators.min(1)]],
+    quantity: [null, [Validators.required, Validators.min(1)]],
   });
 
   cols: Column<Issue>[] = [
@@ -110,12 +111,18 @@ export class IssueComponent {
   }
 
   onCancel() {
-    this.issueItemForm.enable();
-    this.form.get('borrower')?.enable();
+      this.issueItemForm.enable();
+      this.form.get('borrower')?.enable();
 
-    this.issueItemForm.updateValueAndValidity();
-    this.form.get('borrower')?.updateValueAndValidity();
+      this.issueItemForm.updateValueAndValidity();
+      this.form.get('borrower')?.updateValueAndValidity();
 
-    this.disabled.set(false);
+      this.disabled.set(false);
+  }
+  formatLoan(loan: Loan): string {
+    const nome = loan.borrower ? loan.borrower.nome : 'N/A';
+    const data = loan.loanDate ? new Date(loan.loanDate).toLocaleDateString() : ''; 
+    
+    return `${loan.id} - ${nome} - ${data}`;
   }
 }

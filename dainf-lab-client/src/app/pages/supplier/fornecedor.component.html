@@ -64,12 +64,13 @@
         <input type="email" pInputText id="email" formControlName="email" />
       </app-input-container>
       <app-input-container label="Telefone" class="col-span-12 md:col-span-3">
-        <input
-          type="text"
-          pInputText
+        <p-inputmask
           id="telefone"
           formControlName="telefone"
-        />
+          mask="(99) 99999-9999"
+          [unmask]="true"
+          placeholder="(__) _____-____"
+        ></p-inputmask>
       </app-input-container>
 
       <app-input-container label="Endereço" class="col-span-12">
@@ -85,14 +86,19 @@
         <input type="text" pInputText id="cep" formControlName="cep" />
       </app-input-container>
       <app-input-container label="Estado" class="col-span-12 md:col-span-4">
-        <app-estado-select formControlName="estado" />
+        <input
+          type="text"
+          pInputText
+          id="estado"
+          formControlName="estado"
+        />
       </app-input-container>
       <app-input-container label="Cidade" class="col-span-12 md:col-span-4">
-        <app-search-select
+        <input
+          type="text"
+          pInputText
+          id="cidade"
           formControlName="cidade"
-          optionLabel="nome"
-          [service]="cidadeService"
-          placeholder="Selecione uma cidade"
         />
       </app-input-container>
 

@@ -22,7 +22,12 @@ public class MenuConfig {
 
             Map.entry("loan", MenuItemDTO.builder()
                     .label("Empréstimo").icon("pi pi-clock").routerLink("loan")
-                    .allowedRoles(Set.of(UserRole.ROLE_ADMIN, UserRole.ROLE_LAB_TECHNICIAN))
+                    .allowedRoles(Set.of(
+                            UserRole.ROLE_ADMIN,
+                            UserRole.ROLE_LAB_TECHNICIAN,
+                            UserRole.ROLE_STUDENT,
+                            UserRole.ROLE_PROFESSOR
+                    ))
                     .build()),
 
             Map.entry("issue", MenuItemDTO.builder()
@@ -49,7 +54,9 @@ public class MenuConfig {
                     .label("Solicitar Compra").icon("pi pi-receipt").routerLink("purchase-solicitation")
                     .allowedRoles(Set.of(
                             UserRole.ROLE_ADMIN,
-                            UserRole.ROLE_LAB_TECHNICIAN
+                            UserRole.ROLE_LAB_TECHNICIAN,
+                            UserRole.ROLE_STUDENT,
+                            UserRole.ROLE_PROFESSOR
                     ))
                     .build()),
 
@@ -75,7 +82,7 @@ public class MenuConfig {
 
             Map.entry("user", MenuItemDTO.builder()
                     .label("Usuários").icon("pi pi-users").routerLink("user")
-                    .allowedRoles(Set.of(UserRole.ROLE_ADMIN))
+                    .allowedRoles(Set.of(UserRole.ROLE_ADMIN, UserRole.ROLE_LAB_TECHNICIAN))
                     .build()),
 
             Map.entry("config", MenuItemDTO.builder()

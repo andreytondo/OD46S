@@ -32,9 +32,11 @@ public class Reservation implements Identifiable<Long> {
     private String observation;
 
     @Column(name = "reservation_date")
+    @NotNull(message = "Deve ser informado a data de reserva.")
     private Instant reservationDate;
 
     @Column(name = "withdrawal_date")
+    @NotNull(message = "Deve ser informado a data de retirada.")
     private Instant withdrawalDate;
 
     @ManyToOne

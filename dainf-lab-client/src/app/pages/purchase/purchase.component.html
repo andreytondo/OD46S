@@ -79,6 +79,12 @@
             ></ng-container>
           </ng-template>
         </app-subitem-form>
+
+        <small 
+          class="text-red-500 block mt-2 font-bold" 
+          *ngIf="form.get('items')?.hasError('required') && form.get('items')?.touched">
+          No mínimo 1 item deve ser escolhido.
+        </small>
       </p-fieldset>
 
       <div class="col-span-12 flex justify-end mt-4">

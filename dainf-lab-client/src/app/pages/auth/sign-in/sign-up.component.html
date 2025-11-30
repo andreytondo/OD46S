@@ -37,6 +37,7 @@
             <app-input-container label="Documento (RA ou SIAPE)">
               <input
                 pInputText
+                pKeyFilter="pnum"
                 id="documento"
                 type="text"
                 placeholder="Número de registro"
@@ -61,16 +62,14 @@
           </div>
           <div class="col-span-1">
             <app-input-container label="Telefone">
-              <input
-                pInputText
+              <p-inputmask
                 id="telefone"
-                type="text"
-                inputmode="tel"
-                placeholder="(xx) xxxxx-xxxx"
-                class="w-full"
                 formControlName="telefone"
-                maxlength="11"
-              />
+                mask="(99) 99999-9999"
+                [unmask]="true"
+                class="w-full"
+                placeholder="(__) _____-____"
+              ></p-inputmask>
             </app-input-container>
           </div>
 
@@ -115,7 +114,7 @@
         <div class="text-center mt-8">
           <span
             >Já possui cadastro?
-            <a routerLink="login" class="text-primary">Realizar login</a></span
+            <a routerLink="" class="text-primary">Realizar login</a></span
           >
         </div>
       </div>

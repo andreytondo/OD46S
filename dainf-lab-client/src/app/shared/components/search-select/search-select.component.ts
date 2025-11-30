@@ -2,7 +2,7 @@ import { Identifiable } from '@/shared/crud/crud';
 import { CrudService } from '@/shared/crud/crud.service';
 import { Page, SearchFilter } from '@/shared/models/search';
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, input, signal } from '@angular/core';
+import { Component, computed, forwardRef, input, signal } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -34,11 +34,12 @@ import { Observable, take, tap } from 'rxjs';
       [virtualScrollItemSize]="34"
       (completeMethod)="complete($event)"
       [dropdown]="true"
-      [optionLabel]="optionLabel()"
+      [optionLabel]="resolvedOptionLabel()"
       [placeholder]="placeholder()"
       (onSelect)="handleChange($event)"
       appendTo="body"
       [disabled]="disabled"
+      styleClass="w-full"
     />
   `,
 })
@@ -46,13 +47,19 @@ export class SearchSelectComponent<T extends Identifiable>
   implements ControlValueAccessor
 {
   placeholder = input<string>();
+  
   optionLabel = input.required<string>();
+  
   service = input.required<CrudService<T>>();
   filters = input<SearchFilter[]>();
+
+  itemLabel = input<(item: T) => string>();
 
   value?: T;
   disabled = false;
   suggestions = signal<any[]>([]);
+
+  resolvedOptionLabel = computed(() => this.itemLabel() ? '_customLabel' : this.optionLabel());
 
   complete(event: AutoCompleteCompleteEvent) {
     this.search(event.query);
@@ -68,6 +75,9 @@ export class SearchSelectComponent<T extends Identifiable>
     }
 
     if (typeof value !== 'string') {
+      if (this.itemLabel()) {
+        (value as any)['_customLabel'] = this.itemLabel()!(value);
+      }
       this.value = value;
       return;
     }
@@ -98,7 +108,18 @@ export class SearchSelectComponent<T extends Identifiable>
     const filters = this._mapFilters(query);
     return this._search(filters)
       .pipe(
-        tap((res) => this.suggestions.set(res.content)),
+        tap((res) => {
+          const content = res.content;
+          
+          const labelFn = this.itemLabel();
+          if (labelFn) {
+            content.forEach((item: any) => {
+              item['_customLabel'] = labelFn(item);
+            });
+          }
+
+          this.suggestions.set(content);
+        }),
         take(1),
       )
       .subscribe();

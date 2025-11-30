@@ -14,8 +14,11 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputMaskModule } from 'primeng/inputmask';
+import { KeyFilterModule } from 'primeng/keyfilter';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../services/auth.service';
+import { phoneValidator } from '@/shared/validator/phone.validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,7 +32,9 @@ import { AuthService } from '../services/auth.service';
     LogoComponent,
     InputTextModule,
     AppFloatingConfigurator,
-    InputNumberModule
+    InputNumberModule,
+    InputMaskModule,
+    KeyFilterModule
   ],
   templateUrl: './sign-up.component.html',
 })
@@ -47,7 +52,7 @@ export class SignUpComponent {
         null,
         Validators.compose([Validators.required, Validators.email, Validators.maxLength(100)]),
       ],
-      telefone: [null, Validators.compose([Validators.required, Validators.pattern(/^\d{7,16}$/)])],
+      telefone: [null, Validators.compose([Validators.required, phoneValidator()])],
       password: [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(32)])],
       confirmPassword: [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(32)])],
     },

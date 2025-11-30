@@ -21,10 +21,12 @@ import { CEPResult, CEPService } from '@/shared/services/cep.service';
 import { CommonModule } from '@angular/common';
 import { InputMaskModule } from 'primeng/inputmask';
 import { SelectModule } from 'primeng/select';
-import { debounceTime, switchMap, tap } from 'rxjs';
+import { debounceTime, filter, switchMap, tap } from 'rxjs';
 import { CidadeService } from '../cidade/cidade.service';
 import { Fornecedor } from './fornecedor';
 import { FornecedorService } from './fornecedor.service';
+import { cnpjValidator } from '@/shared/validator/cnpj.validator';
+import { phoneValidator } from '@/shared/validator/phone.validator';
 
 @Component({
   standalone: true,
@@ -56,9 +58,9 @@ export class FornecedorComponent implements OnInit {
     id: [{ value: null, disabled: true }],
     razaoSocial: [null, Validators.required],
     nomeFantasia: [null, Validators.required],
-    cnpj: [null, Validators.required],
+    cnpj: [null, [Validators.required, cnpjValidator()]],
     ie: [null],
-    telefone: [null, Validators.required],
+    telefone: [null, [Validators.required, phoneValidator()]],
     email: [null, [Validators.required, Validators.email]],
     endereco: [null, Validators.required],
     estado: [null, Validators.required],
@@ -109,16 +111,22 @@ export class FornecedorComponent implements OnInit {
     this._handleCEPChanges();
   }
 
-  private _handleCEPChanges() {
+    private _handleCEPChanges() {
     this.form
       .get('cep')
       ?.valueChanges.pipe(
         debounceTime(700),
+        filter((value): value is string => {
+            if (!value) return false;
+            const cleanValue = value.replace(/\D/g, '');
+            return cleanValue.length === 8;
+        }),
         switchMap((cep: string) => this.cepService.search(cep)),
         tap((cepResult: CEPResult) => this._mapCEPResultToForm(cepResult)),
       )
       .subscribe();
   }
+
 
   private _mapCEPResultToForm(cepResult: CEPResult) {
     this.form.get('estado')?.patchValue(cepResult.uf);

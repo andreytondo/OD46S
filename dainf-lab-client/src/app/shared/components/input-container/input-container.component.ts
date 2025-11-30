@@ -56,4 +56,6 @@ const errorMap: Record<string, (error: any) => string> = {
   maxlength: (e) => `Máximo de ${e.requiredLength} caracteres.`,
   pattern: () => 'Formato inválido.',
   name: () => 'Por favor informe nome e sobrenome',
+  invalidCnpj: () => 'CNPJ inválido.',
+  invalidPhone: () => 'Telefone inválido.',
 };

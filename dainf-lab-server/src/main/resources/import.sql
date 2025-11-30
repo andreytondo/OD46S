@@ -9,13 +9,6 @@ INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "passw
 INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role, enabled) VALUES('2343185', 'tecnico@alunos.utfpr.edu.br', false, NULL, 'Técnico UTFPR', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_LAB_TECHNICIAN', true);
 INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role, enabled) VALUES('2343185', 'professor@alunos.utfpr.edu.br', false, NULL, 'Professor UTFPR', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_PROFESSOR', true);
 INSERT INTO app_user (documento, email, email_verificado, foto_url, nome, "password", telefone, role, enabled) VALUES('2343185', 'inativo@alunos.utfpr.edu.br', false, NULL, 'Inativo UTFPR', '$2a$10$PAT0Rh1KBwjnqaWvGKQgou5Mkjz1iIFJoasd1R9O.V546opfKmXrm', '46991379026', 'ROLE_PROFESSOR', false);
-insert into pais (nome, sigla) values('Brasil', 'BR');
-insert into pais (nome, sigla) values('China', 'CN');
-insert into pais (nome, sigla) values('Estados Unidos', 'EUA');
-INSERT INTO cidade (estado, nome) VALUES('PR', 'Pato Branco');
-INSERT INTO cidade (estado, nome) VALUES('PR', 'Francisco Beltrão');
-INSERT INTO cidade (estado, nome) VALUES('PR', 'Coronel Vivida');
-INSERT INTO cidade (estado, nome) VALUES('SC', 'Chapecó');
 
 -- categorias
 INSERT INTO category (description, icon, parent_id) VALUES('Ferramentas', 'pi pi-cog', NULL);
@@ -62,8 +55,8 @@ INSERT INTO category (description, icon, parent_id) VALUES('LEDs', 'pi pi-sun', 
 INSERT INTO category (description, icon, parent_id) VALUES('Displays', 'pi pi-desktop', 14);
 
 -- fornecedor
-INSERT INTO fornecedor (cnpj, email, endereco, estado, ie, nome_fantasia, observacao, razao_social, telefone, cidade_id, cep) VALUES('05982200000100', 'ids@ids.inf.br', 'Avenida Brasil 922', 'PR', null, 'IDS Software e Assessoria', NULL, 'IDS Desenvolvimento de Software e Assessoria Ltda', '554632258383', 1, NULL);
-INSERT INTO fornecedor (cnpj, email, endereco, estado, ie, nome_fantasia, observacao, razao_social, telefone, cidade_id, cep) VALUES('12345678000199', 'contato@eletroparts.com', 'Rua das Peças 100', 'SC', null, 'Eletro Parts', NULL, 'Comércio de Eletrônicos Eletro Parts Ltda', '554933221100', 4, NULL);
+INSERT INTO fornecedor (cnpj, email, endereco, estado, ie, nome_fantasia, observacao, razao_social, telefone, cidade, cep) VALUES('05982200000100', 'ids@ids.inf.br', 'Avenida Brasil 922', 'PR', null, 'IDS Software e Assessoria', NULL, 'IDS Desenvolvimento de Software e Assessoria Ltda', '554632258383', 'Pato Branco', NULL);
+INSERT INTO fornecedor (cnpj, email, endereco, estado, ie, nome_fantasia, observacao, razao_social, telefone, cidade, cep) VALUES('12345678000199', 'contato@eletroparts.com', 'Rua das Peças 100', 'SC', null, 'Eletro Parts', NULL, 'Comércio de Eletrônicos Eletro Parts Ltda', '554933221100', 'Coronel Vivida', NULL);
 
 
 -- item
