@@ -30,9 +30,10 @@ public class LoanService extends CrudService<Long, Loan, LoanRepository> {
     private final UserService userService;
     private final ReturnRepository returnRepository;
 
-    public LoanService(InventoryService inventoryService, ReturnRepository returnRepository) {
+    public LoanService(InventoryService inventoryService, ReturnRepository returnRepository, UserService userService) {
         this.inventoryService = inventoryService;
         this.returnRepository = returnRepository;
+        this.userService = userService;
     }
 
     @Override
