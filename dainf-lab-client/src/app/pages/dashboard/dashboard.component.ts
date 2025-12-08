@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, model, signal } from '@angular/core';
+import { Component, effect, inject, model, signal, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
@@ -10,6 +10,8 @@ import { ChartComponent } from './components/chart.component';
 import { StatSkeletonComponent } from './components/stat-skeleton.component';
 import { Stat } from './components/stat.component';
 import { DashboardService } from './dashboard.service';
+
+const DATE_RANGE_STORAGE_KEY = 'dashboardDateRange';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,6 +43,13 @@ import { DashboardService } from './dashboard.service';
           label="Filtrar"
           icon="pi pi-search"
           (click)="loadDashboard()"
+        ></button>
+        <button
+          pButton
+          label="Últimos 30 dias"
+          icon="pi pi-undo"
+          styleClass="p-button-secondary"
+          (click)="resetDateRange()"
         ></button>
       </div>
 
@@ -76,14 +85,11 @@ import { DashboardService } from './dashboard.service';
     </div>
   `,
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
   private chartService = inject(ChartService);
 
-  dateRange = model<Date[]>([
-    new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-    new Date(),
-  ]);
+  dateRange = model<Date[]>([]);
   stats = signal<any[]>([]);
   loansByDay = signal<
     | {
@@ -97,12 +103,50 @@ export class DashboardComponent {
 
   skeletonCount = Array(4).fill(0);
 
+  private getDefaultDateRange(): Date[] {
+    const end = new Date();
+    end.setHours(0, 0, 0, 0);
+    const start = new Date(end);
+    start.setDate(end.getDate() - 30);
+    return [start, end];
+  }
+
+  ngOnInit(): void {
+    const savedRange = localStorage.getItem(DATE_RANGE_STORAGE_KEY);
+    if (savedRange) {
+      try {
+        const parsedRange: [string, string] = JSON.parse(savedRange);
+        const dates = parsedRange.map(d => new Date(d));
+        
+        if (dates.length === 2 && dates.every(date => !isNaN(date.getTime()))) {
+          this.dateRange.set(dates);
+          return;
+        }
+      } catch (e) {
+        console.error('Erro ao carregar filtro de data do localStorage:', e);
+      }
+    }
+    this.dateRange.set(this.getDefaultDateRange());
+  }
+
   constructor() {
     effect(() => {
       if (this.dateRange().filter(Boolean).length !== 2) return;
-      this.chartService.themeUpdated(); // re-run on theme update
+      this.saveDateRange();
+      this.chartService.themeUpdated();
       this.loadDashboard();
     });
+  }
+
+  saveDateRange(): void {
+    if (this.dateRange().filter(Boolean).length === 2) {
+      const rangeAsString = JSON.stringify(this.dateRange().map(d => d.toISOString()));
+      localStorage.setItem(DATE_RANGE_STORAGE_KEY, rangeAsString);
+    }
+  }
+
+  resetDateRange(): void {
+    this.dateRange.set(this.getDefaultDateRange());
   }
 
   loadDashboard() {

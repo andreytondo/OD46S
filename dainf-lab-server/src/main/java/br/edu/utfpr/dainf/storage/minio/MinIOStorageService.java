@@ -4,11 +4,14 @@ import br.edu.utfpr.dainf.exception.StorageException;
 import br.edu.utfpr.dainf.storage.StorageService;
 import io.minio.*;
 import io.minio.http.Method;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MinIOStorageService implements StorageService {
+
+    private static final Logger LOGGER = Logger.getLogger(MinIOStorageService.class);
 
     private final MinioClient minioClient;
     private final String rootBucket;
@@ -66,7 +69,7 @@ public class MinIOStorageService implements StorageService {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
         } catch (Exception e) {
-            throw new StorageException("Failed to ensure bucket exists in MinIO", e);
+            LOGGER.error("Failed to ensure bucket exists in MinIO", e);
         }
     }
 }
