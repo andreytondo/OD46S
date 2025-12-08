@@ -1,6 +1,7 @@
 package br.edu.utfpr.dainf.service;
 
 import br.edu.utfpr.dainf.enums.LoanStatus;
+import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.exception.WarnException;
 import br.edu.utfpr.dainf.mail.Mail;
 import br.edu.utfpr.dainf.mail.MailService;
@@ -142,5 +143,10 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
             return null;
         }
         return (User) authentication.getPrincipal();
+    }
+
+    public boolean hasPrivilegedAcess() {
+        String role = getCurrentUser().getRole().name();
+        return List.of(UserRole.ADMIN, UserRole.LAB_TECHNICIAN).contains(role);
     }
 }

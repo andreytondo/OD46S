@@ -1,10 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, computed, inject, model, OnInit, signal } from '@angular/core'; // Adicionado OnInit
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { ItemService } from './../item/item.service';
@@ -74,7 +76,7 @@ export class PurchaseComponent implements OnInit {
     date: [new Date(), Validators.required],
     fornecedor: [null, Validators.required],
     user: [null, Validators.required],
-    items: [[]],
+    items: [[], Validators.required],
     totalValue: [{ value: 0, disabled: true }],
   });
 
@@ -87,6 +89,14 @@ export class PurchaseComponent implements OnInit {
       [Validators.required, Validators.min(0.01)],
     ],
   });
+
+  minItemsValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!value || value.length === 0) {
+      return { required: true };
+    }
+    return null;
+  }
 
   cols: Column<Purchase>[] = [
     { field: 'id', header: 'Código' },

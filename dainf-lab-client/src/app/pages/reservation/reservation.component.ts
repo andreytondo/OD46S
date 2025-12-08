@@ -67,8 +67,8 @@ export class ReservationComponent implements OnInit {
     id: [{ value: null, disabled: true }],
     description: [''],
     observation: [''],
-    reservationDate: [new Date(), Validators.required],
-    withdrawalDate: [null],
+    reservationDate: [null, Validators.required],
+    withdrawalDate: [null, Validators.required],
     user: [null, Validators.required],
     items: [[], [Validators.required, Validators.minLength(1)]],
   });
@@ -76,7 +76,7 @@ export class ReservationComponent implements OnInit {
   reservationItemForm: FormGroup = this.formBuilder.group({
     id: [null],
     item: [null, Validators.required],
-    quantity: [1, [Validators.required, Validators.min(1)]],
+    quantity: [0, [Validators.required, Validators.min(1)]],
   });
 
   cols: Column<Reservation>[] = [

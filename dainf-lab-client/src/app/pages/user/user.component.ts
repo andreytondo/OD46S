@@ -74,8 +74,8 @@ export class UserComponent {
   roleOptions = [
     { label: 'Admin', value: 'ROLE_ADMIN' },
     { label: 'Professor', value: 'ROLE_PROFESSOR' },
-    { label: 'Lab Technician', value: 'ROLE_LAB_TECHNICIAN' },
-    { label: 'Student', value: 'ROLE_STUDENT' },
+    { label: 'Laboratorista', value: 'ROLE_LAB_TECHNICIAN' },
+    { label: 'Aluno', value: 'ROLE_STUDENT' },
   ];
 
   filtroNome = model<string | undefined>();

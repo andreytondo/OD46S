@@ -4,6 +4,7 @@ import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.shared.Identifiable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +27,12 @@ public class Loan implements Identifiable<Long> {
     @Column(name = "id")
     private Long id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User borrower;
 
     @Column(name = "loan_date")
+    @NotNull(message = "Deve ser informado a data de do emprestimo.")
     private Instant loanDate;
 
     @Column(name = "deadline")

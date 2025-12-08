@@ -98,7 +98,7 @@ export class ItemComponent {
     ],
     description: [null],
     price: [null],
-    category: [null],
+    category: [null, Validators.required],
     assets: [null],
     images: [null],
     siorg: [null],

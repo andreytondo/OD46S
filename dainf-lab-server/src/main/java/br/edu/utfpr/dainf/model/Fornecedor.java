@@ -58,9 +58,8 @@ public class Fornecedor implements Identifiable<Long> {
     private String telefone;
 
     @NotNull(message = "O campo 'Cidade' deve ser selecionado.")
-    @ManyToOne
-    @JoinColumn(name = "cidade_id", referencedColumnName = "id")
-    private Cidade cidade;
+    @Column(name = "cidade", length = 15)
+    private String cidade;
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O campo 'Estado' deve ser selecionado.")

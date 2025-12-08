@@ -43,6 +43,7 @@ public class Item implements Identifiable<Long> {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @NotNull(message = "O campo 'Categoria' é obrigatório")
     private Category category;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
