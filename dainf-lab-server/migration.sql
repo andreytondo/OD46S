@@ -46,21 +46,73 @@ FROM dblink('src', '
         cidade_id bigint, uf varchar)
 ON CONFLICT (id) DO NOTHING;
 
--- Categories (from grupo)
-INSERT INTO public.category (id, description, parent_id, icon)
-SELECT id, descricao, NULL::bigint, NULL::varchar
-FROM dblink('src', 'SELECT id, descricao FROM public.grupo') AS t(id bigint, descricao varchar)
+-- Categories (seeded taxonomy aligned with import.sql)
+INSERT INTO public.category (id, description, parent_id, icon) VALUES
+  (1, 'Ferramentas', NULL, 'pi pi-cog'),
+  (2, 'Componentes', NULL, 'pi pi-microchip'),
+  (3, 'Raspberry Pi', NULL, 'pi pi-desktop'),
+  (4, 'Arduino', NULL, 'pi pi-code'),
+  (5, 'Periféricos', NULL, 'pi pi-table'),
+  (6, 'Cabos', NULL, 'pi pi-link'),
+  (7, 'Prototipagem', NULL, 'pi pi-th-large'),
+  (8, 'Bateria e Carregadores', NULL, 'pi pi-bolt'),
+  (9, 'Motores', NULL, 'pi pi-car'),
+  (10, 'Material Expediente', NULL, 'pi pi-file'),
+  (11, 'Impressora 3D', NULL, 'pi pi-cog'),
+  (12, 'Lego', NULL, 'pi pi-th-large'),
+  (13, 'Mobilia', NULL, 'pi pi-table'),
+  (14, 'Displays e Iluminação', NULL, 'pi pi-lightbulb'),
+  (15, 'Acessórios', NULL, 'pi pi-box'),
+  (16, 'Manuais', 1, 'pi pi-wrench'),
+  (17, 'Soldagem', 1, 'pi pi-hammer'),
+  (18, 'Elétricas', 1, 'pi pi-bolt'),
+  (19, 'Potenciômetros', 2, 'pi pi-sliders-h'),
+  (20, 'Sensores', 2, 'pi pi-eye'),
+  (21, 'Drivers', 2, 'pi pi-file-check'),
+  (22, 'Resistores', 2, 'pi pi-minus'),
+  (23, 'Circuitos Integrados', 2, 'pi pi-microchip'),
+  (24, 'Transistores', 2, 'pi pi-arrows-h'),
+  (25, 'Botões e Chaves', 2, 'pi pi-power-off'),
+  (26, 'Diodos', 2, 'pi pi-arrow-right'),
+  (27, 'Microcontroladores', 2, 'pi pi-code'),
+  (28, 'Capacitores', 2, 'pi pi-cloud'),
+  (29, 'Reguladores de Tensão', 2, 'pi pi-ellipsis-h'),
+  (30, 'Conectores', 2, 'pi pi-sliders-v'),
+  (31, 'Atuadores e Relés', 2, 'pi pi-link'),
+  (32, 'Módulos e Conversores', 2, 'pi pi-sync'),
+  (33, 'Placas', 3, 'pi pi-sitemap'),
+  (34, 'Acessórios', 3, 'pi pi-box'),
+  (35, 'Shields', 4, 'pi pi-inbox'),
+  (36, 'Placas', 4, 'pi pi-sitemap'),
+  (37, 'Drivers', 9, 'pi pi-file-check'),
+  (38, 'Servo Motor', 9, 'pi pi-compass'),
+  (39, 'LEDs', 14, 'pi pi-sun'),
+  (40, 'Displays', 14, 'pi pi-desktop')
 ON CONFLICT (id) DO NOTHING;
 
--- Items
-INSERT INTO public.item (id, name, description, category_id, minimum_stock, price, siorg, type)
-SELECT id, nome, descricao, grupo_id, qtde_minima, valor, siorg::text,
-       CASE tipo_item WHEN 'C' THEN 'CONSUMABLE' WHEN 'P' THEN 'DURABLE' ELSE 'DURABLE' END
-FROM dblink('src', '
+-- Items (map legacy grupo to new category ids)
+WITH cat_map(old_id, new_id) AS (
+  VALUES
+    (1, 1),   (2, 19),  (3, 15),  (4, 16),  (5, 20),  (6, 17),  (7, 21),
+    (8, 33),  (9, 5),   (10, 6),  (11, 35), (12, 39), (13, 40), (14, 7),
+    (15, 18), (16, 8),  (17, 37), (18, 10), (19, 22), (20, 23), (21, 24),
+    (22, 25), (23, 26), (24, 27), (25, 28), (26, 2),  (27, 29), (28, 30),
+    (29, 31), (31, 32), (32, 36), (33, 34), (34, 9),  (35, 38), (36, 11),
+    (37, 12), (38, 13)
+),
+src_item AS (
   SELECT id, nome, descricao, grupo_id, qtde_minima, valor, siorg, tipo_item
-  FROM public.item
-') AS t(id bigint, nome varchar, descricao varchar, grupo_id bigint,
-        qtde_minima numeric, valor numeric, siorg numeric, tipo_item varchar)
+  FROM dblink('src', '
+    SELECT id, nome, descricao, grupo_id, qtde_minima, valor, siorg, tipo_item
+    FROM public.item
+  ') AS t(id bigint, nome varchar, descricao varchar, grupo_id bigint,
+          qtde_minima numeric, valor numeric, siorg numeric, tipo_item varchar)
+)
+INSERT INTO public.item (id, name, description, category_id, minimum_stock, price, siorg, type)
+SELECT s.id, s.nome, s.descricao, COALESCE(m.new_id, 2), s.qtde_minima, s.valor, s.siorg::text,
+       CASE s.tipo_item WHEN 'C' THEN 'CONSUMABLE' WHEN 'P' THEN 'DURABLE' ELSE 'DURABLE' END
+FROM src_item s
+LEFT JOIN cat_map m ON m.old_id = s.grupo_id
 ON CONFLICT (id) DO NOTHING;
 
 -- Item images
