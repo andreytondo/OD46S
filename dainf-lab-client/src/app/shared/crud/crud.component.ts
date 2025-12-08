@@ -8,7 +8,6 @@ import {
   output,
   signal,
   TemplateRef,
-  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
@@ -49,8 +48,6 @@ import { CrudTableComponent } from './table/crud-table.component';
   templateUrl: 'crud.component.html',
 })
 export class CrudComponent<T extends Identifiable> implements OnInit {
-  table = viewChild(CrudTableComponent);
-
   service = input.required<CrudService<T>>();
   columns = input<Column<T>[]>([]);
   config = input<CrudConfig<T>>();
@@ -116,7 +113,37 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   }
 
   export() {
-    this.table()?.export();
+    const totalElements = this.items()?.page.totalElements;
+    const columns = this.columns();
+    if (!columns?.length) {
+      this._showWarn('Nenhuma coluna disponível para exportar.');
+      return;
+    }
+    if (!totalElements || totalElements === 0) {
+      this._showWarn('Nenhum dado para exportar.');
+      return;
+    }
+
+    const request = this._mapRequest(this.searchRequest());
+    const exportRequest: SearchRequest = {
+      ...request,
+      page: 0,
+      rows: totalElements,
+    };
+
+    this.service()
+      .search(exportRequest)
+      .pipe(
+        take(1),
+        tap((page) => this._exportToCsv(page.content, columns)),
+        catchError((error) => {
+          this._showWarn(
+            `Falha ao exportar os dados: ${this._extractErrorMessage(error)}`,
+          );
+          return throwError(() => error);
+        }),
+      )
+      .subscribe();
   }
 
   save() {
@@ -238,6 +265,54 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
       page: request?.page ?? base.page,
       rows: request?.rows ?? base.rows,
     };
+  }
+
+  private _exportToCsv(rows: T[], columns: Column<T>[]) {
+    const separator = ',';
+    const headers = columns
+      .map((column) => this._escapeCsvValue(column.header))
+      .join(separator);
+
+    const data = rows
+      .map((row) =>
+        columns
+          .map((column) =>
+            this._escapeCsvValue(this._resolveColumnValue(row, column)),
+          )
+          .join(separator),
+      )
+      .join('\n');
+
+    const csvContent = [headers, data].filter(Boolean).join('\n');
+    const blob = new Blob([csvContent], {
+      type: 'text/csv;charset=utf-8;',
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${this.config()?.title || 'export'}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  private _resolveColumnValue(row: T, column: Column<T>): string {
+    const rawValue = column.transform
+      ? column.transform(row)
+      : String(column.field)
+          .split('.')
+          .reduce((acc: any, seg) => (acc ? acc[seg] : undefined), row as any);
+
+    if (rawValue == null) return '';
+    if (Array.isArray(rawValue)) return rawValue.join(', ');
+    return String(rawValue);
+  }
+
+  private _escapeCsvValue(value: string): string {
+    const stringValue = value ?? '';
+    const needsEscape = /[",\n]/.test(stringValue);
+    const escaped = String(stringValue).replace(/"/g, '""');
+    return needsEscape ? `"${escaped}"` : escaped;
   }
 
   private get baseRequest() {
