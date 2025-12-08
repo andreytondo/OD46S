@@ -13,6 +13,7 @@ Este repositório contém o dump `test_labs` e o script `migration.sql` que migr
 - Migra dados com transformações:
   - Semeia a taxonomia de categorias igual ao `import.sql` (Ferramentas, Componentes, subcategorias etc.).
   - Mapeia `grupo_id` legado → `category.id` novo conforme a nova taxonomia.
+  - Remove tabelas `pais` e `cidade` (se existirem) e converte `fornecedor.cidade` para string.
   - Mapeia tipos de item C/P para CONSUMABLE/DURABLE.
   - Define `bucket='local'` para imagens.
   - Normaliza `telefone` e `email` de fornecedor para string vazia se nulos.
@@ -48,6 +49,8 @@ Este repositório contém o dump `test_labs` e o script `migration.sql` que migr
    ```bash
    docker exec -i postgres psql -U postgres -d dainf_migrated -f /tmp/migration.sql
    ```
+
+> O script alinha o schema antes de migrar dados (remove `pais`/`cidade`, troca `fornecedor.cidade_id` por `cidade` textual), então mesmo que o schema copiado ainda tenha essas tabelas/colunas, elas serão ajustadas na execução.
 
 ## Observações
 - O script é idempotente no sentido de truncar e recarregar; se precisar preservar dados existentes, remova ou comente o bloco TRUNCATE.

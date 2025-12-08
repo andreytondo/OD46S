@@ -5,6 +5,35 @@ CREATE EXTENSION IF NOT EXISTS dblink;
 -- Connect to source DB (adjust credentials if needed)
 SELECT dblink_connect('src', 'dbname=test_labs host=127.0.0.1 user=postgres password=postgres');
 
+-- Align schema with latest app (cidade/pais removed; fornecedor.cidade is varchar)
+DO $$
+DECLARE
+  fk_name text;
+BEGIN
+  -- Drop FK to cidade if present
+  SELECT conname INTO fk_name
+  FROM pg_constraint
+  WHERE conrelid = 'public.fornecedor'::regclass
+    AND confrelid = 'public.cidade'::regclass;
+  IF fk_name IS NOT NULL THEN
+    EXECUTE format('ALTER TABLE public.fornecedor DROP CONSTRAINT %I', fk_name);
+  END IF;
+
+  -- Replace cidade_id with cidade (varchar)
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'fornecedor' AND column_name = 'cidade_id'
+  ) THEN
+    ALTER TABLE public.fornecedor DROP COLUMN IF EXISTS cidade_id;
+  END IF;
+  ALTER TABLE public.fornecedor ADD COLUMN IF NOT EXISTS cidade varchar(60);
+  ALTER TABLE public.fornecedor ALTER COLUMN cidade TYPE varchar(60);
+
+  -- Drop obsolete tables if they still exist
+  DROP TABLE IF EXISTS public.cidade CASCADE;
+  DROP TABLE IF EXISTS public.pais CASCADE;
+END$$;
+
 -- Optional: clear target tables to re-run safely
 TRUNCATE TABLE
   return_item, return, loan_item, loan,
@@ -13,37 +42,24 @@ TRUNCATE TABLE
   solicitation_item, solicitation,
   purchase_item, purchase,
   asset, inventory, item_image, item,
-  category, fornecedor, cidade, pais,
+  category, fornecedor,
   app_user, user_recovery
 RESTART IDENTITY CASCADE;
 
--- Country
-INSERT INTO public.pais (id, nome, sigla)
-SELECT id, nome, sigla
-FROM dblink('src', 'SELECT id, nome, sigla FROM public.pais') AS t(id bigint, nome varchar, sigla varchar)
-ON CONFLICT (id) DO NOTHING;
-
--- City (estado as text from source.estado.uf)
-INSERT INTO public.cidade (id, nome, estado)
-SELECT t.id, t.nome, t.uf
-FROM dblink('src', '
-  SELECT c.id, c.nome, e.uf
-  FROM public.cidade c
-  JOIN public.estado e ON e.id = c.estado_id
-') AS t(id bigint, nome varchar, uf varchar)
-ON CONFLICT (id) DO NOTHING;
-
--- Suppliers
-INSERT INTO public.fornecedor (id, cnpj, ie, telefone, nome_fantasia, razao_social, endereco, observacao, cep, email, cidade_id, estado)
-SELECT id, cnpj, ie, COALESCE(telefone, '') AS telefone, nome_fantasia, razao_social, endereco, observacao, NULL::varchar AS cep, COALESCE(email, '') AS email, cidade_id, uf AS estado
+-- Suppliers (cidade as string; no cidade/pais tables)
+INSERT INTO public.fornecedor (id, cnpj, ie, telefone, nome_fantasia, razao_social, endereco, observacao, cep, email, cidade, estado)
+SELECT id, cnpj, ie, COALESCE(telefone, '') AS telefone, nome_fantasia, razao_social,
+       endereco, observacao, NULL::varchar AS cep, COALESCE(email, '') AS email,
+       cidade, uf AS estado
 FROM dblink('src', '
   SELECT f.id, f.cnpj, f.ie, f.telefone, f.nome_fantasia, f.razao_social,
-         f.endereco, f.observacao, f.email, f.cidade_id, es.uf
+         f.endereco, f.observacao, f.email, c.nome AS cidade, es.uf
   FROM public.fornecedor f
+  LEFT JOIN public.cidade c ON c.id = f.cidade_id
   LEFT JOIN public.estado es ON es.id = f.estado_id
 ') AS t(id bigint, cnpj varchar, ie varchar, telefone varchar, nome_fantasia varchar,
         razao_social varchar, endereco varchar, observacao varchar, email varchar,
-        cidade_id bigint, uf varchar)
+        cidade varchar, uf varchar)
 ON CONFLICT (id) DO NOTHING;
 
 -- Categories (seeded taxonomy aligned with import.sql)
@@ -307,7 +323,7 @@ DECLARE
   r record;
   seq text;
 BEGIN
-  FOR r IN SELECT unnest(ARRAY['pais','cidade','fornecedor','category','item','item_image',
+  FOR r IN SELECT unnest(ARRAY['fornecedor','category','item','item_image',
                               'inventory','asset',
                               'app_user','user_recovery',
                               'reservation','reservation_item',
