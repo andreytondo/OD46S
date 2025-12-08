@@ -11,6 +11,8 @@ import br.edu.utfpr.dainf.spec.LoanSpecExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +22,8 @@ public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExec
     @Query("SELECT li FROM LoanItem li " +
             "JOIN FETCH li.loan l " +
             "JOIN FETCH l.borrower " +
-            "WHERE li.item.id = :itemId")
+            "WHERE li.item.id = :itemId " +
+            "AND l.status IN (br.edu.utfpr.dainf.enums.LoanStatus.ONGOING, br.edu.utfpr.dainf.enums.LoanStatus.OVERDUE)")
     List<LoanItem> findActiveByItem(
             @Param("itemId") Long itemId
     );
@@ -53,4 +56,10 @@ public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExec
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
+    @Query("SELECT COALESCE(SUM(li.quantity), 0) FROM LoanItem li WHERE li.loan.id = :loanId AND li.shouldReturn = true")
+    BigDecimal sumReturnableQuantity(@Param("loanId") Long loanId);
+
+    @Query("SELECT l FROM Loan l WHERE l.status <> br.edu.utfpr.dainf.enums.LoanStatus.COMPLETED AND l.deadline IS NOT NULL AND l.deadline < :now")
+    List<Loan> findNonCompletedPastDeadline(@Param("now") Instant now);
 }

@@ -22,12 +22,14 @@ public class ReturnService extends CrudService<Long, Return, ReturnRepository> {
     private final IssueRepository issueRepository;
     private final IssueService issueService;
     private final UserService userService;
+    private final LoanService loanService;
 
-    public ReturnService(InventoryService inventoryService, IssueRepository issueRepository, IssueService issueService, UserService userService) {
+    public ReturnService(InventoryService inventoryService, IssueRepository issueRepository, IssueService issueService, UserService userService, LoanService loanService) {
         this.inventoryService = inventoryService;
         this.issueRepository = issueRepository;
         this.issueService = issueService;
         this.userService = userService;
+        this.loanService = loanService;
     }
 
     @Override
@@ -56,7 +58,11 @@ public class ReturnService extends CrudService<Long, Return, ReturnRepository> {
             createIssue(entity);
         }
 
-        return super.save(entity);
+        Return saved = super.save(entity);
+        if (saved.getLoan() != null) {
+            loanService.refreshStatus(saved.getLoan());
+        }
+        return saved;
     }
 
     private ReturnItem findOldItem(Return existing, ReturnItem current) {

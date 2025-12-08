@@ -1,8 +1,8 @@
 package br.edu.utfpr.dainf.dto;
 
-import br.edu.utfpr.dainf.model.LoanItem;
-import br.edu.utfpr.dainf.model.User;
+import br.edu.utfpr.dainf.enums.LoanStatus;
 import br.edu.utfpr.dainf.shared.Identifiable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,6 +34,9 @@ public class LoanDTO implements Identifiable<Long> {
     @NotEmpty
     @NotNull(message = "O campo 'Itens' é obrigatório.")
     private List<LoanItemDTO> items;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private LoanStatus status;
 
     public LoanDTO(Long id) {
         this.id = id;

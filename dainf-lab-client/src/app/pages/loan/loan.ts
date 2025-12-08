@@ -10,6 +10,7 @@ export interface Loan extends Identifiable {
   observation: string;
   raSiape: string;
   items: LoanItem[];
+  status: LoanStatus;
 }
 
 export interface LoanItem extends Identifiable {
@@ -35,4 +36,4 @@ export interface LoanItemTracking extends Identifiable {
   borrowerEmail?: string;
 }
 
-export type LoanStatus = 'PENDENTE' | 'ATRASADO' | 'DEVOLVIDO';
+export type LoanStatus = 'ONGOING' | 'OVERDUE' | 'COMPLETED';

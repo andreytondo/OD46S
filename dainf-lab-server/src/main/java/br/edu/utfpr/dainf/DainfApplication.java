@@ -7,10 +7,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableJpaRepositories(value = {"br.edu.utfpr.dainf.repository", "br.edu.utfpr.dainf.spec"})
 @EntityScan("br.edu.utfpr.dainf.model")
+@EnableScheduling
 public class DainfApplication {
 
     public static void main(String[] args) {

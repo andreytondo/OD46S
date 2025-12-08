@@ -114,7 +114,7 @@ export class LoanComponent implements OnInit {
     {
       field: 'deadline',
       header: 'Status',
-      transform: (row) => new Date(row.deadline) < new Date() ? 'Em atraso' : 'Pendente',
+      transform: (row) => this.labelValue.transform(row.status, [{label: 'Em aberto', value: 'ONGOING'}, {label: 'Atrasado', value: 'OVERDUE'}, {label: 'Finalizado', value: 'COMPLETED'}])
     },
   ];
 
