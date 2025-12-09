@@ -65,6 +65,7 @@ public class MinIOStorageService implements StorageService {
 
     private void ensureBucketExists(String bucketName) {
         try {
+            LOGGER.info("Ensuring MinIO bucket exists");
             if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }

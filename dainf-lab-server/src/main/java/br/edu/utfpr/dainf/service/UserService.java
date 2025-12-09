@@ -12,6 +12,7 @@ import br.edu.utfpr.dainf.repository.LoanRepository;
 import br.edu.utfpr.dainf.repository.UserRecoveryRepository;
 import br.edu.utfpr.dainf.repository.UserRepository;
 import br.edu.utfpr.dainf.shared.CrudService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +36,8 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
     private final MailService mailService;
     private final ConfigurationService configurationService;
     private final LoanRepository loanRepository;
+    @Value("${app.reset-password-url:http://localhost:8090/reset-password}")
+    private String resetPasswordUrl;
 
     public UserService(PasswordEncoder passwordEncoder, UserRecoveryRepository userRecoveryRepository,
                        MailService mailService, ConfigurationService configurationService, LoanRepository loanRepository) {
@@ -112,12 +115,18 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         recovery.setUser(user);
         userRecoveryRepository.save(recovery);
 
-//        String recoveryMail = mailService.buildTemplate("password-recovery2", Map.of());
-//        mailService.send(Mail.builder()
-//                .subject("Recuperação de senha")
-//                .to(List.of(user.getEmail()))
-//                .content(recoveryMail)
-//                .build());
+        String recoveryMail = mailService.buildTemplate("password-recovery2", Map.of(
+                "mutuario", user.getNome(),
+                "linkRecuperacao", buildResetLink(token),
+                "codigoRecuperacao", token,
+                "expiracaoMinutos", 30
+        ));
+
+        mailService.send(Mail.builder()
+                .subject("Recuperação de senha")
+                .to(List.of(user.getEmail()))
+                .content(recoveryMail)
+                .build());
     }
 
     public void resetPassword(String token, String newPassword) {
@@ -148,5 +157,10 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
     public boolean hasPrivilegedAcess() {
         String role = getCurrentUser().getRole().name();
         return List.of(UserRole.ADMIN, UserRole.LAB_TECHNICIAN).contains(role);
+    }
+
+    private String buildResetLink(String token) {
+        String base = resetPasswordUrl.endsWith("/") ? resetPasswordUrl.substring(0, resetPasswordUrl.length() - 1) : resetPasswordUrl;
+        return base + (base.contains("?") ? "&" : "?") + "token=" + token;
     }
 }

@@ -1,7 +1,7 @@
 import { BaseService } from '@/shared/services/base.service';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthRequest, SignUpRequest } from '../auth';
+import { AuthRequest, RecoveryRequest, ResetPasswordRequest, SignUpRequest } from '../auth';
 import { TokenService } from './token.service';
 
 export interface AuthResponse {
@@ -29,6 +29,14 @@ export class AuthService extends BaseService {
   logout() {
     this._http.post(`${this.apiUrl}/auth/logout`, {}).subscribe();
     this._tokenService.clearToken();
+  }
+
+  requestPasswordRecovery(request: RecoveryRequest) {
+    return this._http.post(`${this.apiUrl}/auth/recovery`, request);
+  }
+
+  resetPassword(request: ResetPasswordRequest) {
+    return this._http.post(`${this.apiUrl}/auth/reset-password`, request);
   }
 
 }

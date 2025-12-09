@@ -4,6 +4,15 @@ export interface AuthRequest {
   rememberMe?: boolean
 }
 
+export interface RecoveryRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  newPassword: string;
+}
+
 export interface SignUpRequest {
 
 }
