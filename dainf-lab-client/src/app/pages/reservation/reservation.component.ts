@@ -73,7 +73,7 @@ export class ReservationComponent implements OnInit {
     observation: [''],
     reservationDate: [null, Validators.required],
     withdrawalDate: [null, Validators.required],
-    user: [null, Validators.required],
+    user: [null],
     items: [[], [Validators.required, Validators.minLength(1)]],
   });
 

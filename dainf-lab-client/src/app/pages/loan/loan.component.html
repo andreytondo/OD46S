@@ -16,7 +16,6 @@
 <ng-template #crudForm>
   <div class="p-fluid p-4">
     <div class="mb-6">
-      <h2 class="text-2xl font-semibold">Registro de Empréstimo</h2>
       <p class="text-muted-color">
         Preencha os campos para registrar um novo empréstimo.
       </p>
@@ -122,7 +121,11 @@
       <p-datepicker dateFormat="dd/mm/yy" [(ngModel)]="loanDateFilter" />
     </app-input-container>
 
-    <app-input-container label="Mutuário" class="col-span-12">
+    <app-input-container
+      *ngIf="hasAdvancedPrivileges()"
+      label="Mutuário"
+      class="col-span-12"
+    >
       <app-search-select
         [(ngModel)]="borrowerFilter"
         optionLabel="nome"
@@ -134,5 +137,14 @@
     <app-input-container label="RA/SIAPE" class="col-span-12">
       <input type="text" pInputText id="ra_siape" [(ngModel)]="raSiapeFilter" />
     </app-input-container>
+
+    <div class="col-span-12 flex justify-end">
+      <p-button
+        label="Limpar filtros"
+        icon="pi pi-filter-slash"
+        severity="secondary"
+        (onClick)="clearFilters()"
+      />
+    </div>
   </div>
 </ng-template>

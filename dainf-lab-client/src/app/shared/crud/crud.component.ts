@@ -149,6 +149,12 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
 
   save() {
     if (this.form()?.invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção!',
+        detail: 'Por favor, verifique os campos do formulário.',
+      });
+      console.warn('Formulário inválido:', this.form());
       this.form()!.markAllAsTouched();
       this.form()!.markAllAsDirty();
       return;

@@ -66,7 +66,7 @@ export class IssueComponent {
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     date: [null, Validators.required],
-    user: [null, Validators.required],
+    user: [null],
     loan: [null],
     observation: [null],
     items: [[], Validators.required],

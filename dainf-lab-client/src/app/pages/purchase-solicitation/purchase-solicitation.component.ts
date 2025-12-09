@@ -63,7 +63,7 @@ export class PurchaseSolicitationComponent {
   form: FormGroup = this.formBuilder.group({
     id: [{ value: null, disabled: true }],
     date: [new Date(), Validators.required],
-    user: [null, Validators.required],
+    user: [null],
     observation: [null],
     items: [[]],
   });

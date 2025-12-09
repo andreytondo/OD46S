@@ -128,20 +128,23 @@ export class LoanComponent implements OnInit {
     { field: 'quantity', header: 'Quantidade' },
   ];
 
-  loanDateFilter = model<string | undefined>();
+  loanDateFilter = model<string | Date | undefined>();
   borrowerFilter = model<User | undefined>();
   raSiapeFilter = model<string | undefined>();
   searchRequest = computed<SearchRequest>(() => {
     const filters: SearchFilter[] = [];
 
     if (this.loanDateFilter()) {
+      const dateValue = this.loanDateFilter();
+      const normalizedDate =
+        dateValue instanceof Date ? dateValue.toISOString() : dateValue;
       filters.push({
         field: 'loanDate',
-        value: this.loanDateFilter(),
+        value: normalizedDate,
         type: 'EQUALS',
       });
     }
-    if (this.borrowerFilter()) {
+    if (this.hasAdvancedPrivileges() && this.borrowerFilter()) {
       filters.push({
         field: 'borrower.id',
         value: this.borrowerFilter()?.id,
@@ -164,6 +167,14 @@ export class LoanComponent implements OnInit {
       this.crud()?.openNew();
       this.form.patchValue({ items: data.items, borrower: data.borrower });
     }
+  }
+
+  clearFilters() {
+    this.loanDateFilter.set(undefined);
+    this.borrowerFilter.set(undefined);
+    this.raSiapeFilter.set(undefined);
+    this.crud()?.loadItems();
+    this.crud()?.drawerVisible.set(false);
   }
 
   onEntityLoad(loan: Loan) {

@@ -91,6 +91,38 @@ insert into item (name, description, price, category_id, type) values('Mesa de T
 insert into item (name, description, price, category_id, type) values('Lâmpada LED Bulbo', '9W Branca', 12.00, 40, 'CONSUMABLE');
 insert into item (name, description, price, category_id, type) values('Arduino Nano', 'Com cabos', 45.00, 37, 'DURABLE');
 
+-- item_image
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (2, 1, 'item', 'image/jpeg', '1/9csgt_tesoura.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (4, 2, 'item', 'image/jpeg', '2/u1r3c_sugador.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (6, 3, 'item', 'image/jpeg', '3/ob5fpg_p2.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (8, 4, 'item', 'image/jpeg', '4/v6alp7_hd.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (10, 5, 'item', 'image/webp', '5/0yn28g_arduino.webp');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (12, 6, 'item', 'image/webp', '6/wdwcp9_resistor.webp');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (14, 7, 'item', 'image/webp', '7/bx169o_alicate.webp');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (16, 8, 'item', 'image/jpeg', '8/c5xq9h_raspberry.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (18, 9, 'item', 'image/jpeg', '9/zapxbm_protoboard.jpg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (20, 10, 'item', 'image/jpeg', '10/696dev_lcd.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (22, 11, 'item', 'image/jpeg', '11/ympyr_hdmi.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (24, 12, 'item', 'image/jpeg', '12/4l8a2_mouse.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (26, 13, 'item', 'image/jpeg', '13/jxsktf_teclado.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (28, 14, 'item', 'image/jpeg', '14/f429ks_fonte.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (30, 15, 'item', 'image/jpeg', '15/g1v3z9_osciloscopio.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (32, 16, 'item', 'image/jpeg', '16/214nko_caneta.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (34, 17, 'item', 'image/jpeg', '17/yz427a_sulfite.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (36, 18, 'item', 'image/jpeg', '18/axyfy3_estacao.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (38, 19, 'item', 'image/jpeg', '19/urzt18_led5.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (40, 20, 'item', 'image/jpeg', '20/7dj85n_led5.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (42, 21, 'item', 'image/jpeg', '21/b7qjp_sensor.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (44, 22, 'item', 'image/webp', '22/fs47hb_servomotor.webp');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (46, 23, 'item', 'image/jpeg', '23/7q1z1_rele.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (48, 24, 'item', 'image/jpeg', '24/5tix5o_filamento.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (50, 25, 'item', 'image/jpeg', '25/d37kq_filamento.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (52, 26, 'item', 'image/jpeg', '26/g36zyv_bateria.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (54, 27, 'item', 'image/webp', '27/os3n84_cadeira.webp');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (56, 28, 'item', 'image/webp', '28/pyn947_mesa.webp');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (58, 29, 'item', 'image/jpeg', '29/jtcpi_lampada.jpeg');
+INSERT INTO item_image (id, item_id, bucket, content_type, name) VALUES (60, 30, 'item', 'image/webp', '30/9ffdt6_arduino_nano.webp');
+
 
 -- asset
 INSERT INTO asset (item_id, location, serial_number) values (4, 'V109', '40328');
@@ -397,5 +429,6 @@ INSERT INTO inventory_transaction (quantity,"type","date",inventory_id,user_id) 
 INSERT INTO inventory_transaction (quantity,"type","date",inventory_id,user_id) VALUES (5.00,'RETURN','2025-11-26 14:00:00',15,7);
 INSERT INTO inventory_transaction (quantity,"type","date",inventory_id,user_id) VALUES (5.00,'ISSUE','2025-11-26 14:00:01',14,7);
 
+SELECT setval(pg_get_serial_sequence('item_image', 'id'), (SELECT MAX(id) FROM item_image));
 SELECT setval(pg_get_serial_sequence('reservation', 'id'), (SELECT MAX(id) FROM reservation));
 SELECT setval(pg_get_serial_sequence('return', 'id'), (SELECT MAX(id) FROM "return"));
