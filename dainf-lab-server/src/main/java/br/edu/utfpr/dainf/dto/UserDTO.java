@@ -37,6 +37,8 @@ public class UserDTO implements Identifiable<Long> {
 
     private UserRole role;
 
+    private boolean enabled;
+
     public UserDTO(Long id) {
         this.id = id;
     }
