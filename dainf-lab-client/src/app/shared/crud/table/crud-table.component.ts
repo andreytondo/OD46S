@@ -9,8 +9,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { Button } from 'primeng/button';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
 import { Paginator, PaginatorState } from 'primeng/paginator';
 import { Table, TableModule } from 'primeng/table';
 import { Column, CrudConfig, Identifiable } from '../crud';
@@ -21,8 +19,6 @@ import { Column, CrudConfig, Identifiable } from '../crud';
   imports: [
     CommonModule,
     TableModule,
-    IconField,
-    InputIcon,
     Button,
     Paginator,
     DeepValuePipe,

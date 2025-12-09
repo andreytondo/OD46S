@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 public class PurchaseService extends CrudService<Long, Purchase, PurchaseRepository> {
 
     private final InventoryService inventoryService;
+    private final UserService userService;
 
-    public PurchaseService(InventoryService inventoryService) {
+    public PurchaseService(InventoryService inventoryService, UserService userService) {
         this.inventoryService = inventoryService;
+        this.userService = userService;
     }
 
     @Override
@@ -24,6 +26,9 @@ public class PurchaseService extends CrudService<Long, Purchase, PurchaseReposit
 
     @Override
     public Purchase save(Purchase entity) {
+        if (entity.getId() == null) {
+            entity.setUser(userService.getCurrentUser());
+        }
         if (entity.getItems() != null) {
             for (PurchaseItem item : entity.getItems()) {
                 item.setPurchase(entity);

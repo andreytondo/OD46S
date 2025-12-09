@@ -50,6 +50,9 @@ public class SolicitationService extends CrudService<Long, Solicitation, Solicit
     @Override
     public Solicitation save(Solicitation entity) {
         validateAccess(entity);
+        if (entity.getId() == null) {
+            entity.setUser(userService.getCurrentUser());
+        }
         if (entity.getItems() != null) {
             entity.getItems().forEach(item -> item.setSolicitation(entity));
         }

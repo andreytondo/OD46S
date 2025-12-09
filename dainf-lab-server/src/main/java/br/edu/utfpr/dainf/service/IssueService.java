@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 public class IssueService extends CrudService<Long, Issue, IssueRepository> {
 
     private final InventoryService inventoryService;
+    private final UserService userService;
 
-    public IssueService(InventoryService inventoryService) {
+    public IssueService(InventoryService inventoryService, UserService userService) {
         this.inventoryService = inventoryService;
+        this.userService = userService;
     }
 
     @Override
@@ -28,6 +30,9 @@ public class IssueService extends CrudService<Long, Issue, IssueRepository> {
     }
 
     public Issue save(Issue entity, boolean handleTransaction) {
+        if (entity.getId() == null) {
+            entity.setUser(userService.getCurrentUser());
+        }
         if (entity.getItems() != null) {
             for (IssueItem item : entity.getItems()) {
                 item.setIssue(entity);

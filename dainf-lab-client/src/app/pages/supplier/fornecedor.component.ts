@@ -13,8 +13,6 @@ import { CrudComponent } from '@/shared/crud/crud.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 
-import { EstadoSelectComponent } from '@/shared/components/estado-select/estado-select.component';
-import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
 import { SearchRequest } from '@/shared/models/search';
 import { CnpjPipe } from '@/shared/pipes/cnpj.pipe';
 import { CEPResult, CEPService } from '@/shared/services/cep.service';
@@ -39,8 +37,6 @@ import { phoneValidator } from '@/shared/validator/phone.validator';
     InputTextModule,
     TextareaModule,
     SelectModule,
-    EstadoSelectComponent,
-    SearchSelectComponent,
     InputMaskModule
   ],
   selector: 'app-fornecedor',

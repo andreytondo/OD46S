@@ -52,18 +52,6 @@
         </div>
       </p-fieldset>
 
-      <p-fieldset legend="Responsáveis" class="col-span-12">
-        <div class="grid grid-cols-12 gap-x-6 gap-y-5 p-4">
-          <app-input-container label="Usuário Responsável" class="col-span-12">
-            <app-search-select
-              formControlName="user"
-              optionLabel="nome"
-              [service]="userService"
-            ></app-search-select>
-          </app-input-container>
-        </div>
-      </p-fieldset>
-
       <p-fieldset legend="Itens da Compra" class="col-span-12">
         <app-subitem-form
           formControlName="items"

@@ -67,18 +67,6 @@
           </div>
         </p-fieldset>
 
-        <p-fieldset legend="Responsável" [toggleable]="true" styleClass="block">
-          <div class="grid grid-cols-1 gap-4 pt-4">
-            <app-input-container label="Usuário Responsável" class="col-span-1">
-              <app-search-select
-                formControlName="user"
-                optionLabel="nome"
-                [service]="userService"
-              ></app-search-select>
-            </app-input-container>
-          </div>
-        </p-fieldset>
-
         <p-fieldset
           legend="Itens da Saída"
           [toggleable]="true"
