@@ -46,9 +46,11 @@ jwt:
 storage:
   url: ${MINIO_URL:http://localhost:9000}
   bucket: ${MINIO_BUCKET:dainf-lab}
-  port: ${MINIO_PORT:9000}
-  secure: ${MINIO_SECURE:false}
+  # port: ${MINIO_PORT:9000}
+  # secure: ${MINIO_SECURE:false}
   access:
     key: ${MINIO_ACCESS_KEY:admin}
     secret: ${MINIO_SECRET_KEY:minio123}
 
+app:
+  reset-password-url: ${RESET_PASSWORD_URL:http://localhost:8090/reset-password}

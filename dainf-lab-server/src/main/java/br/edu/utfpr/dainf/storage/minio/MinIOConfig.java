@@ -17,16 +17,16 @@ public class MinIOConfig {
     @Value("${storage.access.secret}")
     private String accessSecret;
 
-    @Value("${storage.secure}")
-    private boolean secure;
+    // @Value("${storage.secure}")
+    // private boolean secure;
 
-    @Value("${storage.port}")
-    private Integer port;
+    // @Value("${storage.port}")
+    // private Integer port;
 
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()
-                .endpoint(url, port, secure)
+                .endpoint(url)
                 .credentials(accessKey, accessSecret)
                 .build();
     }
