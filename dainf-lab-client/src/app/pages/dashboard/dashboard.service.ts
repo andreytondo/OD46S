@@ -8,10 +8,11 @@ export class DashboardService extends BaseService {
   private datePipe = new DatePipe('en-US');
 
   getDashboardData(start: Date, end: Date): Observable<any> {
-    const params = {
+    const params: Record<string, string> = {
       start: this.datePipe.transform(start, 'yyyy-MM-dd') || '',
       end: this.datePipe.transform(end, 'yyyy-MM-dd') || '',
     };
+
     return this._http.get(`${this.apiUrl}/dashboard`, { params });
   }
 

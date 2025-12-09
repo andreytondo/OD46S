@@ -38,30 +38,29 @@ import { StorageImplService } from '@/shared/storage/storage-impl.service';
       height: 180px;
       object-fit: contain;
       border-radius: 8px;
-      mix-blend-mode: multiply;
     }
     .image-container {
         height: 200px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #f9fafb;
+        background-color: var(--surface-ground);
         border-radius: 8px;
         margin-bottom: 1rem;
     }
     .empty-state {
         text-align: center;
         padding: 3rem;
-        color: #6b7280;
+        color: var(--text-color-secondary);
     }
     .debug-bar {
-        background: #fef3c7;
-        color: #92400e;
+        background: var(--surface-card);
+        color: var(--text-color);
         padding: 0.5rem;
         font-size: 0.8rem;
         margin-bottom: 1rem;
         border-radius: 4px;
-        border: 1px solid #f59e0b;
+        border: 1px solid var(--surface-border);
     }
   `]
 })

@@ -137,6 +137,7 @@
   <p-button
     icon="pi pi-sign-out"
     pTooltip="Gerar Empréstimo"
+    *ngIf="hasAdvancedPrivileges()"
     (click)="createLoanFromReservation(row)"
   ></p-button>
   <!-- <p-button

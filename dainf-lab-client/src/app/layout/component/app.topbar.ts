@@ -81,7 +81,7 @@ import { UserDropdownComponent } from './user-dropdown.component';
           <i class="pi pi-ellipsis-v"></i>
         </button>
 
-        <div class="layout-topbar-menu hidden w-16 lg:flex lg:items-center">
+        <div class="layout-topbar-menu hidden w-16 lg:flex lg:items-center pr-4">
           <div class="layout-topbar-menu-content flex items-start justify-start gap-2 ">
 
             @if (userCanUseCart$ | async) {

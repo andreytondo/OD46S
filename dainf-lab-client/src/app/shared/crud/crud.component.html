@@ -1,12 +1,14 @@
 <p-toolbar class="mb-6">
   <ng-template #start>
-    <p-button
-      label="Novo"
-      icon="pi pi-plus"
-      severity="secondary"
-      class="mr-2"
-      (onClick)="openNew()"
-    />
+    @if (allowCreation()) {
+      <p-button
+        label="Novo"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="openNew()"
+      />
+    }
 
     @if (filtersTemplate()) {
       <p-button

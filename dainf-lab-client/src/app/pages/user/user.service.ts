@@ -21,9 +21,11 @@ export class UserService extends CrudService<User> {
     return this.getCurrentUser().pipe(map((user) => user.role!));
   }
 
+  isAdvancedRole(role?: string | null): boolean {
+    return role === 'ROLE_LAB_TECHNICIAN' || role === 'ROLE_ADMIN';
+  }
+
   hasAdvancedPrivileges(): Observable<boolean> {
-    return this.getRole().pipe(
-      map((role) => role === 'ROLE_LAB_TECHNICIAN' || role === 'ROLE_ADMIN'),
-    );
+    return this.getRole().pipe(map((role) => this.isAdvancedRole(role)));
   }
 }

@@ -51,6 +51,7 @@ export class CrudComponent<T extends Identifiable> implements OnInit {
   service = input.required<CrudService<T>>();
   columns = input<Column<T>[]>([]);
   config = input<CrudConfig<T>>();
+  allowCreation = input<boolean>(true);
   globalFilterFields = input<string[]>([]);
   form = input<FormGroup>();
   searchRequest = input<SearchRequest>();

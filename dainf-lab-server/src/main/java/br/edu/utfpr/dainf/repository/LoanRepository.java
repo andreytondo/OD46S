@@ -46,6 +46,17 @@ public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExec
     LoanStatusSummary countByStatus();
 
     @Query(value = """
+        SELECT
+          COUNT(*) FILTER (WHERE status = 'ONGOING') AS ongoing_count,
+          COUNT(*) FILTER (WHERE status = 'OVERDUE') AS overdue_count,
+          COUNT(*) FILTER (WHERE status = 'COMPLETED') AS completed_count,
+          COUNT(*) AS total_count
+        FROM loan
+        WHERE user_id = :borrowerId
+        """, nativeQuery = true)
+    LoanStatusSummary countByStatusForBorrower(@Param("borrowerId") Long borrowerId);
+
+    @Query(value = """
         SELECT CAST(loan_date AS DATE) AS day, COUNT(*) AS total
         FROM loan
         WHERE loan_date BETWEEN :startDate AND :endDate
@@ -55,6 +66,20 @@ public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExec
     List<LoanCountByDay> countLoansByDay(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
+    );
+
+    @Query(value = """
+        SELECT CAST(loan_date AS DATE) AS day, COUNT(*) AS total
+        FROM loan
+        WHERE loan_date BETWEEN :startDate AND :endDate
+          AND user_id = :borrowerId
+        GROUP BY CAST(loan_date AS DATE)
+        ORDER BY CAST(loan_date AS DATE)
+        """, nativeQuery = true)
+    List<LoanCountByDay> countLoansByDayForBorrower(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("borrowerId") Long borrowerId
     );
 
     @Query("SELECT COALESCE(SUM(li.quantity), 0) FROM LoanItem li WHERE li.loan.id = :loanId AND li.shouldReturn = true")

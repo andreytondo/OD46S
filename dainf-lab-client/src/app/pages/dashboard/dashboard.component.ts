@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
-import { take, tap } from 'rxjs';
+import { finalize, take, tap } from 'rxjs';
 import { ChartService } from './../../shared/services/chart.service';
 import { ChartComponent } from './components/chart.component';
 import { StatSkeletonComponent } from './components/stat-skeleton.component';
@@ -131,15 +131,33 @@ export class DashboardComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      if (this.dateRange().filter(Boolean).length !== 2) return;
+      if (!this.hasValidDateRange()) return;
       this.saveDateRange();
       this.chartService.themeUpdated();
       this.loadDashboard();
     });
   }
 
+  private hasValidDateRange(): boolean {
+    const range = this.dateRange();
+    return (
+      Array.isArray(range) &&
+      range.length === 2 &&
+      range.every((date) => date instanceof Date && !isNaN(date.getTime()))
+    );
+  }
+
+  private normalizeDateRange(range: Date[]): [Date, Date] {
+    const [start, end] = range;
+    const normalizedStart = new Date(start);
+    normalizedStart.setHours(0, 0, 0, 0);
+    const normalizedEnd = new Date(end);
+    normalizedEnd.setHours(23, 59, 59, 999);
+    return [normalizedStart, normalizedEnd];
+  }
+
   saveDateRange(): void {
-    if (this.dateRange().filter(Boolean).length === 2) {
+    if (this.hasValidDateRange()) {
       const rangeAsString = JSON.stringify(this.dateRange().map(d => d.toISOString()));
       localStorage.setItem(DATE_RANGE_STORAGE_KEY, rangeAsString);
     }
@@ -150,19 +168,23 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboard() {
+    if (!this.hasValidDateRange()) return;
+
+    const [start, end] = this.normalizeDateRange(this.dateRange());
     this.loading.set(true);
-    const [start, end] = this.dateRange() || [];
     this.dashboardService
       .getDashboardData(start, end)
       .pipe(
         tap((data) => {
           this._mapStats(data);
           this._mapLoansByDay(data);
-          this.loading.set(false);
         }),
         take(1),
+        finalize(() => this.loading.set(false)),
       )
-      .subscribe();
+      .subscribe({
+        error: (error) => console.error('Erro ao carregar dashboard:', error),
+      });
   }
 
   private _mapStats(data: any) {

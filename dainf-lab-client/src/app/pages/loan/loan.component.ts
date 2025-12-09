@@ -23,6 +23,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -80,6 +81,10 @@ export class LoanComponent implements OnInit {
   userService = inject(UserService);
   context = inject(ContextStore);
   datePipe = inject(DatePipe);
+
+  hasAdvancedPrivileges = toSignal(this.userService.hasAdvancedPrivileges(), {
+    initialValue: false,
+  });
 
   crud = viewChild(CrudComponent);
   subItem = viewChild(SubItemFormComponent);

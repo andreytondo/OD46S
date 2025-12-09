@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
@@ -57,6 +58,9 @@ export class ReservationComponent implements OnInit {
   datePipe = inject(DatePipe);
   router = inject(Router);
   context = inject(ContextStore);
+  hasAdvancedPrivileges = toSignal(this.userService.hasAdvancedPrivileges(), {
+    initialValue: false,
+  });
   config: CrudConfig<Reservation> = {
     title: 'Reservas',
   };

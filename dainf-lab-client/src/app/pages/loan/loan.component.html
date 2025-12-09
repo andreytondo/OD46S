@@ -10,6 +10,7 @@
   (entityLoad)="onEntityLoad($event)"
   (cancelClick)="onCancel()"
   [actionsTemplate]="actions"
+  [allowCreation]="hasAdvancedPrivileges()"
 ></app-crud>
 
 <ng-template #crudForm>
@@ -79,12 +80,14 @@
     icon="pi pi-pencil"
     class="mr-2"
     severity="secondary"
+    *ngIf="hasAdvancedPrivileges()"
     (click)="openEdit(row)"
   ></p-button>
   <p-button
     icon="pi pi-undo"
     class="mr-2"
     severity="info"
+    *ngIf="hasAdvancedPrivileges()"
     (click)="openReturnDialog(row)"
   ></p-button>
 </ng-template>
