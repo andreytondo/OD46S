@@ -1,6 +1,7 @@
 import { AuthService } from '@/pages/auth/services/auth.service';
 import { CartComponent } from '@/shared/components/cart-component/cart.component';
 import { CartService } from '@/shared/services/cart.service';
+import { UserService } from '@/pages/user/user.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -9,6 +10,7 @@ import { BadgeModule } from 'primeng/badge';
 import { PopoverModule } from 'primeng/popover';
 import { StyleClassModule } from 'primeng/styleclass';
 import { TooltipModule } from 'primeng/tooltip';
+import { map } from 'rxjs';
 import { LayoutService } from '../service/layout.service';
 import { AppConfigurator } from './app.configurator';
 import { LogoComponent } from './logo.component';
@@ -29,6 +31,7 @@ import { UserDropdownComponent } from './user-dropdown.component';
     PopoverModule,
     CartComponent,
   ],
+  providers: [UserService],
   template: `
     <div class="layout-topbar">
       <div class="layout-topbar-logo-container">
@@ -81,23 +84,25 @@ import { UserDropdownComponent } from './user-dropdown.component';
         <div class="layout-topbar-menu hidden w-16 lg:flex lg:items-center">
           <div class="layout-topbar-menu-content flex items-start justify-start gap-2 ">
 
-            <!-- BOTÃO DO CARRINHO -->
-            <button
-              class="layout-topbar-action max-w-min p-overlay-badge"
-              pTooltip="Carrinho de Itens"
-              tooltipPosition="bottom"
-              (click)="cartPopover.toggle($event)"
-            >
-              <i class="pi pi-shopping-cart text-lg"></i>
-              @if (cartItemCount() > 0) {
-                <p-badge [value]="cartItemCount()" severity="danger"></p-badge>
-              }
-            </button>
+            @if (userCanUseCart$ | async) {
+              <!-- BOTÃO DO CARRINHO -->
+              <button
+                class="layout-topbar-action max-w-min p-overlay-badge"
+                pTooltip="Carrinho de Itens"
+                tooltipPosition="bottom"
+                (click)="cartPopover.toggle($event)"
+              >
+                <i class="pi pi-shopping-cart text-lg"></i>
+                @if (cartItemCount() > 0) {
+                  <p-badge [value]="cartItemCount()" severity="danger"></p-badge>
+                }
+              </button>
 
-            <!-- POPOVER -->
-            <p-popover #cartPopover [dismissable]="true">
-              <app-cart></app-cart>
-            </p-popover>
+              <!-- POPOVER -->
+              <p-popover #cartPopover [dismissable]="true">
+                <app-cart></app-cart>
+              </p-popover>
+            }
 
             <!-- USUÁRIO -->
             <app-user-dropdown [items]="userMenuItems"></app-user-dropdown>
@@ -127,8 +132,12 @@ export class AppTopbar {
   authService = inject(AuthService);
   router = inject(Router);
   cartService = inject(CartService);
+  userService = inject(UserService);
 
   cartItemCount = this.cartService.itemCount;
+  userCanUseCart$ = this.userService
+    .hasAdvancedPrivileges()
+    .pipe(map((hasPrivileges) => !hasPrivileges));
 
   toggleDarkMode() {
     this.layoutService.layoutConfig.update((state) => ({
