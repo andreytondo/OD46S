@@ -12,6 +12,7 @@ import { PurchaseComponent } from './purchase/purchase.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { FornecedorComponent } from './supplier/fornecedor.component';
 import { UserComponent } from './user/user.component';
+import { ItemWrapperComponent } from './item/item-wrapper.component';
 
 export default [
   {
@@ -21,7 +22,7 @@ export default [
       { path: 'category', component: CategoryComponent, canActivate: [RoleGuard] },
       { path: 'supplier', component: FornecedorComponent, canActivate: [RoleGuard] },
       { path: 'user', component: UserComponent, canActivate: [RoleGuard] },
-      { path: 'item', component: ItemComponent, canActivate: [RoleGuard] },
+      { path: 'item', component: ItemWrapperComponent, canActivate: [RoleGuard] },
       { path: 'purchase', component: PurchaseComponent, canActivate: [RoleGuard] },
       { path: 'loan', component: LoanComponent, canActivate: [RoleGuard] },
       { path: 'issue', component: IssueComponent, canActivate: [RoleGuard] },
