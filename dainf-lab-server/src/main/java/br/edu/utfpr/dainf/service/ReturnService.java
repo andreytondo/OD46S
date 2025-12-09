@@ -1,6 +1,7 @@
 package br.edu.utfpr.dainf.service;
 
 import br.edu.utfpr.dainf.enums.InventoryTransactionType;
+import br.edu.utfpr.dainf.exception.WarnException;
 import br.edu.utfpr.dainf.model.*;
 import br.edu.utfpr.dainf.repository.IssueRepository;
 import br.edu.utfpr.dainf.repository.ReturnRepository;
@@ -41,6 +42,9 @@ public class ReturnService extends CrudService<Long, Return, ReturnRepository> {
     public Return save(Return entity) {
         // Fetch old entity if updating (to revert previous inventory operations)
         Return existing = entity.getId() != null ? repository.findById(entity.getId()).orElse(null) : null;
+
+        Loan loan = resolveLoan(entity);
+        entity.setLoan(loan);
 
         if (entity.getItems() != null) {
             for (ReturnItem item : entity.getItems()) {
@@ -110,5 +114,17 @@ public class ReturnService extends CrudService<Long, Return, ReturnRepository> {
         return Optional.ofNullable(entity.getLoan())
                 .flatMap(issueRepository::findByLoan)
                 .orElse(new Issue());
+    }
+
+    private Loan resolveLoan(Return entity) {
+        Loan loan = Optional.ofNullable(entity.getLoan())
+                .orElseThrow(() -> new WarnException("É necessário informar um empréstimo."));
+
+        if (loan.getId() == null) {
+            throw new WarnException("É necessário informar um empréstimo.");
+        }
+
+        return loanService.findById(loan.getId())
+                .orElseThrow(() -> new WarnException("Empréstimo não encontrado."));
     }
 }

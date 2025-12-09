@@ -49,7 +49,7 @@ public class LoanService extends CrudService<Long, Loan, LoanRepository> {
                 !currentUser.getRole().name().equals(UserRole.LAB_TECHNICIAN);
 
         if (isRestricted) {
-            if (request.getFilters() == null) request.setFilters(new ArrayList());
+            if (request.getFilters() == null) request.setFilters(new ArrayList<>());
             request.getFilters().add(
                     new SearchFilter("borrower.id", currentUser.getId(), SearchFilter.Type.EQUALS)
             );
@@ -60,6 +60,7 @@ public class LoanService extends CrudService<Long, Loan, LoanRepository> {
 
     @Override
     public Loan save(Loan entity) {
+        validateAccess(entity);
         if (entity.getLoanDate() == null) {
             entity.setLoanDate(Instant.now());
         }
@@ -114,12 +115,17 @@ public class LoanService extends CrudService<Long, Loan, LoanRepository> {
             return loan;
         }
 
-        LoanStatus newStatus = resolveStatus(loan);
-        if (newStatus != loan.getStatus()) {
-            loan.setStatus(newStatus);
-            return repository.save(loan);
+        Loan persistedLoan = repository.findById(loan.getId()).orElse(null);
+        if (persistedLoan == null) {
+            return loan;
         }
-        return loan;
+
+        LoanStatus newStatus = resolveStatus(persistedLoan);
+        if (newStatus != persistedLoan.getStatus()) {
+            persistedLoan.setStatus(newStatus);
+            return repository.save(persistedLoan);
+        }
+        return persistedLoan;
     }
 
     private LoanStatus resolveStatus(Loan loan) {
