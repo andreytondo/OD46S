@@ -4,5 +4,7 @@ import java.util.List;
 
 public record DashboardDTO(
         LoanStatusSummary loanSummary,
-        List<LoanCountByDay> loanCountByDays
+        List<LoanCountByDay> loanCountByDays,
+        List<LowStockItemDTO> lowStockItems,
+        List<InventoryOperationDTO> recentOperations
 ) { }

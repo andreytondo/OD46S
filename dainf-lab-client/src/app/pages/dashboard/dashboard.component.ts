@@ -9,7 +9,13 @@ import { ChartService } from './../../shared/services/chart.service';
 import { ChartComponent } from './components/chart.component';
 import { StatSkeletonComponent } from './components/stat-skeleton.component';
 import { Stat } from './components/stat.component';
-import { DashboardService } from './dashboard.service';
+import {
+  DashboardService,
+  InventoryOperation,
+  LowStockItem,
+} from './dashboard.service';
+import { LowStockPanelComponent } from './components/low-stock-panel.component';
+import { RecentOperationsComponent } from './components/recent-operations.component';
 
 const DATE_RANGE_STORAGE_KEY = 'dashboardDateRange';
 
@@ -26,6 +32,8 @@ const DATE_RANGE_STORAGE_KEY = 'dashboardDateRange';
     ReactiveFormsModule,
     StatSkeletonComponent,
     ChartComponent,
+    LowStockPanelComponent,
+    RecentOperationsComponent,
   ],
   template: `
     <div class="p-6 flex flex-col gap-6">
@@ -82,6 +90,18 @@ const DATE_RANGE_STORAGE_KEY = 'dashboardDateRange';
           [title]="loansByDay()!.title"
         />
       }
+
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <app-low-stock-panel
+          class="xl:col-span-2"
+          [items]="lowStockItems()"
+          [loading]="loading()"
+        />
+        <app-recent-operations
+          [operations]="recentOperations()"
+          [loading]="loading()"
+        />
+      </div>
     </div>
   `,
 })
@@ -91,6 +111,8 @@ export class DashboardComponent implements OnInit {
 
   dateRange = model<Date[]>([]);
   stats = signal<any[]>([]);
+  lowStockItems = signal<LowStockItem[]>([]);
+  recentOperations = signal<InventoryOperation[]>([]);
   loansByDay = signal<
     | {
         data: { labels: string[]; datasets: any[] };
@@ -178,6 +200,8 @@ export class DashboardComponent implements OnInit {
         tap((data) => {
           this._mapStats(data);
           this._mapLoansByDay(data);
+          this._mapLowStockItems(data);
+          this._mapRecentOperations(data);
         }),
         take(1),
         finalize(() => this.loading.set(false)),
@@ -205,5 +229,17 @@ export class DashboardComponent implements OnInit {
       options: chartOptions,
       title: 'Empréstimos por dia',
     });
+  }
+
+  private _mapLowStockItems(data: any) {
+    this.lowStockItems.set(
+      this.dashboardService.mapLowStockItems(data.lowStockItems),
+    );
+  }
+
+  private _mapRecentOperations(data: any) {
+    this.recentOperations.set(
+      this.dashboardService.mapRecentOperations(data.recentOperations),
+    );
   }
 }

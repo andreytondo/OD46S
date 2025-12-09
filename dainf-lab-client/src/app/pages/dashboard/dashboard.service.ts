@@ -3,6 +3,29 @@ import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export type InventoryOperationType = 'PURCHASE' | 'ISSUE' | 'RETURN' | 'LOAN';
+
+export interface LowStockItem {
+  itemId: number;
+  name: string;
+  quantity: number;
+  minimumStock: number;
+  category?: string;
+  percentage: number;
+}
+
+export interface InventoryOperation {
+  id: number;
+  itemName: string;
+  type: InventoryOperationType;
+  quantity: number;
+  date: Date;
+  userName: string;
+  label: string;
+  severity: 'success' | 'warn' | 'danger' | 'info' | null;
+  iconClass: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class DashboardService extends BaseService {
   private datePipe = new DatePipe('en-US');
@@ -57,5 +80,86 @@ export class DashboardService extends BaseService {
         iconBgClass: 'bg-blue-100 dark:bg-blue-400/10 text-blue-500',
       },
     ];
+  }
+
+  mapLowStockItems(items: any[]): LowStockItem[] {
+    return (items ?? []).map((item: any) => {
+      const quantity = Number(item.quantity ?? 0);
+      const minimum = Number(item.minimumStock ?? 0);
+      const percentage = minimum > 0 ? Math.min((quantity / minimum) * 100, 100) : 0;
+
+      return {
+        itemId: item.itemId,
+        name: item.name,
+        quantity,
+        minimumStock: minimum,
+        category: item.category,
+        percentage,
+      };
+    });
+  }
+
+  mapRecentOperations(ops: any[]): InventoryOperation[] {
+    return (ops ?? []).map((op: any) => {
+      const type = (op.type ?? '').toString() as InventoryOperationType;
+      const quantity = Number(op.quantity ?? 0);
+
+      return {
+        id: op.id,
+        itemName: op.itemName,
+        type,
+        quantity,
+        date: new Date(op.date),
+        userName: op.userName || 'Sistema',
+        label: this.getOperationLabel(type),
+        severity: this.getOperationSeverity(type),
+        iconClass: this.getOperationIcon(type),
+      };
+    });
+  }
+
+  private getOperationLabel(type: InventoryOperationType): string {
+    switch (type) {
+      case 'PURCHASE':
+        return 'Compra';
+      case 'ISSUE':
+        return 'Saída';
+      case 'RETURN':
+        return 'Devolução';
+      case 'LOAN':
+        return 'Empréstimo';
+      default:
+        return 'Movimentação';
+    }
+  }
+
+  private getOperationSeverity(type: InventoryOperationType): InventoryOperation['severity'] {
+    switch (type) {
+      case 'PURCHASE':
+        return 'success';
+      case 'RETURN':
+        return 'info';
+      case 'ISSUE':
+        return 'warn';
+      case 'LOAN':
+        return 'danger';
+      default:
+        return null;
+    }
+  }
+
+  private getOperationIcon(type: InventoryOperationType): string {
+    switch (type) {
+      case 'PURCHASE':
+        return 'pi-shopping-cart';
+      case 'RETURN':
+        return 'pi-refresh';
+      case 'ISSUE':
+        return 'pi-sign-out';
+      case 'LOAN':
+        return 'pi-send';
+      default:
+        return 'pi-box';
+    }
   }
 }
