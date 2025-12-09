@@ -16,6 +16,7 @@ import { catchError, of } from 'rxjs';
     <p-menu
       [model]="items()"
       [popup]="true"
+      appendTo="body"
       #menu
       styleClass="user-menu"
     >
