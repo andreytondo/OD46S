@@ -36,7 +36,6 @@ public class Reservation implements Identifiable<Long> {
     private Instant reservationDate;
 
     @Column(name = "withdrawal_date")
-    @NotNull(message = "Deve ser informado a data de retirada.")
     private Instant withdrawalDate;
 
     @ManyToOne
