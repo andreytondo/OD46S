@@ -1,0 +1,41 @@
+<app-floating-configurator />
+<div class="bg-surface-50 dark:bg-surface-950 flex items-center justify-center min-h-screen min-w-screen overflow-hidden p-4">
+  <div class="flex flex-col items-center justify-center w-full max-w-4xl">
+    <div class="w-full bg-surface-0 dark:bg-surface-900 py-14 px-6 sm:px-10 border-t-3 border-t-primary" style="border-radius: 28px">
+      <div class="text-center mb-8">
+        <div class="mb-6 flex justify-center align-middle">
+          <app-logo width="12rem" />
+        </div>
+        <div class="text-surface-900 dark:text-surface-0 text-2xl sm:text-3xl font-medium mb-2">Validação de Nada Consta</div>
+        <span class="text-muted-color font-medium">Confirme a autenticidade do documento</span>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <p-message *ngIf="status === 'error'" severity="error" [text]="errorMessage"></p-message>
+        <p-message *ngIf="status === 'loading'" severity="info" text="Validando código, aguarde..."></p-message>
+
+        <p-card *ngIf="status === 'success' && result" header="Documento validado" subheader="Sala de Apoio - DAINF/UTFPR">
+          <div class="text-lg font-semibold text-surface-900 dark:text-surface-0 mb-1" data-testid="student-name">
+            {{ result.nomeAluno }}
+          </div>
+          <div class="text-sm text-muted-color mb-4" data-testid="student-id">
+            Matrícula: {{ result.matricula || 'N/A' }}
+          </div>
+          <div class="text-sm text-muted-color mb-1">
+            Emissão: {{ result.dataEmissao | date:'dd/MM/yyyy HH:mm':'UTC' }}
+          </div>
+          <div class="text-sm text-muted-color mb-4">
+            Código de validação: {{ result.codigoValidacao }}
+          </div>
+          <div class="text-sm text-surface-700 dark:text-surface-100">
+            Este documento foi emitido pela Sala de Apoio do Departamento Acadêmico de Informática (DAINF) da UTFPR - Câmpus Pato Branco.
+          </div>
+        </p-card>
+
+        <div class="flex justify-center" *ngIf="status === 'success'">
+          <a routerLink="/login" class="text-primary">Ir para o login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

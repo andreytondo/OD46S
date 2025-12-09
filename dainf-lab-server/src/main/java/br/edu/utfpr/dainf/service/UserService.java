@@ -36,8 +36,8 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
     private final MailService mailService;
     private final ConfigurationService configurationService;
     private final LoanRepository loanRepository;
-    @Value("${app.reset-password-url:http://localhost:8090/reset-password}")
-    private String resetPasswordUrl;
+    @Value("${app.base-url:http://localhost:4200}")
+    private String baseUrl;
 
     public UserService(PasswordEncoder passwordEncoder, UserRecoveryRepository userRecoveryRepository,
                        MailService mailService, ConfigurationService configurationService, LoanRepository loanRepository) {
@@ -92,7 +92,7 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
                 "mes", now.getMonthValue(),
                 "ano", now.getYear(),
                 "codigoValidacao", dbUser.getClearanceCode(),
-                "linkValidacao", "não implementado"
+                "linkValidacao", buildClearanceLink(dbUser.getClearanceCode())
 
         ));
         mailService.send(Mail.builder()
@@ -159,8 +159,30 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         return List.of(UserRole.ADMIN, UserRole.LAB_TECHNICIAN).contains(role);
     }
 
+    public Map<String, Object> validateClearance(String code) {
+        User user = repository.findByClearanceCode(code)
+                .orElseThrow(() -> new UsernameNotFoundException("Código inválido"));
+
+        return Map.of(
+                "nomeAluno", user.getNome(),
+                "matricula", user.getDocumento(),
+                "dataEmissao", user.getClearanceDate(),
+                "codigoValidacao", user.getClearanceCode()
+        );
+    }
+
     private String buildResetLink(String token) {
-        String base = resetPasswordUrl.endsWith("/") ? resetPasswordUrl.substring(0, resetPasswordUrl.length() - 1) : resetPasswordUrl;
-        return base + (base.contains("?") ? "&" : "?") + "token=" + token;
+        return buildLinkWithQuery("/reset-password", "token", token);
+    }
+
+    private String buildClearanceLink(String code) {
+        return buildLinkWithQuery("/clearance", "code", code);
+    }
+
+    private String buildLinkWithQuery(String path, String queryKey, String queryValue) {
+        String base = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        String normalizedPath = path.startsWith("/") ? path : "/" + path;
+        String url = base + normalizedPath;
+        return url + (url.contains("?") ? "&" : "?") + queryKey + "=" + queryValue;
     }
 }

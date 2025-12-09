@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/reset-password").permitAll()
                         .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/auth/logout").permitAll()
+                        .requestMatchers("/clearance/validate").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

@@ -53,4 +53,4 @@ storage:
     secret: ${MINIO_SECRET_KEY:minio123}
 
 app:
-  reset-password-url: ${RESET_PASSWORD_URL:http://localhost:8090/reset-password}
+  base-url: ${BASE_URL:http://localhost:4200}
