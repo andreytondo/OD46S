@@ -54,9 +54,7 @@ public class MenuConfig {
                     .label("Solicitar Compra").icon("pi pi-receipt").routerLink("purchase-solicitation")
                     .allowedRoles(Set.of(
                             UserRole.ROLE_ADMIN,
-                            UserRole.ROLE_LAB_TECHNICIAN,
-                            UserRole.ROLE_STUDENT,
-                            UserRole.ROLE_PROFESSOR
+                            UserRole.ROLE_LAB_TECHNICIAN
                     ))
                     .build()),
 

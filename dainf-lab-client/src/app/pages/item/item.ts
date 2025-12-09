@@ -11,6 +11,7 @@ export interface Item extends Identifiable {
   quantity: number;
   minimumStock: number;
   type: ItemType;
+  images: any
 }
 
 export interface Asset extends Identifiable {

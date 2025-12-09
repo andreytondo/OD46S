@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, computed, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, model, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,7 @@ import { CartService } from '@/shared/services/cart.service';
 import { SearchRequest, SearchFilter } from '@/shared/models/search';
 import { Item } from './item';
 import { ItemService } from './item.service';
+import { StorageImplService } from '@/shared/storage/storage-impl.service';
 
 @Component({
   selector: 'app-item-catalog',
@@ -64,10 +65,14 @@ import { ItemService } from './item.service';
     }
   `]
 })
-export class ItemCatalogComponent implements OnInit {
+export class ItemCatalogComponent implements OnInit, OnDestroy {
   itemService = inject(ItemService);
   cartService = inject(CartService);
   cdr = inject(ChangeDetectorRef); 
+  storageService = new StorageImplService(
+    `${this.itemService._url}/storage`,
+    'item',
+  );
 
   nameFilter = model<string>('');
   layout: 'grid' | 'list' = 'grid';
@@ -75,31 +80,17 @@ export class ItemCatalogComponent implements OnInit {
   items = signal<Item[]>([]);
   totalRecords = signal(0);
   loading = signal(true);
+  imageUrls = signal<Record<string, string>>({});
   
   first = signal(0);
   rows = signal(12);
+  private filterDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  readonly placeholderImage = 'assets/images/placeholder.png';
 
   layoutOptions = [
     { icon: 'pi pi-list', value: 'list' },
     { icon: 'pi pi-table', value: 'grid' },
   ];
-
-  getStorageUrl(path: string | string[] | undefined): string {
-    if (!path) return 'assets/images/placeholder.png';
-    
-    if (Array.isArray(path) && path.length === 0) return 'assets/images/placeholder.png';
-
-    let actualPath = path;
-    if (Array.isArray(path)) {
-        actualPath = path[0];
-    }
-    
-    if (typeof actualPath === 'string' && actualPath.startsWith('http')) {
-        return actualPath;
-    }
-
-    return `${this.itemService._url}/storage/${actualPath}`;
-  }
 
   searchRequest = computed<SearchRequest>(() => {
     const filters: SearchFilter[] = [];
@@ -118,6 +109,12 @@ export class ItemCatalogComponent implements OnInit {
     this.loadItems();
   }
 
+  ngOnDestroy() {
+    if (this.filterDebounceTimer) {
+      clearTimeout(this.filterDebounceTimer);
+    }
+  }
+
   loadItems() {
     this.loading.set(true);
     
@@ -128,6 +125,7 @@ export class ItemCatalogComponent implements OnInit {
         if (page && page.content) {
             this.items.set(page.content);
             this.totalRecords.set(page.page?.totalElements || page.content.length);
+            page.content.forEach((item) => this.prefetchImageForItem(item));
         } else {
             this.items.set([]);
         }
@@ -151,7 +149,10 @@ export class ItemCatalogComponent implements OnInit {
 
   onFilterChange() {
     this.first.set(0);
-    this.loadItems();
+    if (this.filterDebounceTimer) {
+      clearTimeout(this.filterDebounceTimer);
+    }
+    this.filterDebounceTimer = setTimeout(() => this.loadItems(), 300);
   }
 
   addToCart(item: Item) {
@@ -168,5 +169,59 @@ export class ItemCatalogComponent implements OnInit {
     if (item.quantity === 0) return 'ESGOTADO';
     if (item.quantity < (item.minimumStock || 5)) return 'BAIXO ESTOQUE';
     return 'DISPONÍVEL';
+  }
+
+  getImageUrl(item: Item): string {
+    const key = String(item.id);
+    return this.imageUrls()[key] || this.placeholderImage;
+  }
+
+  hasImage(item: Item): boolean {
+    const key = String(item.id);
+    const url = this.imageUrls()[key];
+    return !!url && url !== this.placeholderImage;
+  }
+
+  onImageError(item: Item) {
+    const key = String(item.id);
+    this.imageUrls.update((urls) => ({ ...urls, [key]: this.placeholderImage }));
+  }
+
+  private prefetchImageForItem(item: Item) {
+    const imagePath = this.extractImagePath(item.images);
+    const key = String(item.id);
+
+    if (!imagePath || this.imageUrls()[key]) return;
+
+    if (imagePath.startsWith('http')) {
+      this.imageUrls.update((urls) => ({ ...urls, [key]: imagePath }));
+      return;
+    }
+
+    this.storageService.getSignedUrl(imagePath, 'GET').subscribe({
+      next: (url) =>
+        this.imageUrls.update((urls) => ({ ...urls, [key]: url })),
+      error: (err) =>
+        console.error('Erro ao carregar imagem do item', {
+          id: item.id,
+          error: err,
+        }),
+    });
+  }
+
+  private extractImagePath(images: any): string | undefined {
+    if (!images) return undefined;
+
+    if (Array.isArray(images)) {
+      const [first] = images;
+      if (!first) return undefined;
+      if (typeof first === 'string') return first;
+      if (typeof first === 'object' && first.name) return first.name;
+    }
+
+    if (typeof images === 'string') return images;
+    if (typeof images === 'object' && images.name) return images.name;
+
+    return undefined;
   }
 }

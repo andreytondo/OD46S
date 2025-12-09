@@ -7,11 +7,13 @@ import br.edu.utfpr.dainf.repository.ItemRepository;
 import br.edu.utfpr.dainf.search.request.SearchRequest;
 import br.edu.utfpr.dainf.service.InventoryService;
 import br.edu.utfpr.dainf.service.ItemService;
+import br.edu.utfpr.dainf.service.UserService;
 import br.edu.utfpr.dainf.shared.CrudController;
 import br.edu.utfpr.dainf.storage.StorageService;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,11 +23,13 @@ public class ItemController extends CrudController<Long, Item, ItemDTO, ItemRepo
 
     private final StorageService storageService;
     private final InventoryService inventoryService;
+    private final UserService userService;
 
-    public ItemController(StorageService storageService, InventoryService inventoryService) {
+    public ItemController(StorageService storageService, InventoryService inventoryService, UserService userService) {
         super(Item.class, ItemDTO.class);
         this.storageService = storageService;
         this.inventoryService = inventoryService;
+        this.userService = userService;
     }
 
     @Override
@@ -35,9 +39,12 @@ public class ItemController extends CrudController<Long, Item, ItemDTO, ItemRepo
         return super.search(request);
     }
 
-    @RolesAllowed({UserRole.ADMIN, UserRole.LAB_TECHNICIAN})
+    @RolesAllowed({UserRole.ADMIN, UserRole.LAB_TECHNICIAN, UserRole.ADMIN, UserRole.LAB_TECHNICIAN, UserRole.PROFESSOR, UserRole.STUDENT})
     @GetMapping("/storage/signed-url")
     public String getSignedUrl(@RequestParam(required = false) String objectName, @RequestParam String method) {
+        if (!"GET".equalsIgnoreCase(method) && !this.userService.hasPrivilegedAcess()) {
+            throw new AccessDeniedException("Você não tem acesso a esse recurso.");
+        }
         return storageService.getSignedUrl("item", objectName, 3600, method);
     }
 
