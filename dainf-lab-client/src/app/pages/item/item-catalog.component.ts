@@ -1,18 +1,18 @@
-import { ChangeDetectorRef, Component, computed, inject, model, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, computed, inject, model, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { TooltipModule } from 'primeng/tooltip';
 import { PaginatorModule } from 'primeng/paginator';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
+import { SearchFilter, SearchRequest } from '@/shared/models/search';
 import { CartService } from '@/shared/services/cart.service';
-import { SearchRequest, SearchFilter } from '@/shared/models/search';
+import { StorageImplService } from '@/shared/storage/storage-impl.service';
 import { Item } from './item';
 import { ItemService } from './item.service';
-import { StorageImplService } from '@/shared/storage/storage-impl.service';
 
 @Component({
   selector: 'app-item-catalog',
@@ -67,7 +67,7 @@ import { StorageImplService } from '@/shared/storage/storage-impl.service';
 export class ItemCatalogComponent implements OnInit, OnDestroy {
   itemService = inject(ItemService);
   cartService = inject(CartService);
-  cdr = inject(ChangeDetectorRef); 
+  cdr = inject(ChangeDetectorRef);
   storageService = new StorageImplService(
     `${this.itemService._url}/storage`,
     'item',
@@ -80,7 +80,7 @@ export class ItemCatalogComponent implements OnInit, OnDestroy {
   totalRecords = signal(0);
   loading = signal(true);
   imageUrls = signal<Record<string, string>>({});
-  
+
   first = signal(0);
   rows = signal(12);
   private filterDebounceTimer: ReturnType<typeof setTimeout> | null = null;
@@ -116,11 +116,9 @@ export class ItemCatalogComponent implements OnInit, OnDestroy {
 
   loadItems() {
     this.loading.set(true);
-    
+
     this.itemService.search(this.searchRequest()).subscribe({
       next: (page) => {
-        console.log('Dados recebidos (Raw):', page); 
-
         if (page && page.content) {
             this.items.set(page.content);
             this.totalRecords.set(page.page?.totalElements || page.content.length);
@@ -128,7 +126,7 @@ export class ItemCatalogComponent implements OnInit, OnDestroy {
         } else {
             this.items.set([]);
         }
-        
+
         this.loading.set(false);
         this.cdr.detectChanges();
       },
