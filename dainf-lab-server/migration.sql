@@ -32,6 +32,21 @@ BEGIN
   -- Drop obsolete tables if they still exist
   DROP TABLE IF EXISTS public.cidade CASCADE;
   DROP TABLE IF EXISTS public.pais CASCADE;
+
+  -- Purchase observation field
+  ALTER TABLE public.purchase ADD COLUMN IF NOT EXISTS observation text;
+
+  -- Solicitation observation field (migrate description -> observation and drop description)
+  ALTER TABLE public.solicitation ADD COLUMN IF NOT EXISTS observation text;
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'solicitation' AND column_name = 'description'
+  ) THEN
+    UPDATE public.solicitation
+    SET observation = COALESCE(public.solicitation.observation, public.solicitation.description)
+    WHERE observation IS NULL;
+    ALTER TABLE public.solicitation DROP COLUMN description;
+  END IF;
 END$$;
 
 -- Optional: clear target tables to re-run safely

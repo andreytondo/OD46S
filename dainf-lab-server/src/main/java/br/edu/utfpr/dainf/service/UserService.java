@@ -21,9 +21,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -50,7 +52,8 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
 
     @Override
     public User save(User user) {
-        if (user.getId() != null && user.getPassword() == null) {
+        // Keep existing password when updating without providing a new one
+        if (user.getId() != null && (user.getPassword() == null || user.getPassword().isBlank())) {
             user.setPassword(repository.findById(user.getId())
                     .orElseThrow(() -> new IllegalArgumentException("User not found"))
                     .getPassword());
@@ -58,6 +61,42 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         return repository.save(user);
+    }
+
+    public void register(User user) {
+        user.setEnabled(false);
+        user.setEmailVerificado(false);
+        user.setEmailVerificationToken(UUID.randomUUID().toString());
+        user.setEmailVerificationExpiresAt(Instant.now().plus(24, ChronoUnit.HOURS));
+
+        User saved = save(user);
+
+        String mailContent = mailService.buildTemplate("email-verification", Map.of(
+                "nome", saved.getNome(),
+                "linkConfirmacao", builConfirmationLink(saved.getEmailVerificationToken())
+        ));
+
+        mailService.send(Mail.builder()
+                .subject("Confirmação de e-mail")
+                .to(List.of(saved.getEmail()))
+                .content(mailContent)
+                .build());
+    }
+
+    public void confirmEmail(String token) {
+        User user = repository.findByEmailVerificationToken(token)
+                .orElseThrow(() -> new UsernameNotFoundException("Token inválido"));
+
+        if (user.getEmailVerificationExpiresAt() != null &&
+                user.getEmailVerificationExpiresAt().isBefore(Instant.now())) {
+            throw new WarnException("Token expirado. Solicite um novo cadastro.");
+        }
+
+        user.setEmailVerificado(true);
+        user.setEnabled(true);
+        user.setEmailVerificationToken(null);
+        user.setEmailVerificationExpiresAt(null);
+        repository.save(user);
     }
 
     @Override
@@ -98,6 +137,7 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
         mailService.send(Mail.builder()
                 .subject("Documento de nada consta")
                 .to(List.of(to))
+                .cc(dbUser.getEmail() == null || dbUser.getEmail().isBlank() ? null : List.of(dbUser.getEmail()))
                 .content(clearance)
                 .build());
     }
@@ -177,6 +217,10 @@ public class UserService extends CrudService<Long, User, UserRepository> impleme
 
     private String buildClearanceLink(String code) {
         return buildLinkWithQuery("/clearance", "code", code);
+    }
+
+    private String builConfirmationLink(String token) {
+        return buildLinkWithQuery("/confirm-mail", "token", token);
     }
 
     private String buildLinkWithQuery(String path, String queryKey, String queryValue) {

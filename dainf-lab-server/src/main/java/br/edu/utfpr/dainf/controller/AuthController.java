@@ -5,6 +5,7 @@ import br.edu.utfpr.dainf.dto.UserSignupDTO;
 import br.edu.utfpr.dainf.security.JwtService;
 import br.edu.utfpr.dainf.service.AuthService;
 import br.edu.utfpr.dainf.service.UserService;
+import jakarta.validation.Valid;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Map;
 
@@ -75,9 +77,15 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> signUp(@RequestBody UserSignupDTO user) {
+    public ResponseEntity<?> signUp(@RequestBody @Valid UserSignupDTO user) {
         authService.signUp(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/confirm-email")
+    public ResponseEntity<?> confirmEmail(@RequestParam String token) {
+        userService.confirmEmail(token);
+        return ResponseEntity.ok(Map.of("message", "E-mail confirmado com sucesso"));
     }
 
     @PostMapping("/recovery")

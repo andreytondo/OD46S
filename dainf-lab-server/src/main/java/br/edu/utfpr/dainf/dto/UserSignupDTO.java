@@ -2,6 +2,7 @@ package br.edu.utfpr.dainf.dto;
 
 import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.model.User;
+import br.edu.utfpr.dainf.validator.ValidUser;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ValidUser
 public class UserSignupDTO {
+
+    private static final String UTFPR_EMAIL_PATTERN = "^[^@\\s]+@(utfpr\\.edu\\.br|alunos\\.utfpr\\.edu\\.br|professores\\.utfpr\\.edu\\.br)$";
 
     @NotBlank(message = "O nome é obrigatório.")
     @Size(max = 255, message = "O nome não pode exceder 255 caracteres.")
@@ -21,6 +25,7 @@ public class UserSignupDTO {
 
     @NotBlank(message = "O e-mail é obrigatório.")
     @Email(message = "O e-mail é inválido.")
+    @Pattern(regexp = UTFPR_EMAIL_PATTERN, flags = Pattern.Flag.CASE_INSENSITIVE, message = "O e-mail deve ser institucional da UTFPR.")
     private String email;
 
     @Size(max = 25, message = "O RA/Sinep não pode exceder 25 caracteres.")
@@ -36,20 +41,19 @@ public class UserSignupDTO {
     private String password;
 
     public User toUserModel() {
-        return new User(
-                null,
-                this.email,
-                this.password,
-                this.nome,
-                this.documento,
-                this.telefone,
-                null,
-                false,
-                UserRole.ROLE_STUDENT,
-                true,
-                null,
-                null
-        );
+        return User.builder()
+                .id(null)
+                .email(this.email)
+                .password(this.password)
+                .nome(this.nome)
+                .documento(this.documento)
+                .telefone(this.telefone)
+                .fotoUrl(null)
+                .emailVerificado(false)
+                .role(UserRole.ROLE_STUDENT)
+                .enabled(false)
+                .clearanceCode(null)
+                .clearanceDate(null)
+                .build();
     }
 }
-

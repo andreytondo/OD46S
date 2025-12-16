@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/sign-up").permitAll()
+                        .requestMatchers("/auth/confirm-email").permitAll()
                         .requestMatchers("/auth/recovery").permitAll()
                         .requestMatchers("/auth/reset-password").permitAll()
                         .requestMatchers("/auth/refresh").permitAll()

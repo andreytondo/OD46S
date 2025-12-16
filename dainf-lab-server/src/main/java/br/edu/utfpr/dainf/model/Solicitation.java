@@ -26,10 +26,6 @@ public class Solicitation implements Identifiable<Long> {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "description", columnDefinition = "text")
-    private String description;
-
-
     @Column(name = "observation", columnDefinition = "text")
     private String observation;
 

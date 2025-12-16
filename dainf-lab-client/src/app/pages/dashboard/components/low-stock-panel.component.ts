@@ -25,7 +25,7 @@ import { LowStockItem } from '../dashboard.service';
             <p-skeleton height="2.75rem" borderRadius="12px" />
           }
         </div>
-      } @else if (items()?.length) {
+      } @else if (items().length) {
         <div class="flex flex-col gap-4">
           @for (item of items(); track item.itemId) {
             <div class="flex flex-col gap-2">

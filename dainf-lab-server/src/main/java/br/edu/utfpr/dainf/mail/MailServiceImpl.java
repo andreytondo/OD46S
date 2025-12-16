@@ -52,6 +52,9 @@ public class MailServiceImpl implements MailService {
         helper.setFrom(username, "Laboratório de Informática - UTFPR/PB");
         helper.setReplyTo(username);
         helper.setTo(mail.getTo().toArray(new String[0]));
+        if (mail.getCc() != null && !mail.getCc().isEmpty()) {
+            helper.setCc(mail.getCc().toArray(new String[0]));
+        }
         helper.setSubject(mail.getSubject());
         helper.setText(mail.getContent(), true);
 

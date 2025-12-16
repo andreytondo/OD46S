@@ -306,26 +306,26 @@ INSERT INTO inventory_transaction (quantity,"type","date",inventory_id,user_id) 
 
 
 -- solicitation
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-10-30 23:50:39',1,NULL,NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-01 08:30:00', 9, 'Solicitação de Alicates de Corte para Lab V109', 'Urgente');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-02 15:00:00', 7, 'Displays de LCD para TCC', NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-06 09:00:00', 7, 'Kits Arduino Nano para aula de Robótica', NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-07 11:00:00', 9, 'Filamento para Impressora 3D', 'Preto e Branco');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-08 14:00:00', 8, 'Reposição material de escritório', 'Canetas e Sulfite');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-10 10:00:00', 7, 'Sensores para projeto final', 'HC-SR04 e Servos');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-11 09:30:00', 3, 'Compra de novas estações de solda', 'As atuais estão ruins');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-12 16:00:00', 5, 'Novas cadeiras para sala dos professores', NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-13 10:00:00', 8, 'Reposição de lâmpadas Lab V108', 'Queimadas');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-14 11:30:00', 7, 'Mais resistores 1k', 'Estoque baixo');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-15 10:00:00', 9, 'Compra de mais Raspberry Pi 4', 'Para projeto de IA');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-17 14:00:00', 7, 'Módulos Relé', NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-18 09:00:00', 8, 'Fontes 5V extras', 'Muitos projetos usando');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-19 13:20:00', 7, 'LEDs coloridos', 'Vermelho e Verde');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-20 10:00:00', 9, 'Osciloscópio extra', 'Um é pouco');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-21 09:00:00', 8, 'Mouse e Teclado p/ Bancada 3', NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-22 15:00:00', 7, 'Baterias 9V', 'Projeto carrinho');
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-24 10:00:00', 1, 'HD Externo para Backup', NULL);
-INSERT INTO solicitation ("date",user_id,description,observation) VALUES ('2025-11-25 11:00:00', 3, 'Mais filamento branco', 'Impressão de protótipos');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-10-30 23:50:39',1,NULL);
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-01 08:30:00', 9, 'Solicitação de Alicates de Corte para Lab V109 (Obs: Urgente)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-02 15:00:00', 7, 'Displays de LCD para TCC');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-06 09:00:00', 7, 'Kits Arduino Nano para aula de Robótica');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-07 11:00:00', 9, 'Filamento para Impressora 3D (Obs: Preto e Branco)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-08 14:00:00', 8, 'Reposição material de escritório (Obs: Canetas e Sulfite)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-10 10:00:00', 7, 'Sensores para projeto final (Obs: HC-SR04 e Servos)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-11 09:30:00', 3, 'Compra de novas estações de solda (Obs: As atuais estão ruins)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-12 16:00:00', 5, 'Novas cadeiras para sala dos professores');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-13 10:00:00', 8, 'Reposição de lâmpadas Lab V108 (Obs: Queimadas)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-14 11:30:00', 7, 'Mais resistores 1k (Obs: Estoque baixo)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-15 10:00:00', 9, 'Compra de mais Raspberry Pi 4 (Obs: Para projeto de IA)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-17 14:00:00', 7, 'Módulos Relé');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-18 09:00:00', 8, 'Fontes 5V extras (Obs: Muitos projetos usando)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-19 13:20:00', 7, 'LEDs coloridos (Obs: Vermelho e Verde)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-20 10:00:00', 9, 'Osciloscópio extra (Obs: Um é pouco)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-21 09:00:00', 8, 'Mouse e Teclado p/ Bancada 3');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-22 15:00:00', 7, 'Baterias 9V (Obs: Projeto carrinho)');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-24 10:00:00', 1, 'HD Externo para Backup');
+INSERT INTO solicitation ("date",user_id,observation) VALUES ('2025-11-25 11:00:00', 3, 'Mais filamento branco (Obs: Impressão de protótipos)');
 
 
 -- solicitation_item

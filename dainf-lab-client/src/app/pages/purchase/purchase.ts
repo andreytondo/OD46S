@@ -12,6 +12,7 @@ export interface PurchaseItem extends Identifiable {
 export interface Purchase extends Identifiable {
   user: User;
   date: Date;
+  observation?: string;
   fornecedor: Fornecedor;
   items: PurchaseItem[];
   totalValue?: number;

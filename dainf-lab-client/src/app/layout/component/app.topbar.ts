@@ -1,9 +1,10 @@
 import { AuthService } from '@/pages/auth/services/auth.service';
 import { CartComponent } from '@/shared/components/cart-component/cart.component';
 import { CartService } from '@/shared/services/cart.service';
+import { ContextStore } from '@/shared/store/context-store.service';
 import { UserService } from '@/pages/user/user.service';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
@@ -119,7 +120,7 @@ import { UserDropdownComponent } from './user-dropdown.component';
     }
   `]
 })
-export class AppTopbar {
+export class AppTopbar implements OnInit {
   userMenuItems: MenuItem[] = [
     {
       label: 'Logout',
@@ -133,11 +134,16 @@ export class AppTopbar {
   router = inject(Router);
   cartService = inject(CartService);
   userService = inject(UserService);
+  context = inject(ContextStore);
 
   cartItemCount = this.cartService.itemCount;
   userCanUseCart$ = this.userService
     .hasAdvancedPrivileges()
     .pipe(map((hasPrivileges) => !hasPrivileges));
+
+  ngOnInit(): void {
+    this.cartService.loadCart();
+  }
 
   toggleDarkMode() {
     this.layoutService.layoutConfig.update((state) => ({
@@ -147,6 +153,8 @@ export class AppTopbar {
   }
 
   logout() {
+    this.cartService.resetCartState();
+    this.context.clear();
     this.authService.logout();
     this.router.navigate(['login']);
   }

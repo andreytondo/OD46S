@@ -1,12 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, model, signal, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  model,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
 import { SkeletonModule } from 'primeng/skeleton';
 import { finalize, take, tap } from 'rxjs';
+import { UserService } from '../user/user.service';
 import { ChartService } from './../../shared/services/chart.service';
 import { ChartComponent } from './components/chart.component';
+import { LowStockPanelComponent } from './components/low-stock-panel.component';
+import { RecentOperationsComponent } from './components/recent-operations.component';
 import { StatSkeletonComponent } from './components/stat-skeleton.component';
 import { Stat } from './components/stat.component';
 import {
@@ -14,8 +25,6 @@ import {
   InventoryOperation,
   LowStockItem,
 } from './dashboard.service';
-import { LowStockPanelComponent } from './components/low-stock-panel.component';
-import { RecentOperationsComponent } from './components/recent-operations.component';
 
 const DATE_RANGE_STORAGE_KEY = 'dashboardDateRange';
 
@@ -80,34 +89,38 @@ const DATE_RANGE_STORAGE_KEY = 'dashboardDateRange';
         }
       </div>
 
-      @if (loading() || !loansByDay()) {
-        <!-- skeleton -->
-      } @else {
-        <app-chart
-          type="line"
-          [chartData]="loansByDay()!.data"
-          [chartOptions]="loansByDay()!.options"
-          [title]="loansByDay()!.title"
-        />
-      }
+      @if (hasAdvancedPrivileges()) {
+        @if (loading() || !loansByDay()) {
+          <!-- skeleton -->
+        } @else {
+          <app-chart
+            type="line"
+            [chartData]="loansByDay()!.data"
+            [chartOptions]="loansByDay()!.options"
+            [title]="loansByDay()!.title"
+          />
+        }
 
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <app-low-stock-panel
-          class="xl:col-span-2"
-          [items]="lowStockItems()"
-          [loading]="loading()"
-        />
-        <app-recent-operations
-          [operations]="recentOperations()"
-          [loading]="loading()"
-        />
-      </div>
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <app-low-stock-panel
+            class="xl:col-span-2"
+            [items]="lowStockItems()"
+            [loading]="loading()"
+          />
+          <app-recent-operations
+            [operations]="recentOperations()"
+            [loading]="loading()"
+          />
+        </div>
+      }
     </div>
   `,
+  providers: [UserService],
 })
 export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
   private chartService = inject(ChartService);
+  private userService = inject(UserService);
 
   dateRange = model<Date[]>([]);
   stats = signal<any[]>([]);
@@ -122,6 +135,9 @@ export class DashboardComponent implements OnInit {
     | undefined
   >(undefined);
   loading = signal<boolean>(true);
+  hasAdvancedPrivileges = toSignal(this.userService.hasAdvancedPrivileges(), {
+    initialValue: false,
+  });
 
   skeletonCount = Array(4).fill(0);
 
@@ -138,9 +154,12 @@ export class DashboardComponent implements OnInit {
     if (savedRange) {
       try {
         const parsedRange: [string, string] = JSON.parse(savedRange);
-        const dates = parsedRange.map(d => new Date(d));
-        
-        if (dates.length === 2 && dates.every(date => !isNaN(date.getTime()))) {
+        const dates = parsedRange.map((d) => new Date(d));
+
+        if (
+          dates.length === 2 &&
+          dates.every((date) => !isNaN(date.getTime()))
+        ) {
           this.dateRange.set(dates);
           return;
         }
@@ -179,10 +198,10 @@ export class DashboardComponent implements OnInit {
   }
 
   saveDateRange(): void {
-    if (this.hasValidDateRange()) {
-      const rangeAsString = JSON.stringify(this.dateRange().map(d => d.toISOString()));
-      localStorage.setItem(DATE_RANGE_STORAGE_KEY, rangeAsString);
-    }
+    const rangeAsString = JSON.stringify(
+      this.dateRange().map((d) => d.toISOString()),
+    );
+    localStorage.setItem(DATE_RANGE_STORAGE_KEY, rangeAsString);
   }
 
   resetDateRange(): void {

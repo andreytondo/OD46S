@@ -82,7 +82,7 @@ public interface LoanRepository extends CrudRepository<Long, Loan>, LoanSpecExec
             @Param("borrowerId") Long borrowerId
     );
 
-    @Query("SELECT COALESCE(SUM(li.quantity), 0) FROM LoanItem li WHERE li.loan.id = :loanId AND li.shouldReturn = true")
+    @Query("SELECT COALESCE(SUM(li.quantity), 0) FROM LoanItem li WHERE li.loan.id = :loanId")
     BigDecimal sumReturnableQuantity(@Param("loanId") Long loanId);
 
     @Query("SELECT l FROM Loan l WHERE l.status <> br.edu.utfpr.dainf.enums.LoanStatus.COMPLETED AND l.deadline IS NOT NULL AND l.deadline < :now")

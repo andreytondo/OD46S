@@ -10,6 +10,7 @@ import java.util.List;
 @Getter @Setter
 public class Mail {
     private List<String> to;
+    private List<String> cc;
     private String subject;
     private String content;
 }

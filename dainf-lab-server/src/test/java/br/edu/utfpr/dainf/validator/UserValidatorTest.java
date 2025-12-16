@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -52,20 +53,9 @@ class UserValidatorTest {
     @Test
     @DisplayName("Should return false when username is not unique")
     void testIsValid_withNonUniqueUsername() {
-        User existingUser = new User(
-                null,
-                "admin@utfpr.edu.br",
-                "Teste123456!",
-                "Teste",
-                "2562529",
-                "5546988358080",
-                "teste",
-                true,
-                null,
-                true,
-                null,
-                null
-        );
+        User existingUser = User.builder()
+                .email("admin@utfpr.edu.br")
+                .build();
         when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.of(existingUser));
         assertFalse(userValidator.isValid(user, context));
     }
@@ -73,20 +63,10 @@ class UserValidatorTest {
     @Test
     @DisplayName("Should return true when username is unique and user is being updated")
     void testIsValid_withUniqueUsernameUpdate() {
-        User existingUser = new User(
-                1L,
-                "admin@utfpr.edu.br",
-                "Teste123456!",
-                "Teste",
-                "2562529",
-                "5546988358080",
-                "teste",
-                true,
-                null,
-                true,
-                null,
-                null
-        );
+        User existingUser = User.builder()
+                .id(1L)
+                .email("admin@utfpr.edu.br")
+                .build();
         when(repository.findByEmail("admin@utfpr.edu.br")).thenReturn(Optional.of(existingUser));
         assertTrue(userValidator.isValid(user, context));
     }

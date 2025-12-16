@@ -52,7 +52,7 @@ export class UserComponent {
     telefone: [null],
     documento: [null],
     role: [null, Validators.required],
-    password: [null, Validators.required],
+    password: [null],
     enabled: [true],
   });
 

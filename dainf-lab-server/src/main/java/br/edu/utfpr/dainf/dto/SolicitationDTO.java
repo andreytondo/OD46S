@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class SolicitationDTO implements Identifiable<Long> {
     private Long id;
-    private String description;
     private String observation;
     private Instant date;
     private UserDTO user;

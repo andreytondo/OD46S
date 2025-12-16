@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<Long, User>, UserSpecExecutor {
     Optional<User> findByEmail(String email);
+    Optional<User> findByEmailVerificationToken(String token);
     Optional<User> findByClearanceCode(String clearanceCode);
 }

@@ -40,7 +40,7 @@ public class AuthService {
     }
 
     public void signUp(UserSignupDTO userSignupDTO) {
-        userService.save(userSignupDTO.toUserModel());
+        userService.register(userSignupDTO.toUserModel());
     }
 
     public ResponseCookie createRefreshCookie(String refreshToken) {

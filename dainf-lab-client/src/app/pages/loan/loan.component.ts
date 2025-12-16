@@ -1,5 +1,6 @@
 import { InputContainerComponent } from '@/shared/components/input-container/input-container.component';
 import { SearchSelectComponent } from '@/shared/components/search-select/search-select.component';
+import { StaticSelectComponent } from "@/shared/components/static-select/static-select.component";
 import { SubItemFormComponent } from '@/shared/components/subitem-form/subitem-form.component';
 import { Column, CrudConfig } from '@/shared/crud/crud';
 import { CrudComponent } from '@/shared/crud/crud.component';
@@ -59,7 +60,8 @@ import { LoanReturnDialog } from './return-dialog/return-dialog';
     InputGroupModule,
     InputGroupAddonModule,
     ButtonModule,
-  ],
+    StaticSelectComponent
+],
   providers: [
     LoanService,
     CategoryService,
@@ -88,6 +90,12 @@ export class LoanComponent implements OnInit {
 
   crud = viewChild(CrudComponent);
   subItem = viewChild(SubItemFormComponent);
+
+  status = [
+    { label: 'Em aberto', value: 'ONGOING' },
+    { label: 'Atrasado', value: 'OVERDUE' },
+    { label: 'Finalizado', value: 'COMPLETED' },
+  ]
 
   disabled = signal(false);
 
@@ -119,7 +127,7 @@ export class LoanComponent implements OnInit {
     {
       field: 'deadline',
       header: 'Status',
-      transform: (row) => this.labelValue.transform(row.status, [{label: 'Em aberto', value: 'ONGOING'}, {label: 'Atrasado', value: 'OVERDUE'}, {label: 'Finalizado', value: 'COMPLETED'}])
+      transform: (row) => this.labelValue.transform(row.status, this.status)
     },
   ];
 
@@ -131,6 +139,7 @@ export class LoanComponent implements OnInit {
   loanDateFilter = model<string | Date | undefined>();
   borrowerFilter = model<User | undefined>();
   raSiapeFilter = model<string | undefined>();
+  statusFilter = model<string | undefined>();
   searchRequest = computed<SearchRequest>(() => {
     const filters: SearchFilter[] = [];
 
@@ -156,6 +165,13 @@ export class LoanComponent implements OnInit {
         field: 'borrower.documento',
         value: this.raSiapeFilter(),
         type: 'ILIKE',
+      });
+    }
+    if (this.statusFilter()) {
+      filters.push({
+        field: 'status',
+        value: this.statusFilter(),
+        type: 'EQUALS',
       });
     }
     return <SearchRequest>{ filters };

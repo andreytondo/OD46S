@@ -82,7 +82,7 @@ export class PurchaseSolicitationComponent {
       transform: (row) => this.datePipe.transform(row.date, 'dd/MM/yyyy') || '',
     },
     { field: 'user.nome', header: 'Responsável' },
-    { field: 'user.observation', header: 'Observação' },
+    { field: 'observation', header: 'Observação' },
   ];
 
   purchaseItemCols: Column<PurchaseSolicitationItem>[] = [

@@ -26,7 +26,7 @@ import { InventoryOperation } from '../dashboard.service';
             <p-skeleton height="3rem" borderRadius="12px" />
           }
         </div>
-      } @else if (operations()?.length) {
+      } @else if (operations().length) {
         <div class="flex flex-col gap-4">
           @for (op of operations(); track op.id) {
             <div class="flex items-center justify-between gap-3">

@@ -19,10 +19,11 @@ export class CartService extends BaseService {
 
   constructor() {
     super();
-    this.loadCart();
   }
 
   loadCart(): void {
+    this.cartItems.set([]);
+    this.isCartVisible.set(false);
     this._http.get<CartItem[]>(this._apiUrl).pipe(
       tap(items => this.cartItems.set(items)),
       catchError(err => {
@@ -81,6 +82,11 @@ export class CartService extends BaseService {
   clearCart(): void {
     this.cartItems.set([]);
     this.saveCart();
+  }
+
+  resetCartState(): void {
+    this.cartItems.set([]);
+    this.isCartVisible.set(false);
   }
 
   toggleCartVisibility(): void {

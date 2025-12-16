@@ -4,9 +4,12 @@ import br.edu.utfpr.dainf.dto.UserDTO;
 import br.edu.utfpr.dainf.enums.UserRole;
 import br.edu.utfpr.dainf.model.User;
 import br.edu.utfpr.dainf.repository.UserRepository;
+import br.edu.utfpr.dainf.search.request.SearchRequest;
 import br.edu.utfpr.dainf.service.UserService;
 import br.edu.utfpr.dainf.shared.CrudController;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.data.web.PagedModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +26,13 @@ public class UserController extends CrudController<Long, User, UserDTO, UserRepo
         UserDTO dto = super.toDto(entity);
         dto.setPassword(null);
         return dto;
+    }
+
+    @Override
+    @PostMapping("/search")
+    @RolesAllowed({UserRole.ADMIN, UserRole.LAB_TECHNICIAN})
+    public ResponseEntity<PagedModel<UserDTO>> search(SearchRequest request) {
+        return super.search(request);
     }
 
     @GetMapping("/me")

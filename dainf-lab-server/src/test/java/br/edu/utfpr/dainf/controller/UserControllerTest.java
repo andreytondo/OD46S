@@ -2,6 +2,8 @@ package br.edu.utfpr.dainf.controller;
 
 import br.edu.utfpr.dainf.dto.UserDTO;
 import br.edu.utfpr.dainf.shared.CrudControllerTest;
+import org.junit.jupiter.api.Test;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserControllerTest extends CrudControllerTest<UserDTO> {
 
@@ -40,5 +42,15 @@ class UserControllerTest extends CrudControllerTest<UserDTO> {
     @Override
     protected void onBeforeUpdate(UserDTO dto) {
         dto.setPassword("Teste123456!@");
+    }
+
+    @Test
+    void updateWithoutChangingPassword() throws Exception {
+        Long createdId = createResource();
+        UserDTO dto = createValidObject();
+        dto.setId(createdId);
+        dto.setPassword(null);
+
+        performUpdate(createdId, dto).andExpect(status().isOk());
     }
 }

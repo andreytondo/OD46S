@@ -138,13 +138,14 @@
       <input type="text" pInputText id="ra_siape" [(ngModel)]="raSiapeFilter" />
     </app-input-container>
 
-    <div class="col-span-12 flex justify-end">
-      <p-button
-        label="Limpar filtros"
-        icon="pi pi-filter-slash"
-        severity="secondary"
-        (onClick)="clearFilters()"
-      />
-    </div>
+    <app-input-container
+      label="Status"
+      class="col-span-12"
+    >
+      <app-static-select
+        [(ngModel)]="statusFilter"
+        [options]="status"
+      ></app-static-select>
+    </app-input-container>
   </div>
 </ng-template>

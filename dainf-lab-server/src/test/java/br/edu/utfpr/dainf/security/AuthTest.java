@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.time.Instant;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ApplicationTest
@@ -54,6 +55,25 @@ public class AuthTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    public void cadastroDeveFalharComEmailForaDoDominioUtfpr() throws Exception {
+        String json = """
+                {
+                    "nome": "Usuario Externo",
+                    "email": "externo@gmail.com",
+                    "documento": "123456",
+                    "telefone": "46999999999",
+                    "password": "Senha123"
+                }
+                """;
+
+        mockMvc.perform(post("/auth/sign-up")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors.email").value("O e-mail deve ser institucional da UTFPR."));
+    }
+
     private void createUser() {
         userService.save(new User(
                 null,
@@ -65,7 +85,9 @@ public class AuthTest {
                 "teste",
                 true,
                 null,
-                true,
+                Instant.now(),
+                null,
+                false,
                 null,
                 null
         ));

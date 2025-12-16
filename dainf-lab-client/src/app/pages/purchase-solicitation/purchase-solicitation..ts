@@ -9,10 +9,9 @@ export interface PurchaseSolicitationItem extends Identifiable {
 }
 
 export interface PurchaseSolicitation extends Identifiable {
-  description: string;
-  observation: string;
+  observation?: string;
   user: User;
   date: string;
-  fornecedor: Fornecedor;
+  fornecedor?: Fornecedor;
   items: PurchaseSolicitationItem[];
 }

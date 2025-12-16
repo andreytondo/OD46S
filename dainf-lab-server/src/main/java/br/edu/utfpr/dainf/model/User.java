@@ -55,6 +55,12 @@ public class User implements UserDetails, Identifiable<Long> {
     @Column(name = "email_verificado")
     private boolean emailVerificado;
 
+    @Column(name = "email_verification_token")
+    private String emailVerificationToken;
+
+    @Column(name = "email_verification_expires_at")
+    private Instant emailVerificationExpiresAt;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 

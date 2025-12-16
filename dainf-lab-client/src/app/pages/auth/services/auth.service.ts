@@ -39,4 +39,8 @@ export class AuthService extends BaseService {
     return this._http.post(`${this.apiUrl}/auth/reset-password`, request);
   }
 
+  confirmEmail(token: string) {
+    return this._http.get(`${this.apiUrl}/auth/confirm-email`, { params: { token } });
+  }
+
 }

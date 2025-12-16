@@ -29,6 +29,9 @@ public class Purchase implements Identifiable<Long> {
     @Column(name = "date", nullable = false)
     private Instant date;
 
+    @Column(name = "observation", columnDefinition = "text")
+    private String observation;
+
     @NotNull(message = "O campo 'Fornecedor' deve ser escolhido.")
     @ManyToOne
     @JoinColumn(name = "fornecedor_id", referencedColumnName = "id")

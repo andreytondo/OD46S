@@ -76,6 +76,7 @@ export class PurchaseComponent implements OnInit {
     date: [new Date(), Validators.required],
     fornecedor: [null, Validators.required],
     user: [null, Validators.required],
+    observation: [null],
     items: [[], Validators.required],
     totalValue: [{ value: 0, disabled: true }],
   });
@@ -107,6 +108,7 @@ export class PurchaseComponent implements OnInit {
     },
     { field: 'fornecedor.nomeFantasia', header: 'Fornecedor' },
     { field: 'user.nome', header: 'Responsável' },
+    { field: 'observation', header: 'Observação' },
   ];
 
   purchaseItemCols: Column<PurchaseItem>[] = [
